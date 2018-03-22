@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.RELEASE'
+		springBootVersion = '1.5.10.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -34,6 +34,5 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	runtime('com.h2database:h2')
 	compileOnly('org.projectlombok:lombok')
-	apt "org.projectlombok:lombok:1.16.20"
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

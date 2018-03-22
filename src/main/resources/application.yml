@@ -1,6 +1,25 @@
 spring:
+  profiles: 
+    active: local 
+
+---
+spring:
   h2:
     console:
       enabled: true
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  jpa: 
+    show-sql: true 
+    hibernate: 
+      ddl-auto: create-drop
+  profiles: local 
+  datasource: 
+    data: classpath:data-h2.sql #
+
 server:
-    port: 8888
+ port: 8888
+
+    
