@@ -17,12 +17,17 @@ notifications:
   email: 
     recipients: 
       - kwanhun21@gmail.com 
+before_deploy: 
+  - zip -r terraceHouse * 
+  - mkdir -p deploy 
+  - mv terraceHouse.zip deploy/terraceHouse.zip
 
 deploy: 
   - provider: s3 
     access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값 
     secret_access_key: $AWS_SECRET_KEY # Travis repo settings에 설정된 값 
     bucket: terracehouse-deploy # S3 버킷 
+    local_dir: deploy
     region: ap-northeast-2 
     skip_cleanup: true 
     acl: public_read 
