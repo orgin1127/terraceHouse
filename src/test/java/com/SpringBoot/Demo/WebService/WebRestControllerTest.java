@@ -17,7 +17,7 @@ public class WebRestControllerTest {
 	private TestRestTemplate restTemplet;
 	
 	@Test
-	public void ProfileCheck() {
+	public void ProfileCheck() { 
 		//when
 		String profile = this.restTemplet.getForObject("/profile", String.class);
 		//then
