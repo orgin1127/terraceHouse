@@ -17,6 +17,7 @@ notifications:
   email: 
     recipients: 
       - kwanhun21@gmail.com 
+      
 before_deploy: 
   - zip -r terraceHouse * 
   - mkdir -p deploy 
