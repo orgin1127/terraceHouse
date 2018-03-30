@@ -10,6 +10,6 @@ spring:
 # local 환경 
 --- 
 spring: 
-  profiles: local 
+  profiles: local
   jpa: 
     show-sql: true
