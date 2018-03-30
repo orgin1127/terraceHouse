@@ -21,6 +21,7 @@ spring:
       enabled: true
 server:
   port: 8888
+  
 # 운영 환경 
 --- 
 spring.profiles: set1 
