@@ -10,7 +10,7 @@ spring:
 spring:
   profiles: local 
   datasource: 
-    data: classpath:data-h2.sql #
+    data: classpath:data-h2.sql #local db setting
   jpa: 
     show-sql: true 
     hibernate: 
@@ -20,3 +20,13 @@ spring:
       enabled: true
 server:
   port: 8888
+  
+# 운영 환경 
+--- 
+spring.profiles: set1 
+server: 
+  port: 8889
+--- 
+spring.profiles: set2 
+server: 
+  port: 8887
