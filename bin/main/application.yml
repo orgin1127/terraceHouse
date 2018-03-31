@@ -23,14 +23,14 @@ server:
   
 # 운영 환경 
 --- 
-spring.profiles.active: set1
+spring.profiles: set1
 spring.profiles.include: real-db
 
 server: 
   port: 8889
   
 --- 
-spring.profiles.active: set2 
+spring.profiles: set2 
 spring.profiles.include: real-db
 
 server: 
