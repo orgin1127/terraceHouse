@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-<H1>test 중입니다.</H1>
+<H1>test 중입니다. test</H1>
 
 <input id="txt-roomid" placeholder="unique room id">
 <button id="btn-open-or-join-room">Open or Join</button>
