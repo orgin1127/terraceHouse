@@ -3,8 +3,14 @@ package com.SpringBoot.Demo;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+@ComponentScan
+@Configuration
 @EnableJpaAuditing // JPA Auditing 활성화
 @SpringBootApplication
 public class SpringBootDemoApplication {
@@ -18,4 +24,14 @@ public class SpringBootDemoApplication {
 		.properties(APPLICATION_LOCATIONS)
 		.run(args);
 	}
+	
+	@Bean
+    public InternalResourceViewResolver setupViewResolver() {
+ 
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+ 
+        resolver.setPrefix("/WEB-INF/view/");
+        resolver.setSuffix(".jsp");
+        return resolver;
+    }
 }

@@ -29,6 +29,7 @@ ext['hibernate.version'] = '5.2.11.Final' //추가
 dependencies {
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile('javax.servlet:jstl:1.2')
+	
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	//compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
 	compile('org.mariadb.jdbc:mariadb-java-client')
