@@ -1,6 +1,7 @@
 package com.SpringBoot.Demo;
 
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +13,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan
 @Configuration
 @EnableJpaAuditing // JPA Auditing 활성화
-@SpringBootApplication
+//@SpringBootApplication
+@EnableAutoConfiguration
 public class SpringBootDemoApplication {
 	
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
