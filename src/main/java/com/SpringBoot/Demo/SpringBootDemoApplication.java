@@ -30,7 +30,7 @@ public class SpringBootDemoApplication {
  
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
  
-        resolver.setPrefix("/WEB-INF/view/");
+        resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         return resolver;
     }
