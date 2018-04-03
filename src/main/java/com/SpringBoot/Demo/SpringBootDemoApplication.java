@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableJpaAuditing // JPA Auditing 활성화
 @SpringBootApplication
-public class SpringBootDemoApplication extends SpringBootServletInitializer{
+public class SpringBootDemoApplication extends org.springframework.boot.web.servlet.support.SpringBootServletInitializer{
 	
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
 			+"classpath:application.yml,"
