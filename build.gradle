@@ -30,6 +30,9 @@ dependencies {
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 	compile('javax.servlet:jstl:1.2')
 	
+	// https://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/ecj
+	compile group: 'org.eclipse.jdt.core.compiler', name: 'ecj', version: '4.6.1'
+	
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
 	//compile group: 'mysql', name: 'mysql-connector-java', version: '5.1.6'
 	compile('org.mariadb.jdbc:mariadb-java-client')
