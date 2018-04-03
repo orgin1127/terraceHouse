@@ -5,10 +5,8 @@ spring:
     properties: 
       hibernate: 
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
-  mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
+spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.suffix: .jsp
 ---
 spring:
   profiles: local 
@@ -28,7 +26,8 @@ server:
 --- 
 spring.profiles: set1
 spring.profiles.include: real-db
-
+spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.suffix: .jsp
 server: 
   port: 8889
   
