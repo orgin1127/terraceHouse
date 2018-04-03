@@ -16,11 +16,11 @@ public class WebRestControllerTest {
 	@Autowired
 	private TestRestTemplate restTemplet;
 	
-	@Test
+	/*@Test
 	public void ProfileCheck() {
 		//when
 		String profile = this.restTemplet.getForObject("/profile", String.class);
 		//then
 		assertThat(profile).isEqualTo("local");
-	}
+	}*/
 }
