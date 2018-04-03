@@ -3,6 +3,7 @@ package com.SpringBoot.Demo.WebRestController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.SpringBoot.Demo.Service.PostService;
 
@@ -16,6 +17,6 @@ public class WebController {
 	@GetMapping("/")
 	public String main(Model model) {
 		model.addAttribute("posts", postService.findAllDesc());
-		return "main";
+		return "demoTestJSP";
 	}
 }

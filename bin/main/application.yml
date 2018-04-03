@@ -5,7 +5,10 @@ spring:
     properties: 
       hibernate: 
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
-
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
 ---
 spring:
   profiles: local 
