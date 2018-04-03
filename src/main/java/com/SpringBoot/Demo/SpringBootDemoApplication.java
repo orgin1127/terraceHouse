@@ -13,8 +13,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan
 @Configuration
 @EnableJpaAuditing // JPA Auditing 활성화
-//@SpringBootApplication
-@EnableAutoConfiguration
+@SpringBootApplication
 public class SpringBootDemoApplication {
 	
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
