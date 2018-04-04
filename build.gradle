@@ -27,8 +27,8 @@ repositories {
 ext['hibernate.version'] = '5.2.11.Final' //추가 
 
 dependencies {
-	//compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-	//compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
 
 	//compile "org.springframework:spring-webmvc:4.1.6.RELEASE"
 	

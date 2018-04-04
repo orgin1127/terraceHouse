@@ -21,4 +21,9 @@ public class WebController {
 		//model.addAttribute("posts", postService.findAllDesc());
 		return "main";
 	}
+	
+	@GetMapping("jsp")
+	public String jspTest(){
+		return "demoTestJSP";
+	}
 }
