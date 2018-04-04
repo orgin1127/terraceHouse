@@ -22,8 +22,10 @@ public class WebController {
 		return "main";
 	}
 	
-	@GetMapping("/jsp")
-	public String jspTest(){
-		return "demoTestJSP";
+	@GetMapping("/chat")
+	public String chat() {
+		//model.addAttribute("posts", postService.findAllDesc());
+		return "chat";
 	}
+	
 }

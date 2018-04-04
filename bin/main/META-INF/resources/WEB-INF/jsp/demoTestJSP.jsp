@@ -18,7 +18,6 @@
 		
 	}
 </style>
-
 </head>
 <body>
 <H1>test 중입니다. test1</H1>
@@ -50,6 +49,7 @@ document.getElementById('btn-open-or-join-room').onclick = function() {
 	connection.openOrJoin(roomid.value || 'predefined-roomid');
 };
 </script>
+
 
 </body>
 </html>
