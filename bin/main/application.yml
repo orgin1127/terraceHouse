@@ -6,7 +6,7 @@ spring:
       hibernate: 
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
         
-spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.prefix: /META-INF/resources/WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 ---
 
@@ -16,7 +16,7 @@ server:
 # 운영 환경 
 --- 
 spring.profiles: set1
-spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.prefix: /META-INF/resources/WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 spring.profiles.include: real-db
 
@@ -26,7 +26,7 @@ server:
 --- 
 spring.profiles: set2 
 spring.profiles.include: real-db
-spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.prefix: /META-INF/resources/WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 
 server: 
