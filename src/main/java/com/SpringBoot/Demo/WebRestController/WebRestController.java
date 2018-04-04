@@ -32,10 +32,10 @@ public class WebRestController {
 		return postService.Save(dto);
 	}*/
 	
-	/*@GetMapping("/profile")
+	@GetMapping("/profile")
 	public String getProfile() {
 		return Arrays.stream(environment.getActiveProfiles())
 				.findFirst()
 				.orElse("");
-	}*/
+	}
 }
