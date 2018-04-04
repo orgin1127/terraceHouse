@@ -22,7 +22,7 @@ public class WebController {
 		return "main";
 	}
 	
-	@GetMapping("jsp")
+	@GetMapping("/jsp")
 	public String jspTest(){
 		return "demoTestJSP";
 	}
