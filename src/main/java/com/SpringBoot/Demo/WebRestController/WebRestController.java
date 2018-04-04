@@ -27,15 +27,15 @@ public class WebRestController {
 		return "Hello World! 그리고 안녕";
 	}
 	
-	@PostMapping("/posts")
+	/*@PostMapping("/posts")
 	public Long savePosts(@RequestBody PostsSaveRequestDTO dto){
 		return postService.Save(dto);
-	}
+	}*/
 	
-	@GetMapping("/profile")
+	/*@GetMapping("/profile")
 	public String getProfile() {
 		return Arrays.stream(environment.getActiveProfiles())
 				.findFirst()
 				.orElse("");
-	}
+	}*/
 }

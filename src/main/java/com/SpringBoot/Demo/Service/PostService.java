@@ -17,7 +17,7 @@ import lombok.AllArgsConstructor;
 public class PostService {
 	private PostsRepository postsRepository;
 	
-	//DB data를 등록/수정/삭제하는 Service메소드는 @Transactional 어노테이션을 사용한다
+	/*//DB data를 등록/수정/삭제하는 Service메소드는 @Transactional 어노테이션을 사용한다
 	//메소드 작업 중 Exception 발생 시 해당 메소드에서 이루어진 DB작업을 초기화
 	@Transactional
 	public Long Save(PostsSaveRequestDTO dto){
@@ -27,5 +27,5 @@ public class PostService {
 	@Transactional(readOnly = true)
 	public List<PostsMainResponseDTO> findAllDesc() {
 		return postsRepository.findAllDesc().map(PostsMainResponseDTO::new).collect(Collectors.toList());
-	}
+	}*/
 }

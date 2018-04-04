@@ -9,17 +9,7 @@ spring:
 spring.mvc.view.prefix: /WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 ---
-spring:
-  profiles: local 
-  datasource: 
-    data: classpath:data-h2.sql #local db setting
-  jpa: 
-    show-sql: true 
-    hibernate: 
-      ddl-auto: create-drop
-  h2:
-    console:
-      enabled: true
+
 server:
   port: 8888
   
