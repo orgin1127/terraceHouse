@@ -1,0 +1,31 @@
+spring:
+  profiles: 
+    active: local 
+  jpa: 
+    properties: 
+      hibernate: 
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
+        
+spring.mvc.view.prefix: /WEB-INF/jsp/
+spring.mvc.view.suffix: .jsp
+spring.mvc.static-path-pattern: /resources/**
+---
+
+server:
+  port: 8888
+  
+# 운영 환경 
+--- 
+spring.profiles: set1
+spring.profiles.include: real-db
+
+server: 
+  port: 8889
+  
+--- 
+spring.profiles: set2 
+spring.profiles.include: real-db
+
+
+server: 
+  port: 8887
