@@ -25,7 +25,6 @@
 <input id="txt-roomid" placeholder="unique room id">
 <button id="btn-open-or-join-room">Open or Join</button>
 <script>
-
 var connection = new RTCMultiConnection();
 
 
