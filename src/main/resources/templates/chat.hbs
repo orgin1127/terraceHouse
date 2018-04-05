@@ -3,6 +3,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 <script src="/js/lib/jquery.min.js"></script> 
 <script src="/js/lib/bootstrap.min.js"></script>
 <script src="/js/app/adapter.js"></script>
@@ -10,11 +12,14 @@
 <link rel="stylesheet" href="/css/app/getHTMLMediaElement.css">
 <title>Terrace</title>
 <script>
+
 window.enableAdapter = true; // enable adapter.js
+$(document).ready(function() {
 
 // ......................................................
 // .......................UI Code........................
 // ......................................................
+
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
     connection.open(document.getElementById('room-id').value, function() {
@@ -91,11 +96,9 @@ function appendDIV(event) {
 
 var connection = new RTCMultiConnection();
 
-// by default, socket.io server is assumed to be deployed on your own URL
-connection.socketURL = '/';
 
-// comment-out below line if you do not have your own socket.io server
-// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
 
 connection.socketMessageEvent = 'audio-video-file-chat-demo';
 
@@ -270,6 +273,7 @@ if (roomid && roomid.length) {
 
     disableInputButtons();
 }
+});
 </script>
 </head>
 <body>
