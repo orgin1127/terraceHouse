@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="/js/lib/jquery.min.js"></script> 
+<script src="/js/lib/bootstrap.min.js"></script>
+<link rel="stylesheet" href="/css/app/getHTMLMediaElement.css">
+<style>
+	video {
+		width: 250px;
+		height: 150px;
+	}
+	.videoContainer {
+		width: 260px;
+		height: 160px;
+		
+	}
+	.bottom_tr_VideoContainer {
+		width: 1800px;
+		bottom:0px;
+	}
+	.UserVideoTR {
+		border: 3px Lightgrey dotted;
+	}
+	
+	#invite_DIV, #exit_DIV {
+		background-color: Lightgrey;
+		color: white;
+	}
+	#whiteBoard {
+		width: 900px;
+		height: 400px;
+	}
+	#terraceChat {
+		width: 500px;
+		height: 400px;
+	}
+	#terraceTitle {
+		height: 100px;
+	}
+</style>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#invite_DIV').on('click', pushedInviteDIV);
+		$('#exit_DIV').on('click', pushedExitDIV);
+	});
+	
+	function pushedInviteDIV() {
+		console.log('invite div pushed');
+	}
+	function pushedExitDIV() {
+		console.log('exit div pushed');
+	}
+</script>
+</head>
+<body>
+	<div id="currentJoinID"></div>
+	<button id="btn-open-room">Open Room</button>
+	<button id="btn-join-room">Join Room</button><hr>
+	<br>
+	<div id="currentJoinMember"></div>
+	
+	
+	<div class="bottom_tr_VideoContainer">
+		<div>
+			<table>
+				<tr>
+					<td rowspan="2" id="whiteBoard" style="background-color: grey;"></td>
+					<td id="terraceTitle" style="background-color: grey;"></td>
+				</tr>
+				<tr>
+					<td id="terraceChat" style="background-color: grey;"></td>
+				</tr>
+			</table>
+		</div>
+		<div id="inner_tr_VideoContainer">
+			<table class="UserVideoTR">
+				<tr>
+					<td>
+						<div class="videoContainer" id="user1"></div>
+					</td>
+					<td>
+						<div class="videoContainer" id="user2"></div>				
+					</td>
+					<td>
+						<div class="videoContainer" id="user3"></div>	
+					</td>
+					<td>
+						<div class="videoContainer" id="user4"></div>
+					</td>
+					<td>
+						<div id="invite_DIV">초대</div><br>
+						<div id="exit_DIV">퇴장</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<!-- download js and css -->
+	
+	<script src="/js/app/adapter.js"></script>
+	<script src="/js/app/FileBufferReader.js"></script>
+	<script src="/js/app/terraceRoomJS.js"></script>
+	<script src="/js/app/getHTMLMediaElement.js"></script>
+</body>
+</html>
