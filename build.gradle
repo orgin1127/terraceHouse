@@ -27,17 +27,13 @@ repositories {
 ext['hibernate.version'] = '5.2.11.Final' //추가 
 
 dependencies {
-	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
-	compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-
-	//compile "org.springframework:spring-webmvc:4.1.6.RELEASE"
 	
-	compileOnly 'javax.servlet:javax.servlet-api:3.1.0'
+    // java mail
+    compile("org.springframework.boot:spring-boot-starter-mail")
+
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20160810'
 
-	// https://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/ecj
-	//compile group: 'org.eclipse.jdt.core.compiler', name: 'ecj', version: '4.6.1'
 	compile('org.mariadb.jdbc:mariadb-java-client')
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
 	compile('org.springframework.boot:spring-boot-starter-actuator')

@@ -7,6 +7,17 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect 
         
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: noreply@terraceshouses.com  
+    password: superadminth05
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 ---
 
 server:
