@@ -20,7 +20,8 @@ public class TerraceMemberService {
 	@Transactional
 	public TerraceMember terraceMemberSave(TerraceMember tm) {
 		TerraceMember savedEntity = tmr.saveAndFlush(tm);
-		logger.debug(tm.toString());
+		logger.debug("tm:" + tm.toString());
+		logger.debug("save:"+savedEntity.toString());
 		return savedEntity;
 	}
 }
