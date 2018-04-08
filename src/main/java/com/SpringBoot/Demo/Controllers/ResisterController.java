@@ -15,7 +15,7 @@ import com.SpringBoot.Demo.WebRestController.TempKey;
 @RestController
 public class ResisterController {
 	
-	private Logger logger = LoggerFactory.getLogger(ResisterController.class);
+	private static Logger logger = LoggerFactory.getLogger(ResisterController.class);
 	@Autowired
     private JavaMailSender mailSender;
 	@Autowired

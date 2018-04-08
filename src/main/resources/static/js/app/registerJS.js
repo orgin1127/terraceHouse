@@ -19,7 +19,7 @@ function registerMember() {
 					window.reload;
 				}
 				else {
-					alert('회원가입 실패' + result);
+					alert('회원가입 실패 : ' + result);
 				}
 			}
 			, error: function(e) {
