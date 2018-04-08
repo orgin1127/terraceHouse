@@ -5,6 +5,7 @@ spring:
     properties: 
       hibernate: 
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   h2:
     console:
@@ -30,14 +31,14 @@ server:
 --- 
 spring.profiles: set1
 spring.profiles.include: real-db
+spring.jpa.hibernate.naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 spring.jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-
 server: 
   port: 8889
 --- 
 spring.profiles: set2 
 spring.profiles.include: real-db
+spring.jpa.hibernate.naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
 spring.jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-
 server: 
   port: 8887
