@@ -32,16 +32,16 @@ public class ResisterController {
 			}
 			else {
 				result = "1";
+				MailHandler sendMail = new MailHandler(mailSender);
+				sendMail.setSubject("TerraceHouse 회원 가입 메일 인증");
+				sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
+						.append("<a href='http://terraceshouses.com/emailConfirm?key=")
+						.append(key)
+						.append("' target='_blenk'>이메일 인증 확인</a>")
+						.toString());
+				sendMail.setTo(tm.getMemberEmail());
+				sendMail.send();
 			}
-			MailHandler sendMail = new MailHandler(mailSender);
-			sendMail.setSubject("TerraceHouse 회원 가입 메일 인증");
-			sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
-	                .append("<a href='http://terraceshouses.com/emailConfirm?key=")
-	                .append(key)
-	                .append("' target='_blenk'>이메일 인증 확인</a>")
-	                .toString());
-			sendMail.setTo(tm.getMemberEmail());
-			sendMail.send();
 		}
 		catch (Exception e) {
 		}

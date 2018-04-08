@@ -25,7 +25,6 @@ public class WebController {
 	
 	@GetMapping("/tr")
 	public String JSP() {
-		//model.addAttribute("posts", postService.findAllDesc());
 		return "terraceRoom";
 	}
 }
