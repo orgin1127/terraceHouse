@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class MailHandler {
+	
 	@Autowired 
 	private JavaMailSender jMailSender;
 	

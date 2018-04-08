@@ -1,61 +1,45 @@
 <!DOCTYPE html>
 <html>
-<style>
- /* The Modal (background) */
- 		.mybtn
- 		{
- 			
- 			
+<head>
+	<style>
+ 		.mybtn {
  			width:70%;
  			height: 70%;
- 			
 			margin: 0 auto;
 			margin-top: 230px;
 			padding-left: 600px;
 			padding-top: 50px;
-			
 			text-align: center;
  		}
  		
- 		.btns
- 		{
- 		
+ 		.btns {
  			background-color:#A4A4A4;  
  			width:10%;
  		}
- 		.btns:hover
- 		{
+ 		.btns:hover {
  			cursor:pointer;
  		}
  		
- 		.resForm
- 		{
- 			
+ 		.resForm {
  			text-align: center;
  			background-color:#D8D8D8;
- 			
  		}
- 		.inputArea
- 		{
+ 		.inputArea {
  			border-radius:10px;
  			border:none;
 	 		 background-color:#A4A4A4;
 	 		 height:35px;
 	 		 font-size: large;
-	 		 
-	 		 
  		}
  		
- 		.formBtn
- 		{
+ 		.formBtn {
  			border-radius:10px;
  			background-color:#CEE3F6;
  			width:100px;
  			padding:10px;
  			margin:20px;
  		}
- 		.formBtn:hover
- 		{
+ 		.formBtn:hover {
  			cursor: pointer;
  		}
  		
@@ -70,10 +54,8 @@
             height: 100%; /* Full height */
             overflow: auto; /* Enable scroll if needed */
             background-color:#F3E2A9;
-            /*background-color: rgb(0,0,0); /* Fallback color */
-            /*background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            
-            
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
     
         /* Modal Content/Box */
@@ -103,104 +85,90 @@
         }
 		
 		@keyframes loginModalAni {
-		from {top: -300px; opacity: 0}
-		to {top: 0; opacity: 1}
-	}
-</style>
+			from {top: -300px; opacity: 0}
+			to {top: 0; opacity: 1}
+		}
+	</style>
 <script>
-
-
-window.onload = function(){
-	
-	//Get the modal
-	var modal = document.getElementById('myModal');
-	
-	var loginModal = document.getElementById('loginModal');
-	// Get the button that opens the modal
-	var btn = document.getElementById("res");
-	
-	var loginBtn = document.getElementById("login");
-	
-	var mybtn = document.getElementById('mybtn');
-	
-	var resCancle = document.getElementById('resCancle');
-	
-	var loginCancle = document.getElementById('loginCancle');
-	
-	res.onclick = function(){
+	window.onload = function(){
 		
-		modal.style.display = 'block';
+		//Get the modal
+		var modal = document.getElementById('myModal');
+		var loginModal = document.getElementById('loginModal');
+		// Get the button that opens the modal
+		var btn = document.getElementById("res");
+		var loginBtn = document.getElementById("login");
+		var mybtn = document.getElementById('mybtn');
+		var resCancle = document.getElementById('resCancle');
+		var loginCancle = document.getElementById('loginCancle');
 		
+		res.onclick = function(){		
+			modal.style.display = 'block';
+		};
 		
+		loginBtn.onclick = function(){
+			loginModal.style.display = 'block';
+		};
+		
+	    window.onclick = function(event) {
+	        if (event.target == modal) {
+	            modal.style.display = "none";
+	        }
+	        if (event.target == loginModal){
+	        	loginModal.style.display = "none";
+	        }
+	    };
+	    
+	    resCancle.onclick = function(event){
+	    	modal.style.display = 'none';
+	    };
+	    
+	    loginCancle.onclick = function(event){
+	    	loginModal.style.display = "none";
+	    }
 	};
-	
-	loginBtn.onclick = function(){
-		
-		loginModal.style.display = 'block';
-	};
-	
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-        if (event.target == loginModal){
-        	loginModal.style.display = "none";
-        }
-        
-    };
-    
-    resCancle.onclick = function(event){
-    	
-    	modal.style.display = 'none';
-    };
-    
-    loginCancle.onclick = function(event){
-    	loginModal.style.display = "none";
-    }
-    
-
-	
-};
 
 </script>
-<head>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>modal</title>
+<title>Terrace House</title>
+<script src="/js/app/registerJS.js"></script>
+<script src="/js/lib/jquery.min.js"></script> 
 </head>
 <body style="background-color:#F3E2A9;">
 
   <!-- Trigger/Open The Modal -->
-    <div class="mybtn"><p id="login" class="btns">로그인</p><p id="res" class="btns">회원가입</p></div>
+    <div class="mybtn">
+    	<p id="login" class="btns">로그인</p>
+    	<p id="res" class="btns">회원가입</p>
+    </div>
  
     <!-- The Modal -->
     <div id="myModal" class="modal">
- 
       <!-- Modal content -->
       <div class="modal-content">                
         <div class =  "resForm">            
-        	<form id ="resForm" action="" method="post">                                   
-		        <p><input type="text" id="inputId" placeholder=" ID" class="inputArea" name="id"></p>
-		        <p><input type="password" id="inputPassword" placeholder=" Password" class="inputArea" name="password"></p>
-		        <p><input type="text" id="inputAddress" placeholder=" Address" class="inputArea" name="address"></p>
-		        <p><input type="email" id="inputEmail" placeholder=" E-mail" class="inputArea" name="email"></p>
-		       	<a class="formBtn">회원가입</a> <a class="formBtn" id="resCancle">취소</a>
+        	<form id ="resForm" action="registerMember" method="post">                                   
+		        <p><input type="text" id="memberID" placeholder=" ID" class="inputArea" name="memberID"></p>
+		        <p><input type="password" id="memberPW" placeholder=" Password" class="inputArea" name="memberPW"></p>
+		        <p><input type="text" id="memberEmail" placeholder=" Email" class="inputArea" name="memberEmail"></p>
+		        <p><input type="email" id="memberName" placeholder=" Name" class="inputArea" name="memberName"></p>
+		       	<a class="formBtn" href="javascript:registerMember()">회원가입</a> <a class="formBtn" id="resCancle">취소</a>
 	       	</form>
         </div>
       </div>
- 
     </div>
+    
     <div id="loginModal" class="modal">
     	<div class="modal-content">                
-        <div class =  "loginForm">     
-        	<form id="loginForm" action="" method="get">                                          
-	        <p><input type="text" id="loginId" placeholder=" ID" class="inputArea" name="loginId"></p>
-	        <p><input type="password" id="loginPassword" placeholder=" Password" class="inputArea" name="loginPassword"></p>
-	        
-	       	<a class="formBtn">로그인</a> <a class="formBtn" id="loginCancle">취소</a>
-	       	</form>
-        </div>
+	        <div class =  "loginForm">     
+	        	<form id="loginForm" action="" method="get">                                          
+		        <p><input type="text" id="loginId" placeholder=" ID" class="inputArea" name="loginId"></p>
+		        <p><input type="password" id="loginPassword" placeholder=" Password" class="inputArea" name="loginPassword"></p>
+		        
+		       	<a class="formBtn">로그인</a> <a class="formBtn" id="loginCancle">취소</a>
+		       	</form>
+	        </div>
       </div>
     </div>
 

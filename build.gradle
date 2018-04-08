@@ -30,10 +30,15 @@ dependencies {
 	
     // java mail
     compile("org.springframework.boot:spring-boot-starter-mail")
-
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20160810'
-
+	// https://mvnrepository.com/artifact/ch.qos.logback/logback-classic
+	testCompile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+	// https://mvnrepository.com/artifact/ch.qos.logback/logback-core
+	compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+	// https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+	compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+	
 	compile('org.mariadb.jdbc:mariadb-java-client')
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.3.0')
 	compile('org.springframework.boot:spring-boot-starter-actuator')

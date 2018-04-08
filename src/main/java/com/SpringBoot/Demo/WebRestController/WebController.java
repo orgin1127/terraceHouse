@@ -18,13 +18,11 @@ public class WebController {
 	
 	@GetMapping("/")
 	public String main(Model model) {
-		//model.addAttribute("posts", postService.findAllDesc());
 		return "TR_Main";
 	}
 	
 	@GetMapping("/chat")
 	public String chat() {
-		//model.addAttribute("posts", postService.findAllDesc());
 		return "chat";
 	}
 	

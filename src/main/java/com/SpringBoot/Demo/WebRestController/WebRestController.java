@@ -18,6 +18,7 @@ import com.SpringBoot.Demo.Service.PostService;
 
 import lombok.AllArgsConstructor;
 
+//생성되는 모든 컨트롤러를 ResponseBody 대상으로 자동 정의해주는 annotation
 @RestController
 //모든 필드의 생성자를 Lombok을 이용해 자동생성하는 annotation
 @AllArgsConstructor
