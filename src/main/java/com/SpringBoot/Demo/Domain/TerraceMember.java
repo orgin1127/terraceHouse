@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,10 +15,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
+@Table(name="TerraceMember")
 public class TerraceMember {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue
 	private long memberNumber;
 	
 	@Column(nullable = false)
