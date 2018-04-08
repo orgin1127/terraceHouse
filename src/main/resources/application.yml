@@ -32,12 +32,10 @@ server:
 spring.profiles: set1
 spring.profiles.include: real-db
 
-spring.jpa.hibernate.naming.physical-strategy: org.hibernate.‌​boot.model.naming.Ph‌​ysicalNamingStrategy‌​StandardImpl
 server: 
   port: 8889
 --- 
 spring.profiles: set2 
 spring.profiles.include: real-db
-spring.jpa.hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 server: 
   port: 8887
