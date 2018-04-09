@@ -3,18 +3,21 @@
  */
 
 function registerMember() {
-	var inputID = $('#memberID').val();
-	var inputPW = $('#memberPW').val();
-	var inputEmail = $('#memberEmail').val();
-	var inputName = $('#memberName').val();
+	var inputID = $('#memberid').val();
+	var inputPW = $('#memberpw').val();
+	var inputEmail = $('#member_email').val();
+	var inputName = $('#member_name').val();
+	
 	if (inputID != '' && inputPW != '' && inputEmail != '' && inputName != '') {
+		var member = {memberid: inputID, memberpw: inputPW, member_email: inputEmail, member_name: inputName};
 		$.ajax({
-			url: 'register'
+			url: 'memberRegi'
 			, type: 'post'
-			, data: $('#resForm').serialize()
-			, dataType: 'text'
+			, data: JSON.stringify(member)
+			, dataType: 'json'
+			, contentType:'application/json; charset=utf-8'
 			, success: function(result) {
-				if (result == 1) {
+				if (result != null) {
 					alert('회원가입 성공');
 					window.reload;
 				}

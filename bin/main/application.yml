@@ -1,50 +1,47 @@
-spring:
+spring: 
   profiles: 
-    active: local 
+    active: local
   jpa: 
     properties: 
       hibernate: 
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect  
-  mail:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  mail: 
     host: smtp.gmail.com
     port: 587
-    username: noreply@terraceshouses.com  
+    username: noreply@terraceshouses.com
     password: superadminth05
-    properties:
-      mail:
-        smtp:
+    properties: 
+      mail: 
+        smtp: 
           auth: true
-          starttls:
+          starttls: 
             enable: true
-server:
-  port: 8888
-  
 # local 환경 
 --- 
 spring: 
   profiles: local 
+  datasource: 
+    data: classpath:data-h2.sql # 시작할때 실행시킬 script 
   jpa: 
     show-sql: true 
+    hibernate: 
+      ddl-auto: create-drop
   h2: 
     console: 
       enabled: true
-server:
+server: 
   port: 8888
 
 # 운영 환경 
 --- 
 spring.profiles: set1
 spring.profiles.include: real-db
-spring:
-  h2: 
-    console: 
-      enabled: true
-      
+
 server: 
   port: 8889
   
 --- 
-spring.profiles: set2 
+spring.profiles: set2
 spring.profiles.include: real-db
 
 server: 

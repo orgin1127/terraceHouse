@@ -147,12 +147,12 @@
     <div id="myModal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">                
-        <div class =  "resForm">            
+        <div id="resForm">            
         	<form id ="resForm" action="registerMember" method="post">                                   
-		        <p><input type="text" id="memberID" placeholder=" ID" class="inputArea" name="memberID"></p>
-		        <p><input type="password" id="memberPW" placeholder=" Password" class="inputArea" name="memberPW"></p>
-		        <p><input type="text" id="memberEmail" placeholder=" Email" class="inputArea" name="memberEmail"></p>
-		        <p><input type="email" id="memberName" placeholder=" Name" class="inputArea" name="memberName"></p>
+		        <p><input type="text" id="memberid" placeholder=" ID" class="inputArea" name="memberid"></p>
+		        <p><input type="password" id="memberpw" placeholder=" Password" class="inputArea" name="memberpw"></p>
+		        <p><input type="text" id="member_email" placeholder=" Email" class="inputArea" name="member_email"></p>
+		        <p><input type="email" id="member_name" placeholder=" Name" class="inputArea" name="member_name"></p>
 		       	<a class="formBtn" href="javascript:registerMember()">회원가입</a> <a class="formBtn" id="resCancle">취소</a>
 	       	</form>
         </div>
@@ -171,7 +171,27 @@
 	        </div>
       </div>
     </div>
-
+    
+	<div>
+		<table>
+			<tr>
+				<th>회원번호</th>
+				<th>회원아이디</th>
+				<th>회원비번</th>
+				<th>회원이메일</th>
+				<th>회원이름</th>
+			</tr>
+			{{#each members}}
+			<tr>
+					<td>{{member_number}}</td>
+					<td>{{memberid}}</td>
+					<td>{{memberpw}}</td>
+					<td>{{member_email}}</td>
+					<td>{{member_name}}</td>
+			</tr>
+			{{/each}}
+		</table>
+	</div>
 
 
 </body>
