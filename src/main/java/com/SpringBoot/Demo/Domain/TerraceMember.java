@@ -22,18 +22,19 @@ public class TerraceMember {
 	@GeneratedValue
 	private long memberNumber;
 	
-	@Column(nullable = false)
+	@Column(name="memberID", nullable = false)
 	private String memberID;
 	
-	@Column(nullable = false)
+	@Column(name="memberPW", nullable = false)
 	private String memberPW;
 	
-	@Column(nullable = false)
+	@Column(name="memberEmail", nullable = false)
 	private String memberEmail;
 
-	@Column(nullable = false)
+	@Column(name="memberName", nullable = false)
 	private String memberName;
 	
+	@Column(name="mailConfirmed")
 	private String mailConfirmed;
 
 	public TerraceMember() {

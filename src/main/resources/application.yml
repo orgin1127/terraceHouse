@@ -4,13 +4,7 @@ spring:
   jpa: 
     properties: 
       hibernate: 
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-        naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-       
-  h2:
-    console:
-      enabled: true
-
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect  
   mail:
     host: smtp.gmail.com
     port: 587
@@ -22,20 +16,37 @@ spring:
           auth: true
           starttls:
             enable: true
----
-
 server:
   port: 8888
   
+# local 환경 
+--- 
+spring: 
+  profiles: local 
+  jpa: 
+    show-sql: true 
+  h2: 
+    console: 
+      enabled: true
+server:
+  port: 8888
+
 # 운영 환경 
 --- 
 spring.profiles: set1
 spring.profiles.include: real-db
-
+spring:
+  h2: 
+    console: 
+      enabled: true
+      
 server: 
   port: 8889
+  
 --- 
 spring.profiles: set2 
 spring.profiles.include: real-db
+
 server: 
   port: 8887
+  

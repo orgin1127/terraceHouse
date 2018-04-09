@@ -23,14 +23,17 @@ public class ResisterController {
 	
 	@PostMapping("/register")
 	public String registerMember(TerraceMember tm) {
+		logger.debug("register 컨트롤러 작동");
 		String key = new TempKey().getKey(20, false);
 		String result = "";
 		try{
 			TerraceMember savedEntity = tms.terraceMemberSave(tm);
 			if (savedEntity == null) {
 				result = "0";
+				logger.debug("saveEntity null");
 			}
 			else {
+				logger.debug("save Entity null 아님");
 				result = "1";
 				MailHandler sendMail = new MailHandler(mailSender);
 				sendMail.setSubject("TerraceHouse 회원 가입 메일 인증");
@@ -44,6 +47,7 @@ public class ResisterController {
 			}
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 		}
 		return result;
 	}

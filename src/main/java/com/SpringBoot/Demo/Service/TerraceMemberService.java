@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 public class TerraceMemberService {
 	
 	private TerraceMemberRepository tmr;
+	
 	private static Logger logger = LoggerFactory.getLogger(TerraceMemberService.class);
 	
 	@Transactional
