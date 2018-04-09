@@ -24,6 +24,7 @@ public class ResisterController {
 	@PostMapping("/register")
 	public String registerMember(TerraceMember tm) {
 		logger.debug("register 컨트롤러 작동");
+		
 		String key = new TempKey().getKey(20, false);
 		String result = "";
 		try{
