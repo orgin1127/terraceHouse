@@ -11,7 +11,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @EnableJpaAuditing // JPA Auditing 활성화
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"com.SpringBoot.Demo"})
 public class SpringBootDemoApplication {
 	
 	public static final String APPLICATION_LOCATIONS = "spring.config.location="
