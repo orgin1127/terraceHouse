@@ -31,7 +31,6 @@ public class ResisterController {
 				result = "0";
 				logger.debug("saveEntity null");
 			
-			
 				logger.debug("save Entity null 아님");
 				result = "1";
 				MailHandler sendMail = new MailHandler(mailSender);
