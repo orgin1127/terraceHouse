@@ -1,0 +1,2 @@
+insert into member (member_number, memberid, memberpw, member_email, member_name) values (1, 'testacc1', '123123', 'ggg@ggg.com', '홍길동');
+insert into member (member_number, memberid, memberpw, member_email, member_name) values (2, 'testacc2', '123123', 'eee@eee.com', '김첨지');
