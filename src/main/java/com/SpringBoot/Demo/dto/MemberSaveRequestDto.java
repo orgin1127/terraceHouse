@@ -1,9 +1,8 @@
 package com.SpringBoot.Demo.dto;
 
-import javax.persistence.Column;
-
 import com.SpringBoot.Demo.Domain.Member.Member;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +11,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberSaveRequestDto {
 	
+	private Long member_number;
 	private String memberid;
 	private String memberpw;
 	private String member_email;
@@ -27,6 +28,7 @@ public class MemberSaveRequestDto {
 		this.member_email = member_email;
 		this.member_name = member_name;
 	}
+	
 	public Member toEntity() {
 		return Member.builder()
 						.memberid(memberid)
