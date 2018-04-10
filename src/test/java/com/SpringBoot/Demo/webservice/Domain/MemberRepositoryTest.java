@@ -42,7 +42,8 @@ public class MemberRepositoryTest {
 		//then
 		Member member = memberList.get(0);
 		assertThat(member.getMemberid(), is("testacc1"));
-		assertThat(member.getMember_name(), is("홍길동"));
+		/*assertThat(member.getMemberid(), is("testacc1"));
+		assertThat(member.getMember_name(), is("홍길동"));*/
 	}
 
 }
