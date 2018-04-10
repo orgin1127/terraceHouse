@@ -30,4 +30,9 @@ public class MemberService {
 					.map(MemberMainResponseDto::new)
 					.collect(Collectors.toList()); 
 	}
+	
+	@Transactional(readOnly = true)
+	public Member findById(String memberid) {
+		return memberRepository.findById(memberid);
+	}
 }

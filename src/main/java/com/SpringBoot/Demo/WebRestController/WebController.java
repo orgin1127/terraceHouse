@@ -35,7 +35,8 @@ public class WebController {
 	}
 	
 	@GetMapping("/tr")
-	public String JSP() {
+	public String JSP(Model model) {
+		model.addAttribute("testacc1", "testacc1");
 		return "terraceRoom";
 	}
 }
