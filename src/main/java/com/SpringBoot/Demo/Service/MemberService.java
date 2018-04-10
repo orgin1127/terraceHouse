@@ -24,6 +24,7 @@ public class MemberService {
 		return memberRepository.save(dto.toEntity()).getMember_number();
 	}
 	
+	
 	@Transactional(readOnly = true)
 	public List<MemberMainResponseDto> findAllDesc() { 
 		return memberRepository.findAllDesc()
