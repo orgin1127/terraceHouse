@@ -1,6 +1,5 @@
 package com.SpringBoot.Demo.WebRestController;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.util.Arrays;
 
@@ -14,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.SpringBoot.Demo.Domain.Member.Member;
-import com.SpringBoot.Demo.Domain.Member.MemberRepository;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 
