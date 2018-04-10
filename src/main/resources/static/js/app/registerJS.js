@@ -1,6 +1,29 @@
 /**
- * JS for Member Register
+ * JS for Member Register and login
+ * create by Seo
  */
+$(document).ready(function() {
+
+	$('#myResBtn').on('click', function() {
+		$('#myRegisterModal').css('display', 'block');
+		makeResForm();
+		$('#registerCloser').on('click', closeRegisterModal);
+	});
+});
+function closeRegisterModal() {
+	$('#myRegisterModal').css('display', 'none');
+}
+
+
+function makeResForm() {
+	var resFormContent = '<form id ="resForm" action="registerMember" method="post">'
+		        +'<p><input type="text" id="memberid" placeholder=" ID" class="inputArea" name="memberid"></p>'
+		        +'<p><input type="password" id="memberpw" placeholder=" Password" class="inputArea" name="memberpw"></p>'
+		        +'<p><input type="text" id="member_email" placeholder=" Email" class="inputArea" name="member_email"></p>'
+		        +'<p><input type="email" id="member_name" placeholder=" Name" class="inputArea" name="member_name"></p>'
+		       	+'<a class="formBtn" href="javascript:registerMember()">회원가입</a> <a class="formBtn" id="resCancle">취소</a></form>';
+	$('#myRegisterModalBody').html(resFormContent);
+}
 
 function registerMember() {
 	var inputID = $('#memberid').val();
@@ -34,3 +57,4 @@ function registerMember() {
 		alert('blank check');
 	}
 }
+

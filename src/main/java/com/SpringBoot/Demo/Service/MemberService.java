@@ -38,16 +38,25 @@ public class MemberService {
 	
 	@Transactional(readOnly = true)
 	public MemberSaveRequestDto findByIdAndPw(MemberSaveRequestDto m) {
+		System.out.println(m.toString());
 		Member mm = memberRepository.findByIdAndPw(m.getMemberid(), m.getMemberpw());
-		MemberSaveRequestDto dto = new MemberSaveRequestDto(
-										mm.getMember_number(), mm.getMemberid(), mm.getMemberpw(), 
-										mm.getMember_email(), mm.getMember_name(), mm.getMail_confirmed());
+		MemberSaveRequestDto dto;
+		if (mm != null) {
+			dto = new MemberSaveRequestDto(
+					mm.getMember_number(), mm.getMemberid(), mm.getMemberpw(), 
+					mm.getMember_email(), mm.getMember_name(), mm.getMail_confirmed());	
+		}
+		else {
+			System.out.println("mm null");
+			dto = null;
+		}
+		
 		return dto;
 	}
 	
-	@Transactional
+	/*@Transactional
 	public void updateMemberEmailConfirmed(){
 		memberRepository.updateMemberEmailConfirmed();
-	}
+	}*/
 
 }

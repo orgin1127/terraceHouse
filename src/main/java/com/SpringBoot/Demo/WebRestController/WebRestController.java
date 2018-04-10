@@ -4,6 +4,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -47,6 +49,7 @@ public class WebRestController {
 			sendMail.setText(new StringBuffer().append("<h1>메일인증</h1>")
 					.append("<a href='http://terraceshouses.com/emailConfirm?key=")
 					.append(key)
+					.append("&memberid="+dto.getMemberid())
 					.append("' target='_blenk'>이메일 인증 확인</a>")
 					.toString());
 			sendMail.setTo(dto.getMember_email());
@@ -57,26 +60,28 @@ public class WebRestController {
 		}
 		return memberService.save(dto);
 	}
-	
 	@GetMapping("/emailConfirm")
-	public String emailConfirm(String key){
-		System.out.println(key);
-		
+	public String emailConfirm(String key, String memberid){
+		String result = "";
+		System.out.println(memberid);
 		return "";
 	}
-	
 	@PostMapping("/login")
-	public String login(@RequestBody MemberSaveRequestDto dto){
+	public String login(@RequestBody MemberSaveRequestDto dto, HttpSession session){
 		MemberSaveRequestDto loginedM = memberService.findByIdAndPw(dto);
+		String result = "";
 		if (loginedM != null){
 			if(loginedM.getMail_confirmed().equals("y")){
-				
+				result = "y";
+				session.setAttribute("loginedMember", loginedM);
+				session.setAttribute("loginID", loginedM.getMemberid());
+				session.setAttribute("loginName", loginedM.getMember_name());
 			}
 			else if(loginedM.getMail_confirmed().equals("n")){
-				
+				result = "n";
 			}
 		}
-		return "";
+		return result;
 	}
 	
 	@GetMapping("/profile")

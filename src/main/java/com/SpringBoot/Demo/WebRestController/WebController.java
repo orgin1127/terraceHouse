@@ -2,6 +2,8 @@ package com.SpringBoot.Demo.WebRestController;
 
 import java.io.File;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +43,17 @@ public class WebController {
 	}
 	
 	@GetMapping("/tr")
-	public String JSP(Model model) {
+	public String terraceRoom(Model model) {
 		model.addAttribute("testacc1", "testacc1");
 		return "terraceRoom";
 	}
+	
+	@GetMapping("/afterLogin")
+	public String afterLogin(Model model, HttpSession session){
+		model.addAttribute("loginid", session.getAttribute("loginID"));
+		model.addAttribute("loginname",session.getAttribute("loginName"));
+		return "TR_AfterLogin";
+	}
+	
+	
 }

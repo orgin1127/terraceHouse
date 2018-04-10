@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+	body {
+		background-color: #607D8B;
+		font-family: 'Anton', sans-serif;
+	}
+	
+	#userNaviTable{
+		border-radius: 40px;
+	}
+	.userNaviTable {
+		border: 3px dotted lightgrey;
+		margin: auto;
+		width: 600px;
+		background-color: #ECEFF1;
+		margin-top: 40px
+	}
