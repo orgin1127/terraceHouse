@@ -2,7 +2,7 @@
 /build/
 !gradle/wrapper/gradle-wrapper.jar
 /app
-/test
+/test/
 ### STS ###
 .apt_generated
 .classpath
