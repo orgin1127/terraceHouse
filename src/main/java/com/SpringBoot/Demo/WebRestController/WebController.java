@@ -4,18 +4,21 @@ import java.io.File;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.s3.S3Util;
+import com.amazonaws.services.s3.AmazonS3;
 
 import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
 public class WebController {
-	
+	String bucketName = "terracehouse-user-bucket";
 	private MemberService memberService;
 	@GetMapping("/")
 	public String main(Model model) {
@@ -58,7 +61,8 @@ public class WebController {
 	public String emailConfirm(String key, String memberid){
 		String result = "";
 		System.out.println(memberid);
-		
+		S3Util s3 = new S3Util();
+		s3.createFolder(bucketName, memberid);
 		return "TR_AfterEmailConfirm";
 	}
 	@GetMapping("/logout")

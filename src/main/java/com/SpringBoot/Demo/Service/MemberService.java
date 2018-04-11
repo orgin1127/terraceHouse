@@ -3,6 +3,7 @@ package com.SpringBoot.Demo.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +11,7 @@ import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.Member.MemberRepository;
 import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.amazonaws.services.s3.AmazonS3;
 
 import lombok.AllArgsConstructor;
 
@@ -58,5 +60,5 @@ public class MemberService {
 	public void updateMemberEmailConfirmed(String memberid){
 		memberRepository.updateMemberEmailConfirmed(memberid);
 	}
-
+	
 }

@@ -32,6 +32,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-mail")
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20160810'
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk
+	compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.9.2'
+
 	
 	compile("org.mariadb.jdbc:mariadb-java-client")
 	compile('pl.allegro.tech.boot:handlebars-spring-boot-starter:0.2.15')
