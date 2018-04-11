@@ -54,9 +54,9 @@ public class MemberService {
 		return dto;
 	}
 	
-	/*@Transactional
-	public void updateMemberEmailConfirmed(){
-		memberRepository.updateMemberEmailConfirmed();
-	}*/
+	@Transactional
+	public void updateMemberEmailConfirmed(String memberid){
+		memberRepository.updateMemberEmailConfirmed(memberid);
+	}
 
 }

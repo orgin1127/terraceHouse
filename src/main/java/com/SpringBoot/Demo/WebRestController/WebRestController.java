@@ -57,12 +57,7 @@ public class WebRestController {
 		}
 		return memberService.save(dto);
 	}
-	@GetMapping("/emailConfirm")
-	public String emailConfirm(String key, String memberid){
-		String result = "";
-		System.out.println(memberid);
-		return "";
-	}
+	
 	@PostMapping("/login")
 	public String login(@RequestBody MemberSaveRequestDto dto, HttpSession session){
 		MemberSaveRequestDto loginedM = memberService.findByIdAndPw(dto);

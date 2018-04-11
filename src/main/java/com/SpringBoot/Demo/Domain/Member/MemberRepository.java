@@ -20,11 +20,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 			"WHERE m.memberid= :memberid")
 	Member findById(@Param("memberid") String memberid);
 	
-	/*@Modifying
+	@Modifying
 	@Query("UPDATE Member " + 
 			"set email_confirmed= 'y' " +
-			"WHERE ")
-	Member updateMemberEmailConfirmed();*/
+			"WHERE memberid= :memberid")
+	Member updateMemberEmailConfirmed(@Param("memberid") String memberid);
 	
 	@Query("SELECT m " +
 			"FROM Member m " + 

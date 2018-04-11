@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="resources/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="resources/js/json2.js"></script>
+<script type="text/javascript" src="resources/js/sockjs.min.js"></script>
+
+<script type="text/javascript">
+
+var canvas;
+var ctx;
+var sx, sy;					
+var drawing = false;
+
+var socket = null;
+socket = new SockJS('http://203.233.199.95:8888/www/image');
+var ctxColor = '#000000';
+var lineW = 1;
+var ip;
+var img;
+var canvasUndo;
+var cPage = 0;
+var lines = new Array();
+var count = 0;
+var locations={};
+var userList = new Array();
+var userCount = 0;
+var listCode = '';
+var isEditable = false;
+var activateEraser = false;
+var erasing = false;
+var eraserSize = 15;
+var activateREC = false;
+var nemo = false;
+var straight = false;
+var straight2 = false;
+var firstX;
+var firstY;
+var lastX;
+var lastY;
+
+
+function canvasDown(){};
+
+window.onload = start;
+
+function start() {	
+	canvas = document.getElementById('mycanvas');
+	ip = document.getElementById('ipcon').value;	
+	canvasUndo = document.getElementById('cUndo');
+	ctx = canvas.getContext('2d');
+	img = document.getElementById('image1');
+	ctx.drawImage(img,0,0);
+	ctx.lineCap="round";
+	ctx.strokeStyle = ctxColor;
+	ctx.lineWidth = lineW;
+	/* if (ip == '203.233.199.95'){
+		isEditable = true;
+	} */
+	isEditable = true;
+	canvasUndo.onclick = function(){
+		var currentIp = ip;	   
+		  
+		   var deletePoint = {};
+		   deletePoint.ip = currentIp;
+		   deletePoint.mode = 'delete';
+		   socket.send(JSON.stringify(deletePoint));
+		   
+		   for (var i = lines.length;i>0;i--){
+			   
+			   if (lines[i-1][2] == currentIp){
+				   
+				   while ((lines[i-1][2] == currentIp && lines[i-1][3] == cPage)
+						   || (lines[i-1][2] == currentIp && lines[i-1][4] == 'rectangle')){
+					   
+					   lines.splice(i-1,1);
+					   i--;					   
+				   }				   
+				   redraw();
+				   break;
+			   }			   
+		   }
+		   count = lines.length;		
+	};
+	// 현재 위치를 저장한다.
+	canvas.onmousedown = function(e) {		
+		e.preventDefault();		
+		
+		sx = canvasX(e.clientX);
+		sy = canvasY(e.clientY);		
+		
+	    lines[count] = new Array();
+	    lines[count][0] = sx;
+	    lines[count][1] = sy;
+	    lines[count][2] = 'none';
+	    lines[count][3] = cPage;
+	   	count++;
+	    
+	    locations.x = sx;
+	    locations.y = sy;
+	    locations.ip = ip;
+	    locations.page = cPage;
+	    locations.mode = 'down';
+	    socket.send(JSON.stringify(locations));	    
+	    
+		drawing = true;		
+		
+		if (activateEraser){			
+			erasing = true;
+			drawing = false;
+		}		
+		if (activateREC){			
+			nemo = true;
+			drawing = false;
+			firstX = sx;
+			firstY = sy;
+		}		
+		if (straight){
+			drawing = false;
+			if (straight2){
+				lastX = sx;
+				lastY = sy;
+			}
+			else{
+				firstX = sx;
+				firstY = sy;
+			}
+		}
+	}
+	
+	// 현재 위치에서 새로 이동한 곳까지 선을 그린다.
+	canvas.onmousemove = function(e) {
+		
+		if (!isEditable){
+			return;
+		}		
+		if (erasing)
+		{			
+			sx = canvasX(e.clientX);
+			sy = canvasY(e.clientY);
+			
+			for (var i = 0 ; i<lines.length ; i++)
+			{
+				
+				if (lines[i][0] <= (sx + eraserSize) && lines[i][0] >= (sx - eraserSize)
+						&& lines[i][1] <= (sy + eraserSize) && lines[i][1] >= (sy - eraserSize))
+					{
+						var temporary = new Array();
+						temporary[2] = 'none';
+						lines.splice(i,0,temporary);		
+						lines.splice(i+1,0,temporary);
+						lines.splice(i+2,1);
+						count = lines.length-1;
+						redraw();
+						
+						var jiwoo = {};
+						jiwoo.mode = 'erase';
+						jiwoo.loc = i;
+						socket.send(JSON.stringify(jiwoo));
+						break;					
+					}				
+			}			
+			return;			
+		}
+		
+		if (nemo) {
+			
+			redraw();
+			ctx.strokeStyle = ctxColor;
+			ctx.beginPath();
+			ctx.moveTo(sx,sy);
+			ctx.lineTo(canvasX(e.clientX),sy);
+			ctx.moveTo(canvasX(e.clientX),sy);
+			ctx.lineTo(canvasX(e.clientX),canvasY(e.clientY));
+			ctx.moveTo(sx,sy);
+			ctx.lineTo(sx,canvasY(e.clientY));
+			ctx.moveTo(sx,canvasY(e.clientY));
+			ctx.lineTo(canvasX(e.clientX),canvasY(e.clientY));		
+			ctx.stroke();			
+		}		
+		if (straight && firstX != null && firstY != null){
+			
+			console.log('straight');
+			redraw();
+			ctx.strokeStyle = ctxColor;
+			ctx.beginPath();
+			ctx.moveTo(firstX,firstY);
+			ctx.lineTo(canvasX(e.clientX),canvasY(e.clientY));
+			ctx.stroke();
+		}
+		
+		
+		if (drawing) {
+			e.preventDefault();
+			
+			lines[count] = new Array();
+			lines[count][0] = sx;
+			lines[count][1] = sy;
+			lines[count][2] = ip;
+			lines[count][3] = cPage;
+			lines[count][5] = ctxColor;
+			count++;
+			locations.x = sx;
+		    locations.y = sy;
+		    locations.ip = ip;
+		    locations.page = cPage;
+		    locations.color = ctxColor;
+		    locations.mode = 'draw';
+		    socket.send(JSON.stringify(locations));			
+			
+			sx = canvasX(e.clientX);
+			sy = canvasY(e.clientY);
+			lines[count] = new Array();
+			lines[count][0] = sx;
+			lines[count][1] = sy;
+			lines[count][2] = ip;
+			lines[count][3] = cPage;
+			lines[count][5] = ctxColor;
+			count++;
+			locations.x = sx;
+		    locations.y = sy;
+		    locations.ip = ip;
+		    locations.page = cPage;
+		    locations.color = ctxColor;
+		    locations.mode = 'draw';
+		    socket.send(JSON.stringify(locations));			
+			
+			for(var i = 0;i < lines.length;i++){
+				
+				if (lines[i][2] == 'none')
+				{
+					continue;
+				}				
+				if (i+1 != lines.length&& lines[i][3] == cPage){
+				ctx.strokeStyle = lines[i][5];
+				ctx.beginPath();
+				ctx.moveTo(lines[i][0],lines[i][1]);
+				ctx.lineTo(lines[i+1][0],lines[i+1][1]);
+				ctx.stroke();				
+				}
+			}			
+		}
+	}
+
+	// 그리기를 종료한다.
+	canvas.onmouseup = function(e) {
+		drawing = false;
+		erasing = false;
+		activateEraser = false;
+		activateREC = false;
+		if (nemo){
+			
+			console.log('네모 완성');
+			lastX = canvasX(e.clientX);
+			lastY = canvasY(e.clientY);
+			nemo = false;
+			
+			rectMaker(firstX,firstY,lastX,lastY);
+			
+			var rectInfo = {};
+			rectInfo.firstX = firstX;
+			rectInfo.firstY = firstY;
+			rectInfo.lastX = lastX;
+			rectInfo.lastY = lastY;
+			rectInfo.color = ctxColor;
+			rectInfo.mode = 'rectangle';
+			socket.send(JSON.stringify(rectInfo));			
+		}		
+		if (straight){
+			if (straight2){
+				lines[count] = new Array();
+				lines[count][0] = firstX;
+				lines[count][1] = firstY;
+				lines[count][2] = ip;
+				lines[count][3] = cPage;
+				lines[count][5] = ctxColor;
+				count++;
+				
+				lines[count] = new Array();
+				lines[count][0] = lastX;
+				lines[count][1] = lastY;
+				lines[count][2] = ip;
+				lines[count][3] = cPage;
+				lines[count][5] = ctxColor;
+				count++;
+				
+				locations.x = firstX;
+				locations.y = firstY;
+				locations.ip = ip;
+				locations.page = cPage;
+				locations.color = ctxColor;
+				locations.mode = 'draw';
+				socket.send(JSON.stringify(locations));
+				
+				locations.x = lastX;
+				locations.y = lastY;
+				locations.ip = ip;
+				locations.page = cPage;
+				locations.color = ctxColor;
+				locations.mode = 'draw';
+				socket.send(JSON.stringify(locations));
+				straight = false;
+				straight2 = false;
+			}
+			else{
+			straight2 = true;
+			return;
+			}
+		}
+		
+		lines[count] = new Array();
+		lines[count][0] = sx;		 
+		lines[count][1] = sy;		
+		lines[count][2] = 'none';  
+		lines[count][3] = cPage;
+		count++; 
+		
+		locations.x = sx;
+	    locations.y = sy;
+	    locations.ip = ip;
+	    locations.page = cPage;
+	    locations.mode = 'up';
+	    
+	    socket.send(JSON.stringify(locations));		
+	    cleanVariable();
+	}			
+	
+	 socket.onopen = function(){
+		 
+		userList[userCount] = ip;
+  		userCount++;  		
+		 
+		reUserList();
+		 var ipconfig = {};
+			ipconfig.ip = ip;
+			ipconfig.mode = 'enter';			
+			socket.send(JSON.stringify(ipconfig));			
+	 };	 
+	 
+	 socket.onmessage = function(evt) {                  
+		
+         var drawData = JSON.parse(evt.data);
+          
+         var c = document.getElementById('mycanvas');
+         var otherCtx = c.getContext('2d');        
+         otherCtx.strokeStyle = ctxColor;
+         otherCtx.lineWidth = lineW;
+         otherCtx.lineCap = 'round';         
+         
+         if (drawData.mode == 'enter'){         		
+           	 userList[userCount] = drawData.ip;
+        	 userCount++;        	 
+     		
+     		var ipconfig = {};
+     		ipconfig.mode = 'give';
+     		ipconfig.ip = ip;     		
+     		socket.send(JSON.stringify(ipconfig));
+     		reUserList();
+     		return;
+         }
+         
+         if (drawData.mode == 'exit'){        	 
+        	 
+        	 for (var i = 0; i <= userList.length;i++){
+        		 
+        		 if (userList[i] == drawData.ip){
+        			 
+        			 userList.splice(i,1);
+        			 userCount = userList.length;
+        			 reUserList();        			 
+        			 break;        			 
+        		 }        		 
+        	 }
+        	 return;        	 
+         }
+         
+         if (drawData.mode == 'give'){
+        	 
+        	 userList[userCount] = drawData.ip;
+        	 userCount++;
+        	 reUserList();        	
+        	 return;
+         }         
+		if (drawData.mode == 'erase'){
+        	 
+        	 i = drawData.loc;        	 
+        	 console.log(i);
+        	 var temporary = new Array();
+				temporary[2] = 'none';
+				lines.splice(i,0,temporary);		
+				lines.splice(i+1,0,temporary);
+				lines.splice(i+2,1);
+				count = lines.length-1;
+				redraw();
+        	 return;        	 
+         }
+         
+		if (drawData.mode == 'rectangle'){        	   
+			
+		 ctx.strokeStyle = drawData.color;
+       	 rectMaker(drawData.firstX,drawData.firstY,drawData.lastX,drawData.lastY);
+       	
+       	 return;       	 
+        }		
+         
+         if (drawData.mode == 'down'){
+         lines[count] = new Array();
+         lines[count][0] = drawData.x;
+         lines[count][1] = drawData.y;
+         lines[count][2] = 'none';
+         lines[count][3] = drawData.page;
+         count++;         
+         return;
+         }
+         
+         
+         
+         
+         if (drawData.mode == 'draw'){        	 
+        	 lines[count] = new Array();
+             lines[count][0] = drawData.x;
+             lines[count][1] = drawData.y;
+             lines[count][2] = drawData.ip;
+             lines[count][3] = drawData.page;
+             lines[count][5] = drawData.color;
+             count++;
+         }
+         
+         
+         
+         if (drawData.mode == 'up'){        	 
+        	 lines[count] = new Array();
+             lines[count][0] = drawData.x;
+             lines[count][1] = drawData.y;
+             lines[count][2] = 'none';
+             lines[count][3] = drawData.page;
+             count++;             
+             return;
+         }         
+         if (drawData.mode == 'delete'){
+        	 for (var i = lines.length;i>0;i--){
+      		   
+      		   if (lines[i-1][2] == drawData.ip){
+      			   
+      			   while (lines[i-1][2] == drawData.ip){
+      				   lines.splice(i-1,1);
+      				   i--;      				   
+      			   }
+      			   redraw();
+      			   count = lines.length;
+      			   return;
+      		   }      		   
+      	   }        	 
+         }
+         
+         if (drawData.mode == 'succeed'){        	 
+        	 isEditable = true;
+        	 return;
+         }
+         
+         if (drawData.direct == 'forward' && isEditable == false){
+        	 cPage++;
+     		var imgUrl = '<img src="https://s3.ap-northeast-2.amazonaws.com/temp-bucket-for-project/myimage'+cPage+'.jpg"'+'id="image1" class="image1" hidden="hidden" >';
+     		var imgSrc;
+     		imgSrc = document.getElementById('imgSrc');
+     		imgSrc.innerHTML=imgUrl;
+     		img = document.getElementById('image1');
+     		img.onload = function(){		
+     			redraw();
+     			return;
+     		}	
+        	 return;
+         }
+         
+         if (drawData.direct == 'backward' && isEditable == false){
+        	 cPage--;
+     		var imgUrl = '<img src="https://s3.ap-northeast-2.amazonaws.com/temp-bucket-for-project/myimage'+cPage+'.jpg"'+'id="image1" class="image1" hidden="hidden">';
+     		var imgSrc;
+     		imgSrc = document.getElementById('imgSrc');
+     		imgSrc.innerHTML=imgUrl;
+     		img = document.getElementById('image1');
+     		img.onload = function(){
+     			
+     			redraw();
+     			return;
+     		}
+        	 return;
+         }    
+         
+         for(var i = 0;i < lines.length;i++){
+				
+				if (lines[i][2] == 'none')
+				{
+					continue;
+				}
+				
+				if (i+1 != lines.length && lines[i][3] == cPage){
+					otherCtx.strokeStyle= lines[i][5];
+					otherCtx.beginPath();
+					otherCtx.moveTo(lines[i][0],lines[i][1]);
+					otherCtx.lineTo(lines[i+1][0],lines[i+1][1]);
+					otherCtx.stroke();				
+				}
+			}                  
+     };
+     
+     function downloadCanvas(link, canvasId, filename) {
+    	    link.href = document.getElementById(canvasId).toDataURL();
+    	    link.download = filename;
+    	}
+     
+     document.getElementById('downloadCanvas').addEventListener('click', function() {
+    	    downloadCanvas(this, 'mycanvas', 'savedImg.png');
+    	}, false);
+     
+     
+};
+
+	
+		
+	window.onbeforeunload = function(){		
+		 var ipconfig = {};
+ 	  	ipconfig.ip = ip;
+ 	  	ipconfig.mode = 'exit';
+ 	  	socket.send(JSON.stringify(ipconfig));		
+	};	
+	
+	function redraw(){		
+		canvas = document.getElementById('mycanvas');
+		canvas.setAttribute("width","800px");
+		canvas.setAttribute("height","1000px");
+		ctx = canvas.getContext('2d');
+		
+		var img = document.getElementById('image1');
+		ctx.drawImage(img,0,0);
+		ctx.lineCap="round";
+		
+		for(var i = 0;i < lines.length;i++){
+			
+			if (lines[i][2] == 'none')
+			{
+				continue;
+			}
+			if (i+1 != lines.length && lines[i][3] == cPage){
+			ctx.strokeStyle = lines[i][5];
+			ctx.beginPath();
+			ctx.moveTo(lines[i][0],lines[i][1]);
+			ctx.lineTo(lines[i+1][0],lines[i+1][1]);
+			ctx.stroke();
+			}
+		}		
+		return;		
+	};
+	
+	function reUserList(){		
+		
+ 		listCode = '';
+ 		listCode += '<select id ="ruler">';
+ 		for (var i = 0; i < userList.length ;i++){
+ 			
+ 			listCode += '<option value ="';
+ 			listCode += userList[i];
+ 			listCode += '">'+userList[i]+'</option>"'; 			
+ 		}
+ 		listCode += '</select>';
+ 		var pSpace = document.getElementById('userList');
+ 		pSpace.innerHTML = '';
+ 		pSpace.innerHTML = listCode;		
+	};
+
+	function canvasX(clientX) {
+		var bound = canvas.getBoundingClientRect();
+		var bw = 5;
+		return (clientX - bound.left - bw) * (canvas.width / (bound.width - bw * 2));
+	};
+
+	function canvasY(clientY) {
+		var bound = canvas.getBoundingClientRect();
+		var bw = 5;
+		return (clientY - bound.top - bw) * (canvas.height / (bound.height - bw * 2));
+	};
+
+	
+function forwardPage(){
+	if (isEditable == false)
+	{
+		console.log('권한 없음');
+		return;
+	}
+		var movePage = {};
+		movePage.direct = 'forward';
+		socket.send(JSON.stringify(movePage));
+		cPage++;
+		var imgUrl = '<img src="https://s3.ap-northeast-2.amazonaws.com/temp-bucket-for-project/myimage'+cPage+'.jpg"'+'id="image1" class="image1" hidden="hidden" >';
+		var imgSrc;
+		imgSrc = document.getElementById('imgSrc');
+		imgSrc.innerHTML=imgUrl;
+		img = document.getElementById('image1');
+		img.onload = function(){		
+			redraw();
+			return;
+		}	
+	
+}
+
+function backwardPage(){
+	if (cPage <= 0){
+		alert('최초 페이지입니다.');
+		return;
+	}
+	if (isEditable == false)
+	{
+		console.log('권한 없음');
+		return;
+	}
+		var movePage = {};
+		movePage.direct = 'backward';
+		socket.send(JSON.stringify(movePage));
+		cPage--;
+		var imgUrl = '<img src="https://s3.ap-northeast-2.amazonaws.com/temp-bucket-for-project/myimage'+cPage+'.jpg"'+'id="image1" class="image1" hidden="hidden">';
+		var imgSrc;
+		imgSrc = document.getElementById('imgSrc');
+		imgSrc.innerHTML=imgUrl;
+		img = document.getElementById('image1');
+		img.onload = function(){
+			
+			redraw();
+			return;
+		}
+	
+};	
+	
+	function power(){
+		
+		if (isEditable){
+		var selectedIp = document.getElementById('ruler').value;
+		
+		var succeeding = {};
+		succeeding.ip = selectedIp;
+		succeeding.mode = 'succeed';
+		socket.send(JSON.stringify(succeeding));		
+		}		
+		isEditable = false;
+	};
+	
+	function actEraser(){		
+		activateEraser = true;		
+	}
+	
+	function rectangle(){		
+		activateREC = true;		
+	}
+	
+	function rectMaker(firstX,firstY,lastX,lastY){
+		
+		var fX = firstX;
+		var fY = firstY;
+		var lX = lastX;
+		var lY = lastY;		
+		
+		lines[count] = new Array();
+		lines[count][0] = fX;
+		lines[count][1] = fY;
+		lines[count][2] = ip;
+		lines[count][3] = cPage;
+		lines[count][4] = 'rectangle';
+		lines[count][5] = ctxColor;
+		count++;
+		lines[count] = new Array();
+		lines[count][0] = lX;
+		lines[count][1] = fY;
+		lines[count][2] = ip;
+		lines[count][3] = cPage;
+		lines[count][4] = 'rectangle';
+		lines[count][5] = ctxColor;
+		count++;
+		lines[count] = new Array();
+		lines[count][0] = lX;
+		lines[count][1] = lY;
+		lines[count][2] = ip;
+		lines[count][3] = cPage;
+		lines[count][4] = 'rectangle';
+		lines[count][5] = ctxColor;
+		count++;
+		lines[count] = new Array();
+		lines[count][0] = fX;
+		lines[count][1] = lY;
+		lines[count][2] = ip;
+		lines[count][3] = cPage;
+		lines[count][4] = 'rectangle';
+		lines[count][5] = ctxColor;
+		count++; 
+		lines[count] = new Array();
+		lines[count][0] = fX;
+		lines[count][1] = fY;
+		lines[count][2] = ip;
+		lines[count][3] = cPage;
+		lines[count][4] = 'rectangle';
+		lines[count][5] = ctxColor;
+		count++;	
+		
+		redraw();
+		
+		return;
+	}	
+	
+	function changeLineColor(){		
+		var lineColor = document.getElementById('lineColor');
+		console.log(lineColor.value);
+		ctxColor = lineColor.value;		
+	}
+	function straightL(){
+		straight = true;		
+	}
+	
+	function cleanVariable(){
+		sx = null;
+		sy = null;
+		listCode = '';
+		
+		activateEraser = false;
+		erasing = false;
+	
+		activateREC = false;
+		nemo = false;
+		straight = false;
+		straight2 = false;
+		firstX = null;
+		firstY = null;
+		lastX = null;
+		lastY = null;
+	}
+	
+</script>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>test</title>
+</head>
+<body >
+<input type="button" value="뒤로" onclick="backwardPage()"><input type="button" class="nextBtn" value="앞으로" onclick="forwardPage()">
+<p id="imgSrc"><img src="resources/images/myimage0.jpg" id="image1" class="image1" hidden="hidden"></p>
+<p id= "userList"></p>
+<input type = "button" value="권한 주기" onclick = "power()">
+<input type="button" id = "cUndo" value="실행 취소"/>
+<input type="button" onclick = "actEraser()" value="지우개">
+<input type="button" onclick = "rectangle()" value="네모">
+<input type="button" onclick = "straightL()" value="직선">
+<input type="file" name="upload" onchange="fileUpload()">
+<select id = "lineColor" onchange="changeLineColor()">
+<option value="#000000" selected="selected">검정색</option>
+<option value="#FF0000">빨간색</option>
+</select>
+<a id = "downloadCanvas">다운로드</a>
+
+<br>
+<canvas id="mycanvas" width="800" height="1000">
+</canvas>
+<input type="text" value="${ip}" id="ipcon">
+
+
+</body>
+</html>

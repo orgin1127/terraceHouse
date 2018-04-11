@@ -54,6 +54,18 @@ public class WebController {
 		model.addAttribute("loginname",session.getAttribute("loginName"));
 		return "TR_AfterLogin";
 	}
+	@GetMapping("/emailConfirm")
+	public String emailConfirm(String key, String memberid){
+		String result = "";
+		System.out.println(memberid);
+		
+		return "TR_AfterEmailConfirm";
+	}
+	@GetMapping("/logout")
+	public String logout(HttpSession session){
+		session.invalidate();
+		return "/";
+	}
 	
 	
 }
