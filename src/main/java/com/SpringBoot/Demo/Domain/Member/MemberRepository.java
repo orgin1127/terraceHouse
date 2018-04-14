@@ -22,9 +22,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	
 	@Modifying
 	@Query("UPDATE Member " + 
-			"set email_confirmed= 'y' " +
+			"set mail_confirmed= 'y' " +
 			"WHERE memberid= :memberid")
-	Member updateMemberEmailConfirmed(@Param("memberid") String memberid);
+	int updateMemberEmailConfirmed(@Param("memberid") String memberid);
 	
 	@Query("SELECT m " +
 			"FROM Member m " + 

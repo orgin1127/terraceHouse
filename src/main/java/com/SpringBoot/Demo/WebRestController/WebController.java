@@ -1,6 +1,9 @@
 package com.SpringBoot.Demo.WebRestController;
 
-import java.io.File;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
@@ -8,21 +11,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
-import com.amazonaws.services.s3.AmazonS3;
 
 import lombok.AllArgsConstructor;
 
-@Controller
 @AllArgsConstructor
+@Controller
 public class WebController {
-	String bucketName = "terracehouse-user-bucket";
+	
+	
 	private MemberService memberService;
+	
+	@Autowired
+	S3Util s3;
+	
 	@GetMapping("/")
 	public String main(Model model) {
 		model.addAttribute("members", memberService.findAllDesc());
+		
 		return "TR_Main";
 	}
 	
@@ -45,10 +53,14 @@ public class WebController {
 	}
 	@GetMapping("/emailConfirm")
 	public String emailConfirm(String key, String memberid){
-		String result = "";
-		System.out.println(memberid);
-		S3Util s3 = new S3Util();
-		s3.createFolder(bucketName, memberid);
+		try{
+			memberService.updateMemberEmailConfirmed(memberid);
+			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
+			s3File.createFolder(s3.getBucket(), "tr-user-files/"+memberid);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return "TR_AfterEmailConfirm";
 	}
 	@GetMapping("/logout")

@@ -11,7 +11,6 @@ import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.Member.MemberRepository;
 import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
-import com.amazonaws.services.s3.AmazonS3;
 
 import lombok.AllArgsConstructor;
 
@@ -58,7 +57,13 @@ public class MemberService {
 	
 	@Transactional
 	public void updateMemberEmailConfirmed(String memberid){
-		memberRepository.updateMemberEmailConfirmed(memberid);
+		int result = memberRepository.updateMemberEmailConfirmed(memberid);
+		if (result == 1){
+			System.out.println("업데이트 성공");
+		}
+		else {
+			System.out.println("업데이트 실패");
+		}
 	}
 	
 }
