@@ -11,6 +11,10 @@ $(document).ready(function() {
 	});
 });
 function closeRegisterModal() {
+	$('#memberid').html('');
+	$('#memberpw').html('');
+	$('#member_email').html('');
+	$('#member_name').html('');
 	$('#myRegisterModal').css('display', 'none');
 }
 
@@ -42,7 +46,8 @@ function registerMember() {
 			, success: function(result) {
 				if (result != null) {
 					alert('회원가입 성공');
-					window.reload;
+					closeRegisterModal();
+					location.reload;
 				}
 				else {
 					alert('회원가입 실패 : ' + result);
@@ -54,7 +59,7 @@ function registerMember() {
 		});
 	}
 	else {
-		alert('blank check');
+		alert('입력 항목을 정확하게 입력하여 주세요.');
 	}
 }
 
