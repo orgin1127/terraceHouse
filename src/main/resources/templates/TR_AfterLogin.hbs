@@ -1,40 +1,80 @@
 <!DOCTYPE html>
 <html>
-<title>Terrace House</title>
+<title>5조 팀프로젝트</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <style>
+
+.container {
+  background:#fff;
+  width:1500px;
+  height:800px;
+  margin: 0 auto;
+  padding: 2px 2px 0 2px;
+  
+}
+
+.slideshow_wrapper {
+  width:1500px;
+  height:800px;
+  overflow: hidden;
+   
+}
+
+.slideshow {
+  width:4500px;
+  height:800px;
+  margin: 0 0 0 -4500px;
+ position: relative;
+  -webkit-animation-name: slide_animation;
+  -webkit-animation-duration:15s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-direction:alternate;
+   -webkit-animation-play-state: running;
+}
+
+.slide {
+  
+  width:1500px;
+  height: 800px;
+  position:relative;
+  float:left;
+  overflow:hidden;
+  
+}
+
+.slideshow img{
+  width:1500px; height:800px;
+}
+
+@-webkit-keyframes slide_animation {
+  
+  0% {left:1500px;}
+  10% {left:1500px;}
+  20% {left:1500px;}
+  30% {left:1500px;}
+  40% {left:3000px;}
+  50% {left:3000px;}
+  60% {left:3000px;}
+  70% {left:4500px;}
+  80% {left:4500px;}
+  90% {left:4500px;}
+  100% {left:4500px;}
+  
+}
 
 * {box-sizing: border-box;}
 body {font-family: Verdana, sans-serif;}
 .mySlides {display: none;}
 img {vertical-align: middle;}
-
-/* Slideshow container */
-.slideshow-container {
-  max-height: 10%;
-  max-width: 1500px;
-  position: relative;
-  margin: auto;
-  background-position: center;
-  background-size: cover;
-  top: 20px;
-  
-}
-
-.dot {
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
 
 .active {
   background-color: #717171;
@@ -85,16 +125,14 @@ body, html {
 <body>
 
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
-
-  <br><br><br>
-  <input type="button" class="w3-bar-item w3-button" value="My Page">
-  <input type="button" class="w3-bar-item w3-button" value="알림">
-  <input type="button" class="w3-bar-item w3-button" value="내 테라스">
-  <input type="button" class="w3-bar-item w3-button" value="방 검색">
-  <input type="button" class="w3-bar-item w3-button" value="테라스 목록">
-  <input type="button" class="w3-bar-item w3-button" value="테라스 만들기">
-  <input type="button" class="w3-bar-item w3-button" value="My Files">
-
+<br><br><br>
+	<input type="button" class="w3-bar-item w3-button" value="My Page">
+	<input type="button" class="w3-bar-item w3-button" value="알림">
+	<input type="button" class="w3-bar-item w3-button" value="내 테라스">
+	<input type="button" class="w3-bar-item w3-button" value="방 검색">
+	<input type="button" class="w3-bar-item w3-button" value="테라스 목록">
+	<input type="button" class="w3-bar-item w3-button" value="테라스 만들기">
+	<input type="button" class="w3-bar-item w3-button" value="My Files">
 </div>
 
 <!-- Navbar (sit on top) -->
@@ -135,21 +173,22 @@ body, html {
 <!-- Header with full-height image -->
 <header id="home">
      
-<div class="slideshow-container">
+<div class="container">
+  <div class="slideshow_wrapper">
+    <div class="slideshow">
+      <div class="slide_one slide">
+        <img src="image/qwe1.jpg" />
+      </div>
+      
+      <div class="slide_two slide">
+        <img src="image/qwe222.jpg" />
+      </div>
+      
+       <div class="slide_three slide">
+        <img src="image/qwe555.jpeg" />
+      </div>
+    </div></div></div>
 
-<div class="mySlides fade">
-  <img src="/image/qwe1.jpg" style="width:100%">
-</div>
-
-<div class="mySlides fade">
-  <img src="/image/qwe222.jpg" style="width:128%">
-</div>
-
-<div class="mySlides fade">
-  <img src="/image/qwe555.jpeg" style="width:100%">
-</div>
-
-</div>
 <br>
 
 <div style="text-align:center">
@@ -197,7 +236,7 @@ body, html {
       <p><a href="#work" class="w3-button w3-black"><i class="fa fa-th"> </i> Terrace House</a></p>
     </div>
     <div class="w3-col m6">
-      <img class="w3-image w3-round-large" src="/image/qwe2.png" alt="" width="300" height="294">
+      <img class="w3-image w3-round-large" src="image/qwe2.png" alt="" width="300" height="294">
     </div>
   </div>
 </div>
@@ -281,31 +320,31 @@ body, html {
 
   <div class="w3-row-padding" style="margin-top:64px">
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
     </div>
   </div>
 
   <div class="w3-row-padding w3-section">
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
     </div>
     <div class="w3-col l3 m6">
-      <img src="/image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
+      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
     </div>
   </div>
 </div>
@@ -427,7 +466,7 @@ body, html {
     </div>
     <div class="w3-half">
     
-      <img src="/image/qwe2.png" style="width:100%"  class="w3-hover-opacity" alt="">
+      <img src="resources/test9/img/qwe2.png" style="width:100%"  class="w3-hover-opacity" alt="">
     </div>
   </div>
 </div>
@@ -447,26 +486,6 @@ body, html {
 </footer>
  
 <script>
-
-var slideIndex = 0;
-showSlides();
-
-function showSlides() {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    for (i = 0; i < slides.length; i++) {
-       slides[i].style.display = "none";  
-    }
-    slideIndex++;
-    if (slideIndex > slides.length) {slideIndex = 1}    
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";  
-    dots[slideIndex-1].className += " active";
-    setTimeout(showSlides, 3000); // 넘어가는 시간변경
-}
 
 // Modal Image Gallery
 function onClick(element) {
