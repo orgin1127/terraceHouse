@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
@@ -69,5 +71,8 @@ public class WebController {
 		return "/";
 	}
 	
+	public String uploadPDF(MultipartFile file){
+		return "";
+	}
 	
 }

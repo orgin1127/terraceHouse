@@ -20,15 +20,23 @@ $(document).ready(function() {
 	
 });
 
+function hideExclude(excludeId) {
+	$("#terraceInfoDiv").children().each(function() {
+		$(this).hide();
+	});
+	// 파라미터로 넘겨 받은 id 요소는 show
+	$("#" + excludeId).show();
+}
+
 function makeTerraceRegister() {
 	var terraceResFormContent = '<form><fieldset><legend>Please select your Terrace Type</legend>'
         +'<div id="selectTerraceTypeRadioDiv">'
-        +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeR" name="terraceType" value="Rterrace" />'
+        +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeR" name="terraceType" value="Rterrace" checked="checked" />'
         +'<label for="contactChoice1">정기 Terrace</label>'
         +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeUR" name="terraceType" value="URterrace" />'
         +'<label for="contactChoice2">비정기 Terrace</label></div></fieldset></form>'
         +'<div id="afterSelectRadioDiv"><form>'
-        +'<div id="regularTerraceInfoDiv><table id="regularTerraceInfoTable"><tr>'
+        +''
 	$('#myTerraceRegisterModalBody').html(terraceResFormContent);
 	
 	

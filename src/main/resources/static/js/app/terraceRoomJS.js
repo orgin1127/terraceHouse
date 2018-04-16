@@ -2,12 +2,13 @@
  * TerraceRoom JavaScript 
  * Modifi BY SEO
  */
-window.enableAdapter = true;
 var connection = new RTCMultiConnection();
 
 //캔버스 관련
 var canvas;
+var imageOnly;
 var ctx;
+var imagePaste;
 var sx, sy;				//좌표를 받는 변수	
 var img;
 var firstX,firstY,lastX,lastY;		//네모를 그릴때 사용할 변수
@@ -26,7 +27,7 @@ var chatInputArea = document.getElementById('input-text-chat');
 // this line is VERY_important
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 connection.enableFileSharing = true;
-// 참가자 수
+//참가자 수
 connection.maxParticipantsAllowed = 3;
 // all below lines are optional; however recommended.
 
@@ -77,17 +78,18 @@ window.onload = start();
 
 function start(){		
 	
-	
+	imageOnly = document.getElementById('imageOnly');
+	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
 	img = document.getElementById('image1');
-	
+	imagePaste.drawImage(img,0,0);
 	
 	ctx.lineCap="round";
 	//캔버스위를 클릭 시 이벤트
 	canvas.onmousedown = function(e) {
-		img = document.getElementById('image1');
-		ctx.drawImage(img,0,0);
+		
+		
 		loginId = document.getElementById('loginId').value;
 		id = loginId;
 		e.preventDefault();
@@ -492,15 +494,25 @@ function canvasLine(){
 	return;
 }
 
+function canvasUpload(){
+	var uploadBtn = document.getElementById('file');
+	uploadBtn.click();
+}
+
+function UploadtoServer(){
+	var form = document.getElementById('uploadForm');
+	form.submit();	
+}
+
 //선 배열대로 캔버스에 그리는 펑션
 function redraw(){
 	
 	canvas = document.getElementById('mycanvas');
 	ctx = canvas.getContext('2d');
-	canvas.setAttribute("width","900px");
-	canvas.setAttribute("height","1000px");
-	img = document.getElementById('image1');
-	ctx.drawImage(img,0,0);
+	canvas.setAttribute("width","500px");
+	canvas.setAttribute("height","800px");
+	
+	
 	ctx.lineCap="round";
 	
 	for(var i = 0;i < lines.length;i++){

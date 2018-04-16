@@ -6,6 +6,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 <script src="/js/lib/jquery.min.js"></script> 
+<script type="text/javascript" src="jquery.form.min.js"></script>
 <script src="/js/lib/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/app/getHTMLMediaElement.css">
 <style>
@@ -31,13 +32,14 @@
 		color: white;
 	}
 	#whiteBoard {
-		width: 900px;
-		height: 0px;
+		width: 700px;
+		height: 800px;
 		padding: 0px;
 	}
 	#terraceChat {
 		width: 500px;
-		height: 400px;
+		
+		padding:0px;
 	}
 	#terraceTitle {
 		height: 100px;
@@ -70,12 +72,21 @@ window.enableAdapter = true;
 		<div>
 			<table>
 				<tr>
-					<td rowspan="3" id="whiteBoard" style="background-color: grey;">
-						<canvas height="1000" width="900" id="mycanvas" ></canvas>
+					<td rowspan="3" id="whiteBoard" style="background-color: grey; ">
+						<div style="position: relative; top: -400px; left: 20px">
+						 <canvas height="900" width="600" id="imageOnly"
+						   style="position:absolute; left: 0; top: 0; z-index: 0;"></canvas>
+						 <canvas height="900" width="600" id="mycanvas" 
+						   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+						</div>						
 					</td>
 					<td rowspan="3" height="500" id="canvasTools" style="background-color: grey;">
+						<form action="" method="get" id="uploadForm">
+							<input type="file" id="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data">
+						</form>
+						<a href="javascript:canvasUpload()"><img src="image/canvasUpload.png" width="24" height="24"></a><br>
 						<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br>
-						<input type="color" onchange="javascript:colorPicker()" id="lineColor"><br>
+						<input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000"><br>
 						<a href="javascript:canvasUndo()"><img src="image/canvasUndo.png"></a><br>
 						<a href="javascript:canvasER()"><img src="image/canvasEraser.png" width="24" height="24"></a><br>
 						<a href="javascript:canvasRect()"><img src="image/canvasRect.png"></a><br>
@@ -89,7 +100,7 @@ window.enableAdapter = true;
 				<tr>
 					<td colspan="2" id="terraceChat" style="background-color: grey; width:400px; ">
 						
-							<div id="chat-container" style="overflow-y: auto; height: 400px;">
+							<div id="chat-container" style="overflow-y: auto; height: 600px;">
 						        <div id="file-container"></div>
 						        <div class="chat-output"></div>
 						    </div>
@@ -143,12 +154,12 @@ window.enableAdapter = true;
 	<!-- download js and css -->
 	
 
-
-	<img id="image1" src="image/myimage0.jpg" >
+	<img id="image1" src="image/myimage0.jpg" hidden="hidden">
 	<script src="/js/app/adapter.js"></script>
 	<script src="/js/app/FileBufferReader.js"></script>
 	<script src="/js/app/terraceRoomJS.js"></script>
 	<script src="/js/app/getHTMLMediaElement.js"></script>
-	<input type="hidden" id="loginId" value={{loginid}}>
+	<input type="hidden" id="loginId" value="loginId">
+	
 </body>
 </html>
