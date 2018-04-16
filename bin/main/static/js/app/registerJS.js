@@ -8,6 +8,7 @@ $(document).ready(function() {
 		$('#myRegisterModal').css('display', 'block');
 		makeResForm();
 		$('#registerCloser').on('click', closeRegisterModal);
+		$('#registerBtn').on('click', registerMember);
 	});
 });
 function closeRegisterModal() {
@@ -25,7 +26,7 @@ function makeResForm() {
 		        +'<p><input type="password" id="memberpw" placeholder=" Password" class="inputArea" name="memberpw"></p>'
 		        +'<p><input type="text" id="member_email" placeholder=" Email" class="inputArea" name="member_email"></p>'
 		        +'<p><input type="email" id="member_name" placeholder=" Name" class="inputArea" name="member_name"></p>'
-		       	+'<a class="formBtn" href="javascript:registerMember()">회원가입</a> <a class="formBtn" id="resCancle">취소</a></form>';
+		       	+'<p><input type="button" id="registerBtn" value="회원가입"> <input type="button" id="resCancle" value="취소"></p></form>';
 	$('#myRegisterModalBody').html(resFormContent);
 }
 

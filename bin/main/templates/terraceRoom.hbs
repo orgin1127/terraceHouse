@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>test</title>
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 <script src="/js/lib/jquery.min.js"></script> 
@@ -32,7 +32,8 @@
 	}
 	#whiteBoard {
 		width: 900px;
-		height: 400px;
+		height: 0px;
+		padding: 0px;
 	}
 	#terraceChat {
 		width: 500px;
@@ -43,6 +44,7 @@
 	}
 </style>
 <script type="text/javascript">
+window.enableAdapter = true;
 	$(document).ready(function() {
 		$('#invite_DIV').on('click', pushedInviteDIV);
 		$('#exit_DIV').on('click', pushedExitDIV);
@@ -68,19 +70,57 @@
 		<div>
 			<table>
 				<tr>
-					<td rowspan="2" id="whiteBoard" style="background-color: grey;"></td>
-					<td id="terraceTitle" style="background-color: grey;"></td>
+					<td rowspan="3" id="whiteBoard" style="background-color: grey;">
+						<canvas height="1000" width="900" id="mycanvas" ></canvas>
+					</td>
+					<td rowspan="3" height="500" id="canvasTools" style="background-color: grey;">
+						<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br>
+						<input type="color" onchange="javascript:colorPicker()" id="lineColor"><br>
+						<a href="javascript:canvasUndo()"><img src="image/canvasUndo.png"></a><br>
+						<a href="javascript:canvasER()"><img src="image/canvasEraser.png" width="24" height="24"></a><br>
+						<a href="javascript:canvasRect()"><img src="image/canvasRect.png"></a><br>
+						<a href="javascript:canvasLine()"><img src="image/canvasLine.png"></a>
+						<a href=""></a><br>
+										<br>
+						<a href=""></a>
+					</td>
+					<td  colspan="2" id="terraceTitle" style="background-color: grey; height:24px; width: 24px;"></td>
 				</tr>
 				<tr>
-					<td id="terraceChat" style="background-color: grey;"></td>
+					<td colspan="2" id="terraceChat" style="background-color: grey; width:400px; ">
+						
+							<div id="chat-container" style="overflow-y: auto; height: 400px;">
+						        <div id="file-container"></div>
+						        <div class="chat-output"></div>
+						    </div>
+						    <!-- <div id="videos-container"></div> -->
+						    <!-- <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
+						    <button id="open-room">Open Room</button>
+						    <button id="join-room">Join Room</button>
+						    <button id="open-or-join-room">Auto Open Or Join Room</button>
+						
+						    <br><br> -->
+						    
+						    
+						    <!-- <button id="btn-leave-room" disabled>Leave /or close the room</button> -->
+						
+						    <!-- <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div> -->
+					</td>
 				</tr>
+				<tr>
+					<td><div class="videoContainer" id="user1"></div></td>
+					<td id="terraceChatInput" style="background-color: grey; height: 100px; width:100px">
+					<button id="share-file" disabled>Share File</button>
+					<input type="text" id="input-text-chat" placeholder="Enter Text Chat">
+					</td>
+				</tr>				
 			</table>
 		</div>
 		<div id="inner_tr_VideoContainer">
 			<table class="UserVideoTR">
 				<tr>
 					<td>
-						<div class="videoContainer" id="user1"></div>
+						<!-- <div class="videoContainer" id="user1"></div> -->
 					</td>
 					<td>
 						<div class="videoContainer" id="user2"></div>				
@@ -102,9 +142,13 @@
 	
 	<!-- download js and css -->
 	
+
+
 	<script src="/js/app/adapter.js"></script>
 	<script src="/js/app/FileBufferReader.js"></script>
 	<script src="/js/app/terraceRoomJS.js"></script>
 	<script src="/js/app/getHTMLMediaElement.js"></script>
+	<input type="hidden" id="loginId" value={{loginid}}>
+	<img id="image1" src="image/myimage0.jpg" >
 </body>
 </html>

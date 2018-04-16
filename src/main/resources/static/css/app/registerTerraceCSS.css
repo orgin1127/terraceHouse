@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
-		/* The Modal (background) */
-		#myRegisterModal {
+		
+		#myTerraceRegisterModal {
 		    display: none; /* Hidden by default */
 		    position: fixed; /* Stay in place */
 		    z-index: 1; /* Sit on top */
@@ -15,7 +15,7 @@
 		}
 		
 		/* Modal Header */
-		#registerModalHeader {
+		#myTerraceRegisterModalHeader {
 		    padding: 2px 16px;
 		    background-color: #90A4AE;
 		    color: white;
@@ -23,41 +23,43 @@
 		}
 		
 		/* Modal Body */
-		#myRegisterModalBody {
+		#myTerraceRegisterModalBody {
 			padding: 2px 16px;
 			margin: auto;
 			width: 280px;
 		}
 		
 		/* Modal Footer */
-		#registerModalFooter {
+		#myTerraceRegisterModalFooter {
 		    padding: 2px 16px;
 		    background-color: #90A4AE;
+		    font: "Raleway";
 		    color: white;
 		}
 		
 		/* Modal Content */
-		#registerModalContent {
+		#myTerraceRegisterModalContent {
 		    position: relative;
 		    background-color: #fefefe;
 		    margin: auto;
 		    padding: 0;
 		    border: 1px solid #888;
 		    width: 40%;
+		    font: "Raleway";
 		    font-size: 15px;
 		    text-align: center;
 		    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 		    animation-name: registerModal;
 		    animation-duration: 0.5s
 		}
-		#registerTable {
+		#myTerraceRegisterModalTable {
 			text-align: center;
 			border: 3px Lightgrey dotted;
 		}
-		#registerForm {
+		#myTerraceRegisterModalForm {
 			padding: 0;
 			margin-right: 0px;
-			width: 270px;
+			
 		}
 		/* The Close Button */
 		.closeModal {
@@ -77,5 +79,57 @@
 		    to {top: 0; opacity: 1}
 		}
 		
+		#selectTerraceTypeRadioDiv {
+			display: flex;
+			align-items: flex-start;
+		  	margin-bottom: 5px;
+		  	width: 300px;
+		}
 		
+		label {
+		  	margin-right: 15px;
+		  	line-height: 32px;
+		}
 		
+		.terraceTypeRadioClass {
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			
+			border-radius: 50%;
+			width: 16px;
+			height: 16px;
+			
+			border: 2px solid #999;
+			transition: 0.2s all linear;
+			outline: none;
+			margin-right: 5px;
+			
+			position: relative;
+			top: 4px;
+		}
+		
+		input:checked {
+			border: 6px solid black;
+		}
+		
+		button,
+		legend {
+			color: white;
+			background-color: black;
+			padding: 5px 10px;
+			border-radius: 0;
+			border: 0;
+			font-size: 14px;
+		}
+		
+		button:hover,
+		button:focus {
+		  	color: #999;
+		}
+		
+		button:active {
+			background-color: white;
+			color: black;
+			outline: 1px solid black;
+		}

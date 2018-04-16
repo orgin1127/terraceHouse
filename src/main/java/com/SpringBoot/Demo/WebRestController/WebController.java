@@ -40,8 +40,8 @@ public class WebController {
 	}
 	
 	@GetMapping("/tr")
-	public String terraceRoom(Model model) {
-		model.addAttribute("testacc1", "testacc1");
+	public String terraceRoom(Model model, HttpSession session) {
+		model.addAttribute("loginid", session.getAttribute("loginID"));
 		return "terraceRoom";
 	}
 	
