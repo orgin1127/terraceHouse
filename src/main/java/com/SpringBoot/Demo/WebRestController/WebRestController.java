@@ -103,7 +103,7 @@ public class WebRestController {
 		System.out.println(file.getOriginalFilename()+", "+memberid+", " +terraceName);
 		try{
 			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
-			result = s3File.fileUpload(file, memberid, s3.getBucket(), terraceName);
+			result = s3File.fileUpload(file, memberid, s3.getBucket(), terraceName)+"";
 		}
 		catch (Exception e) {
 		}

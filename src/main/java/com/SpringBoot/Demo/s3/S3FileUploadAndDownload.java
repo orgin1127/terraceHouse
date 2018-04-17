@@ -50,8 +50,8 @@ public class S3FileUploadAndDownload {
     }
 	
 	//Upload File to AWS S3
-	public String fileUpload(MultipartFile file,String memberid,String bucketName, String terraceName) throws FileNotFoundException {
-		String putResult = "";
+	public int fileUpload(MultipartFile file,String memberid,String bucketName, String terraceName) throws FileNotFoundException {
+		int putResult = 0;
 		try {
 			File f = convertMultiPartToFile(file);
 			String fileName = generateFileName(file);
@@ -78,8 +78,9 @@ public class S3FileUploadAndDownload {
 			}
 			f.delete();
 			if (result != null) {
-				putResult = "ok";
+				putResult = pages;
 			}
+			
 	     } 
 		 catch (Exception e) {
 			 e.printStackTrace();
