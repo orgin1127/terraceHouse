@@ -44,6 +44,7 @@ public class WebController {
 	@GetMapping("/tr")
 	public String terraceRoom(Model model, HttpSession session) {
 		model.addAttribute("loginid", session.getAttribute("loginID"));
+		model.addAttribute("terraceName", "testingTerrace");
 		return "terraceRoom";
 	}
 	

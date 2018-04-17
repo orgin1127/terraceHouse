@@ -95,8 +95,23 @@ public class WebRestController {
 				.orElse("");
 	}
 
-	@GetMapping("/uploadPDF")
-	public String uploadPDF(@RequestParam("file") MultipartFile file, @RequestParam("loginid") String memberid) {
+	@PostMapping("/uploadPDF")
+	public String uploadPDF(@RequestParam("file") MultipartFile file
+							, @RequestParam("loginId") String memberid
+							, @RequestParam("terraceName") String terraceName) {
+		String result = "";
+		System.out.println(file.getOriginalFilename()+", "+memberid+", " +terraceName);
+		try{
+			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
+			result = s3File.fileUpload(file, memberid, s3.getBucket(), terraceName);
+		}
+		catch (Exception e) {
+		}
+		return result;
+	}
+	
+	@GetMapping("/loadPDF")
+	public String loadPDF(){
 		return "";
 	}
 }

@@ -533,9 +533,9 @@ function UploadtoServer(){
 	$.ajax({
 		
 		url:'uploadPDF',
-		type: 'get',
+		type: 'post',
         enctype: 'multipart/form-data',
-        data: formdata,
+        data: formData,
         //http://api.jquery.com/jQuery.ajax/
         //https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
         processData: false, //prevent jQuery from automatically transforming the data into a query string
@@ -543,9 +543,10 @@ function UploadtoServer(){
         cache: false,
         timeout: 600000,
         success: function (data) {
-
-           console.log('성공');
-
+        	if(data != '') {
+        		console.log('success');
+        		loadPDF();
+        	}
         },
         error: function (e) {
 
@@ -556,7 +557,9 @@ function UploadtoServer(){
 	});
 	
 }
-
+function loadPDF() {
+	
+}
 function canvasBlackBoard(){
 	
 	window.open('myBlackBoard','myBlackBoard','top=50,left=600,width=800,height=750');

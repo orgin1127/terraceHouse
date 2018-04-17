@@ -6,7 +6,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 <script src="/js/lib/jquery.min.js"></script> 
-<script type="text/javascript" src="jquery.form.min.js"></script>
+<!-- <script type="text/javascript" src="jquery.form.min.js"></script> -->
 <script src="/js/lib/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/app/getHTMLMediaElement.css">
 <style>
@@ -82,8 +82,9 @@ window.enableAdapter = true;
 					</td>
 					<td rowspan="3" height="500" id="canvasTools" style="background-color: grey;">
 						<form id="uploadForm">
-							<input type="hidden" id="loginId" value="${{loginid}}">
-							<input type="file" id="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data">
+							<input type="hidden" id="loginId" name="loginId" value="{{loginid}}">
+							<input type="hidden" id="terraceName" name="terraceName" value="{{terraceName}}">
+							<input type="file" id="file" name="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data">
 						</form>
 						<a href="javascript:canvasUpload()"><img src="image/canvasUpload.png" width="24" height="24"></a><br>
 						<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br>
@@ -95,7 +96,7 @@ window.enableAdapter = true;
 						<a href="javascript:canvasBlackBoard()"><img src="image/canvasBlackBoard.png"></a><br>
 						
 					</td>
-					<td  colspan="2" id="terraceTitle" style="background-color: grey; height:24px; width: 24px;"></td>
+					<td colspan="2" id="terraceTitle" style="background-color: grey; height:24px; width: 24px;">{{terraceName}}</td>
 				</tr>
 				<tr>
 					<td colspan="2" id="terraceChat" style="background-color: grey; width:400px; ">
@@ -159,7 +160,7 @@ window.enableAdapter = true;
 	<script src="/js/app/FileBufferReader.js"></script>
 	<script src="/js/app/terraceRoomJS.js"></script>
 	<script src="/js/app/getHTMLMediaElement.js"></script>
-	<input type="hidden" id="loginId" value="loginId">
+	<input type="hidden" id="loginId" value="{{loginid}}">
 	
 </body>
 </html>

@@ -38,6 +38,19 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+	compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.8'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox
+	compile group: 'org.apache.pdfbox', name: 'fontbox', version: '2.0.1'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/jempbox
+	compile group: 'org.apache.pdfbox', name: 'jempbox', version: '1.8.12'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/xmpbox
+	compile group: 'org.apache.pdfbox', name: 'xmpbox', version: '2.0.0'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/preflight
+	//provided group: 'org.apache.pdfbox', name: 'preflight', version: '2.0.0'
+	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools
+	compile group: 'org.apache.pdfbox', name: 'pdfbox-tools', version: '2.0.8'
+	
 	
 	compile("org.mariadb.jdbc:mariadb-java-client")
     compile("org.springframework.boot:spring-boot-starter-mail")
