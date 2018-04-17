@@ -4,6 +4,7 @@
  */
 var connection = new RTCMultiConnection();
 
+
 //캔버스 관련
 var canvas;
 var imageOnly;
@@ -20,15 +21,13 @@ var loginId; //임시로 사용할 ID
 var drawMode = 'pen';
 var eraserSize = 15;
 var lineAct = false;
-
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
+
 // this line is VERY_important
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-connection.enableFileSharing = true;
-//참가자 수
-connection.maxParticipantsAllowed = 3;
+
 // all below lines are optional; however recommended.
 
 connection.session = {
@@ -78,6 +77,7 @@ window.onload = start();
 
 function start(){		
 	
+
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
@@ -85,11 +85,12 @@ function start(){
 	img = document.getElementById('image1');
 	imagePaste.drawImage(img,0,0);
 	
+
 	ctx.lineCap="round";
 	//캔버스위를 클릭 시 이벤트
 	canvas.onmousedown = function(e) {
 		
-		
+
 		loginId = document.getElementById('loginId').value;
 		id = loginId;
 		e.preventDefault();
@@ -117,8 +118,8 @@ function start(){
 		if (drawMode == 'rectangle'){
 			firstX = sx;
 			firstY = sy;
-		}
-		
+		}		
+
 		if (drawMode == 'line'){
 			if (!(lineAct)){
 			firstX = sx;
@@ -149,13 +150,16 @@ function start(){
 			lines[canvasLineCnt][1] = sy;
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][5] = lineColor;
+
 			canvasLineCnt++;
 			
 			var location = {};
 		    location.x = sx;
 		    location.y = sy;
 		    location.id = id;
+
 		    location.color = lineColor;
+
 		    location.mode = 'draw';
 		    connection.send(JSON.stringify(location));
 			 
@@ -167,13 +171,17 @@ function start(){
 			lines[canvasLineCnt][0] = sx;
 			lines[canvasLineCnt][1] = sy;
 			lines[canvasLineCnt][2] = id;
+
 			lines[canvasLineCnt][5] = lineColor;
+
 			canvasLineCnt++;
 			
 			location.x = sx;
 		    location.y = sy;
 		    location.id = id;
+
 		    location.color = lineColor;
+
 		    location.mode = 'draw';
 		    connection.send(JSON.stringify(location));
 			
@@ -210,7 +218,9 @@ function start(){
 			if (drawMode == 'rectangle'){
 						
 				redraw();
+
 				ctx.strokeStyle=lineColor;
+
 				ctx.moveTo(sx,sy);
 				ctx.lineTo(canvasX(e.clientX),sy);
 				ctx.moveTo(canvasX(e.clientX),sy);
@@ -222,6 +232,7 @@ function start(){
 				ctx.stroke();	
 				
 			}
+
 			if (drawMode == 'line'){
 				
 				if (lineAct)
@@ -235,9 +246,7 @@ function start(){
 					ctx.stroke();
 				}
 								
-			}
-			
-			
+			}			
 		}
 		
 	};
@@ -245,8 +254,8 @@ function start(){
 	//버튼에서 손을 땠을 때
 	canvas.onmouseup = function(e) {
 		
-		drawing = false;
-		
+		drawing = false;		
+
 		if (drawMode == 'rectangle'){
 			lastX = canvasX(e.clientX);
 			lastY = canvasY(e.clientY);
@@ -300,7 +309,7 @@ function start(){
 	    lines[canvasLineCnt][1] = sy;
 	    lines[canvasLineCnt][2] = 'none';
 	   /* lines[canvasLineCnt][3] = cPage;*/
-	    
+
 	    canvasLineCnt++;
 	    
 	    var location = {};
@@ -311,6 +320,7 @@ function start(){
 	    connection.send(JSON.stringify(location));
 	};
 	
+
 	//채팅 관련 
 	chatInputArea.onkeyup = function(e) {
 		
@@ -327,6 +337,7 @@ function start(){
 	    appendDIV(this.value);
 	    this.value = '';
 	};
+
 	
 };
 connection.onmessage = function(event){
@@ -339,13 +350,16 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][1] = drawData.y;
 		lines[canvasLineCnt][2] = drawData.id;
 		lines[canvasLineCnt][5] = drawData.color;
+
 		canvasLineCnt++;
 	}
 	
 	if (drawData.mode == 'undo'){
 		var i = drawData.i;
 		lines.splice(i-1,1);
+
 		canvasLineCnt = lines.length;
+
 	}
 	
 	if (drawData.mode == 'eraser'){
@@ -357,6 +371,9 @@ connection.onmessage = function(event){
 		lines.splice(i+2,1);
 		canvasLineCnt = lines.length;		
 	}
+
+	redraw();
+
 	if (drawData.mode == 'rectangle'){
 		
 		var firstX = drawData.firstX;
@@ -390,6 +407,7 @@ connection.onmessage = function(event){
 		
 		appendDIV(drawData.text);		
 	}
+
 };
 //실행취소 버튼
 function canvasUndo(){
@@ -420,7 +438,9 @@ function canvasUndo(){
 	   canvasLineCnt = lines.length;		
 };
 
+
 function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
+
 	
 	var fX = firstX;
 	var fY = firstY;
@@ -428,6 +448,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	var lY = lastY;		
 	var idd = id;
 	var rectColor = rectC;
+	
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
 	lines[canvasLineCnt][1] = fY;
@@ -435,6 +456,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	/*lines[canvasLineCnt][3] = cPage;*/
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = lX;
@@ -443,6 +465,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	/*lines[canvasLineCnt][3] = cPage;*/
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = lX;
@@ -451,6 +474,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	/*lines[canvasLineCnt][3] = cPage;*/
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
@@ -459,6 +483,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	/*lines[canvasLineCnt][3] = cPage;*/
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+
 	canvasLineCnt++; 
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
@@ -468,6 +493,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 	canvasLineCnt++;	
+
 	
 	redraw();
 	
@@ -489,6 +515,7 @@ function canvasRect(){
 	return;
 }
 
+
 function canvasLine(){
 	drawMode = 'line';
 	return;
@@ -501,7 +528,38 @@ function canvasUpload(){
 
 function UploadtoServer(){
 	var form = document.getElementById('uploadForm');
-	form.submit();	
+	var formData = new FormData(form);
+	
+	$.ajax({
+		
+		url:'uploadPDF',
+		type: 'get',
+        enctype: 'multipart/form-data',
+        data: formdata,
+        //http://api.jquery.com/jQuery.ajax/
+        //https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+        processData: false, //prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        cache: false,
+        timeout: 600000,
+        success: function (data) {
+
+           console.log('성공');
+
+        },
+        error: function (e) {
+
+           console.log('실패');
+
+        }
+		
+	});
+	
+}
+
+function canvasBlackBoard(){
+	
+	window.open('myBlackBoard','myBlackBoard','top=50,left=600,width=800,height=750');
 }
 
 //선 배열대로 캔버스에 그리는 펑션
@@ -509,9 +567,9 @@ function redraw(){
 	
 	canvas = document.getElementById('mycanvas');
 	ctx = canvas.getContext('2d');
+
 	canvas.setAttribute("width","500px");
 	canvas.setAttribute("height","800px");
-	
 	
 	ctx.lineCap="round";
 	
@@ -531,6 +589,7 @@ function redraw(){
 	}		
 	return;		
 }
+
 function colorPicker(){
 	var colorCode = document.getElementById('lineColor').value;
 	lineColor = colorCode;
@@ -556,6 +615,5 @@ function appendDIV(event) {
     chatContainer.insertBefore(div, /*chatContainer.lastChild*/null);
     div.tabIndex = 0;
     div.focus();
-
     document.getElementById('input-text-chat').focus();
-}
+};

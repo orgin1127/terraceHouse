@@ -70,9 +70,10 @@ public class WebController {
 		session.invalidate();
 		return "/";
 	}
-	
-	public String uploadPDF(MultipartFile file){
-		return "";
+	@GetMapping("myBlackBoard")
+	public String blackBoard(){
+		
+		return "myBlackBoard";
 	}
 	
 }

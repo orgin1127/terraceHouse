@@ -1,20 +1,29 @@
 package com.SpringBoot.Demo.WebRestController;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
+import com.SpringBoot.Demo.s3.S3Util;
 
 import lombok.AllArgsConstructor;
 
@@ -31,6 +40,9 @@ public class WebRestController {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+	
+	@Autowired
+	S3Util s3;
 	
 	@GetMapping("/hello")
 	public String helloController(){
@@ -83,5 +95,8 @@ public class WebRestController {
 				.orElse("");
 	}
 
-	
+	@GetMapping("/uploadPDF")
+	public String uploadPDF(@RequestParam("file") MultipartFile file, @RequestParam("loginid") String memberid) {
+		return "";
+	}
 }
