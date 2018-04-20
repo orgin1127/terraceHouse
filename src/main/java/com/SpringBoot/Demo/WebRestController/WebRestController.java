@@ -21,7 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.Service.RegularTerraceService;
+import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.RegularTerraceSaveRequestDto;
+import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
 
@@ -35,9 +39,8 @@ import lombok.AllArgsConstructor;
 public class WebRestController {
 	
 	private Environment environment;
-	
+	private TerraceRoomService terraceRoomService;
 	private MemberService memberService;
-	
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -68,6 +71,15 @@ public class WebRestController {
 			
 		}
 		return memberService.save(dto);
+	}
+	
+	@PostMapping("/registTerraceRoom")
+	public String registTerraceRoom(TerraceRoomSaveRequestDto dto, HttpSession session){
+		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name());
+		terraceRoomService.save(dto);
+		
+		
+		return "";
 	}
 	
 	@PostMapping("/login")
@@ -114,4 +126,6 @@ public class WebRestController {
 	public String loadPDF(){
 		return "";
 	}
+	
+	
 }

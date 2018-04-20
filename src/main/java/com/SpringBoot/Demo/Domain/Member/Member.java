@@ -37,7 +37,7 @@ public class Member {
 	
 	public Member() {
 	}
-
+	
 	@Builder
 	public Member(String memberid, String memberpw, String member_email, String member_name){
 		this.memberid = memberid;

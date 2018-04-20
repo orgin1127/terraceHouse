@@ -72,8 +72,10 @@ public class WebController {
 		return "/";
 	}
 	@GetMapping("myBlackBoard")
-	public String blackBoard(){
+	public String blackBoard(String creator,String pages,Model model){
 		
+		model.addAttribute("creator",creator);
+		model.addAttribute("pages", pages);
 		return "myBlackBoard";
 	}
 	

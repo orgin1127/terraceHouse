@@ -22,4 +22,5 @@ public class MemberMainResponseDto {
 		member_name = member.getMember_name();
 		mail_confirmed = member.getMail_confirmed();
 	}
+	
 }

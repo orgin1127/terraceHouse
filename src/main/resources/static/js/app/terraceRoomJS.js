@@ -1,9 +1,27 @@
 /**
  * TerraceRoom JavaScript 
- * Modifi BY SEO
+ * Modifi BY SEO D
  */
 var connection = new RTCMultiConnection();
 
+//오늘 날짜
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; 
+var yyyy = today.getFullYear();
+
+if(dd<10) {
+    dd='0'+dd
+} 
+
+if(mm<10) {
+    mm='0'+mm
+} 
+
+var todayString = yyyy+''+mm+''+dd;
+//유저 관련
+var userList = new Array();
+var userCount = 0;
 
 //캔버스 관련
 var canvas;
@@ -21,6 +39,11 @@ var loginId; //임시로 사용할 ID
 var drawMode = 'pen';
 var eraserSize = 15;
 var lineAct = false;
+var endOfPage;
+var cPage = 0;
+var control = false;
+var ownerId;
+
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
@@ -56,40 +79,69 @@ connection.onstream = function(event) {
 	temp.innerHTML = '현 접속자 수 : ' + connection.getAllParticipants().length; + '<br>' + '접속자 id : ' + connection.getAllParticipants();
 	
     addDiv[num].appendChild( event.mediaElement );
+    
 };
-var predefinedRoomId = 'testing';
+var predefinedRoomId = null;
 
 document.getElementById('btn-open-room').onclick = function() {
+	predefinedRoomId = document.getElementById('loginId').value;
     this.disabled = true;
     console.log('open실행');
     connection.open( predefinedRoomId );
+    control = true;
+    ownerId = predefinedRoomId;
+    var creator = document.getElementById('creator');
+    creator.value = ownerId;
+    userList[userCount] = document.getElementById('loginId').value;
+    userCount++;
+    var userSpace = document.getElementById('userList');
+    reUserList();
 };
 
 document.getElementById('btn-join-room').onclick = function() {	
 	
+	ownerId = document.getElementById('OwnerId').value;
     this.disabled = true;
-    connection.join( predefinedRoomId );
+    connection.join( ownerId );
+    control = false;
+    var creator = document.getElementById('creator');
+    creator.value = ownerId;
 };
 
+connection.onstreamended = function(){
+	
+	var tempid = loginId;
+	var deleteID = {};
+	deleteID.mode = 'exit';
+	deleteID.id = tempid;
+	connection.send(JSON.stringify(deleteID));
+	
+};
 
 //공용 칠판 영역
 window.onload = start();
 
 function start(){		
 	
-
+	loginId = document.getElementById('loginId').value;
+	
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
 	img = document.getElementById('image1');
-	imagePaste.drawImage(img,0,0);
-	
+	if (img != null){
+		imagePaste.drawImage(img,0,0);
+	}
 
 	ctx.lineCap="round";
 	//캔버스위를 클릭 시 이벤트
 	canvas.onmousedown = function(e) {
 		
+		if (control == false){
+			console.log('권한이 없음');
+			return;
+		}
 
 		loginId = document.getElementById('loginId').value;
 		id = loginId;
@@ -103,7 +155,7 @@ function start(){
 	    lines[canvasLineCnt][0] = sx;
 	    lines[canvasLineCnt][1] = sy;
 	    lines[canvasLineCnt][2] = 'none';
-	   /* lines[canvasLineCnt][3] = cPage;*/
+	    lines[canvasLineCnt][3] = cPage;
 	    canvasLineCnt++;		
 	    
 	    //다른 클라이언트에게 보내는 선 정보
@@ -140,6 +192,7 @@ function start(){
 	//캔버스에서 움직일 때 이벤트
 	canvas.onmousemove = function(e) {
 		
+		
 		if (drawing) {
 			e.preventDefault();			
 			
@@ -149,6 +202,7 @@ function start(){
 			lines[canvasLineCnt][0] = sx;
 			lines[canvasLineCnt][1] = sy;
 			lines[canvasLineCnt][2] = id;
+			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
 
 			canvasLineCnt++;
@@ -171,7 +225,7 @@ function start(){
 			lines[canvasLineCnt][0] = sx;
 			lines[canvasLineCnt][1] = sy;
 			lines[canvasLineCnt][2] = id;
-
+			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
 
 			canvasLineCnt++;
@@ -254,6 +308,11 @@ function start(){
 	//버튼에서 손을 땠을 때
 	canvas.onmouseup = function(e) {
 		
+		if (control == false){
+			console.log('권한이 없음');
+			return;
+		}
+		
 		drawing = false;		
 
 		if (drawMode == 'rectangle'){
@@ -280,12 +339,14 @@ function start(){
 			lines[canvasLineCnt][0] = firstX;
 			lines[canvasLineCnt][1] = firstY;
 			lines[canvasLineCnt][2] = loginId;
+			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
 			canvasLineCnt++;
 			lines[canvasLineCnt] = new Array();
 			lines[canvasLineCnt][0] = lastX;
 			lines[canvasLineCnt][1] = lastY;
 			lines[canvasLineCnt][2] = loginId;
+			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
 			canvasLineCnt++;
 			redraw();
@@ -308,7 +369,7 @@ function start(){
 	    lines[canvasLineCnt][0] = sx;
 	    lines[canvasLineCnt][1] = sy;
 	    lines[canvasLineCnt][2] = 'none';
-	   /* lines[canvasLineCnt][3] = cPage;*/
+	    lines[canvasLineCnt][3] = cPage;
 
 	    canvasLineCnt++;
 	    
@@ -340,15 +401,67 @@ function start(){
 
 	
 };
+
+connection.onopen = function(){
+	var userInfo = {};
+	userInfo.mode = 'giveMyInfo';
+	userInfo.id = loginId;
+	connection.send(JSON.stringify(userInfo));
+	
+	if (userCount == 0){
+		userList[userCount] = loginId;
+		userCount++;
+		reUserList();
+	}
+}
 connection.onmessage = function(event){
 	
 	var drawData = JSON.parse(event.data);
+	
+	if (drawData.mode == 'giveMyInfo'){
+		
+		var otherId = drawData.id;
+		for (var i = 0 ;i < userList.length;i++){
+			if (userList[i] == otherId)
+			{
+				return;
+			}
+		}
+		userList[userCount] = otherId;
+		userCount++;
+		reUserList();
+	}
+	
+	if (drawData.mode == 'succeed'){
+		
+		if (drawData.id == loginId){
+			control = true;
+		}
+	}
+	
+	if (drawData.mode == 'exit'){
+		var tempid = drawData.id;
+		for (var i = 0;i < userList.length;i++){
+			if (tempid == userList[i]){
+				 userList.splice(i,1);
+    			 userCount = userList.length;
+    			 reUserList();        			 
+    			 break;        
+			}
+		}
+		var creator = document.getElementById('creator').value;
+		if (creator == loginId){
+			control = true;
+		}
+	}
+	
 	
 	if (drawData.mode == 'draw'){		
 		lines[canvasLineCnt] = new Array();
 		lines[canvasLineCnt][0] = drawData.x;
 		lines[canvasLineCnt][1] = drawData.y;
 		lines[canvasLineCnt][2] = drawData.id;
+		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
 
 		canvasLineCnt++;
@@ -386,11 +499,12 @@ connection.onmessage = function(event){
 		rectMaker(firstX,firstY,lastX,lastY,id,rectColor);
 	}
 	if (drawData.mode == 'line'){
-		console.log('수신한 id : ' + drawData.id);
+		
 		lines[canvasLineCnt] = new Array();
 		lines[canvasLineCnt][0] = drawData.firstX;
 		lines[canvasLineCnt][1] = drawData.firstY;
 		lines[canvasLineCnt][2] = drawData.id;
+		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
 		canvasLineCnt++;
 		
@@ -398,9 +512,56 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][0] = drawData.lastX;
 		lines[canvasLineCnt][1] = drawData.lastY;
 		lines[canvasLineCnt][2] = drawData.id;
+		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
 		canvasLineCnt++;
 	}
+	
+	if (drawData.mode == 'uploadImage'){
+		
+		var imgSrc = drawData.data;
+		endOfPage = drawData.pages;
+		img = document.getElementById('image1');
+		img.src = imgSrc;
+		img.onload = function(){
+			cPage = 0;
+			imageOnly = document.getElementById('imageOnly');
+			imagePaste = imageOnly.getContext('2d');
+			imagePaste.drawImage(img,0,0);			
+		};		
+		lines = new Array();
+		cPage = 0;
+		canvasLineCnt = 0;
+	}
+	
+	if (drawData.mode == 'backwardPage'){
+		
+		cPage--;
+		
+		var imgSrc = drawData.data;
+		img = document.getElementById('image1');
+		img.src = imgSrc;
+		img.onload = function(){
+			
+			imageOnly = document.getElementById('imageOnly');
+			imagePaste = imageOnly.getContext('2d');
+			imagePaste.drawImage(img,0,0);			
+		};		
+	}
+	
+	if (drawData.mode == 'forwardPage'){
+		cPage++;
+		
+		var imgSrc = drawData.data;
+		img = document.getElementById('image1');
+		img.src = imgSrc;
+		img.onload = function(){
+			imageOnly = document.getElementById('imageOnly');
+			imagePaste = imageOnly.getContext('2d');
+			imagePaste.drawImage(img,0,0);			
+		};		
+	}
+	
 	redraw();
 	
 	if (drawData.mode == 'chat'){
@@ -419,7 +580,7 @@ function canvasUndo(){
 		   
 		   if (lines[i-1][2] == currentId){
 			   
-			   while ((lines[i-1][2] == currentId /*&& lines[i-1][3] == cPage*/)
+			   while ((lines[i-1][2] == currentId && lines[i-1][3] == cPage)
 					   || (lines[i-1][2] == currentId && lines[i-1][4] == 'rectangle')){
 				   
 				   lines.splice(i-1,1);
@@ -453,7 +614,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][0] = fX;
 	lines[canvasLineCnt][1] = fY;
 	lines[canvasLineCnt][2] = idd;
-	/*lines[canvasLineCnt][3] = cPage;*/
+	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 
@@ -462,7 +623,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][0] = lX;
 	lines[canvasLineCnt][1] = fY;
 	lines[canvasLineCnt][2] = idd;
-	/*lines[canvasLineCnt][3] = cPage;*/
+	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 
@@ -471,7 +632,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][0] = lX;
 	lines[canvasLineCnt][1] = lY;
 	lines[canvasLineCnt][2] = idd;
-	/*lines[canvasLineCnt][3] = cPage;*/
+	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 
@@ -480,7 +641,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][0] = fX;
 	lines[canvasLineCnt][1] = lY;
 	lines[canvasLineCnt][2] = idd;
-	/*lines[canvasLineCnt][3] = cPage;*/
+	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 
@@ -489,7 +650,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][0] = fX;
 	lines[canvasLineCnt][1] = fY;
 	lines[canvasLineCnt][2] = idd;
-	/*lines[canvasLineCnt][3] = cPage;*/
+	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
 	canvasLineCnt++;	
@@ -522,11 +683,23 @@ function canvasLine(){
 }
 
 function canvasUpload(){
+	
+	if (control == false){
+		console.log('권한이 없음');
+		return;
+	}
+	
 	var uploadBtn = document.getElementById('file');
 	uploadBtn.click();
 }
 
 function UploadtoServer(){
+	
+	if (control == false){
+		console.log('권한이 없음');
+		return;
+	}
+	
 	var form = document.getElementById('uploadForm');
 	var formData = new FormData(form);
 	
@@ -545,7 +718,26 @@ function UploadtoServer(){
         success: function (data) {
         	if(data != '') {
         		console.log('success');
-        		loadPDF();
+        		lines = new Array();
+        		canvasLineCnt = 0;
+        		cPage = 0;
+        		endOfPage = data;
+        		
+        		img = document.getElementById('image1');
+        		img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"image/myImage"+cPage+".png";
+        		img.onload = function(){
+        			
+        			var tempCanvas = document.getElementById('imageOnly');
+        			var tempCtx = tempCanvas.getContext('2d');
+        			tempCtx.drawImage(img,0,0);
+        			redraw();
+        			
+        			var imgData = {};
+        			imgData.data = tempCanvas.toDataURL();
+        			imgData.pages = endOfPage;
+        			imgData.mode = 'uploadImage';
+        			connection.send(JSON.stringify(imgData));        			
+        		};
         	}
         },
         error: function (e) {
@@ -557,22 +749,145 @@ function UploadtoServer(){
 	});
 	
 }
-function loadPDF() {
+
+document.getElementById('canvasDownload').addEventListener('click',
+	function(){
 	
+	var tempCanvas = document.getElementById('imageOnly');
+	var tempImage = document.getElementById('image1');
+	var tempCtx = tempCanvas.getContext('2d');
+	
+	tempCanvas.setAttribute("width","595px");
+	tempCanvas.setAttribute("height","842px");
+	
+	tempCtx.drawImage(tempImage,0,0);
+	
+	tempCtx.lineCap="round";
+	
+	for(var i = 0;i < lines.length;i++){
+		
+		if (lines[i][2] == 'none')
+		{
+			continue;
+		}
+		if (i+1 != lines.length && lines[i][3] == cPage){
+		tempCtx.strokeStyle = lines[i][5];
+		tempCtx.beginPath();
+		tempCtx.moveTo(lines[i][0],lines[i][1]);
+		tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
+		tempCtx.stroke();
+		}
+	}
+	
+	downloadCanvas(this, 'imageOnly', 'savedImg.png');
+			
+},false);
+
+function downloadCanvas(link, canvasId, filename) {
+    link.href = document.getElementById(canvasId).toDataURL();
+    link.download = filename;
+    
+    var tempCanvas = document.getElementById('imageOnly');
+	var tempImage = document.getElementById('image1');
+	var tempCtx = tempCanvas.getContext('2d');
+	
+	tempCanvas.setAttribute("width","595px");
+	tempCanvas.setAttribute("height","842px");
+	
+	tempCtx.drawImage(tempImage,0,0); 
 }
+
 function canvasBlackBoard(){
 	
-	window.open('myBlackBoard','myBlackBoard','top=50,left=600,width=800,height=750');
+	var creator = document.getElementById('creator').value;
+	console.log('creator: '+creator);
+	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage,'myBlackBoard','top=50,left=600,width=800,height=750');
+}
+
+function backwardPage(inputId){
+	var tempId;
+	
+	if (control == false){
+		console.log('권한이 없음');
+		return;
+	}
+
+	if (loginId != null)
+	{
+		tempId = inputId;
+	}
+	if (cPage > 0)
+	{
+		cPage--;
+	}
+	else{
+		alert('첫페이지입니다');
+	}
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	img = document.getElementById('image1');
+	img.src = stringURL;
+	img.onload = function(){
+		imageOnly = document.getElementById('imageOnly');
+		imagePaste = imageOnly.getContext('2d');
+		imagePaste.drawImage(img,0,0);
+		redraw();
+		
+		var imgData = {};
+		imgData.data = imageOnly.toDataURL();
+		console.log('보낸쪽' + imgData.data);
+		imgData.mode = 'backwardPage'; 		
+		connection.send(JSON.stringify(imgData));
+	};	
+	
+	
+	
+}
+
+function forwardPage(inputId){
+	var tempId;
+	
+	if (control == false){
+		console.log('권한이 없음');
+		return;
+	}
+
+	if (loginId != null)
+	{
+		tempId = inputId;
+	}
+	if (cPage < endOfPage)
+	{
+		cPage++;
+	}
+	else{
+		alert('마지막 페이지입니다');
+	}
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	img = document.getElementById('image1');
+	img.src = stringURL;
+	img.onload = function(){
+		imageOnly = document.getElementById('imageOnly');
+		imagePaste = imageOnly.getContext('2d');
+		imagePaste.drawImage(img,0,0);
+		redraw();
+		
+		var imgData = {};
+		imgData.data = imageOnly.toDataURL();
+		console.log('보낸쪽' + imgData.data);
+		imgData.mode = 'forwardPage'; 		
+		connection.send(JSON.stringify(imgData));
+	};	
 }
 
 //선 배열대로 캔버스에 그리는 펑션
 function redraw(){
 	
+	
 	canvas = document.getElementById('mycanvas');
 	ctx = canvas.getContext('2d');
 
-	canvas.setAttribute("width","500px");
-	canvas.setAttribute("height","800px");
+	canvas.setAttribute("width","595px");
+	canvas.setAttribute("height","842px");
 	
 	ctx.lineCap="round";
 	
@@ -582,7 +897,8 @@ function redraw(){
 		{
 			continue;
 		}
-		if (i+1 != lines.length /*&& lines[i][3] == cPage*/){
+		if (i+1 != lines.length && lines[i][3] == cPage){
+			console.log('현재페이지: '+cPage);
 		ctx.strokeStyle = lines[i][5];
 		ctx.beginPath();
 		ctx.moveTo(lines[i][0],lines[i][1]);
@@ -610,6 +926,39 @@ function canvasY(clientY) {
 	var bw = 5;
 	return (clientY - bound.top - bw) * (canvas.height / (bound.height - bw * 2));
 };
+
+//유저 리스트
+function reUserList(){
+	var userSpace = document.getElementById('userList');
+	var listCode = '';
+		listCode += '<select id ="ruler">';
+		for (var i = 0; i < userList.length ;i++){
+			
+			listCode += '<option value ="';
+			listCode += userList[i];
+			listCode += '">'+userList[i]+'</option>"'; 			
+		}
+		listCode += '</select>';
+		var pSpace = document.getElementById('userList');
+		userSpace.innerHTML = '';
+		userSpace.innerHTML = listCode;	
+}
+
+//권한 넘기기
+function power(){
+	var selectedID;
+	if (control){
+		var selectedID = document.getElementById('ruler').value;
+		console.log(selectedID);
+		var succeed = {};
+		succeed.id = selectedID;
+		succeed.mode = 'succeed';
+		connection.send(JSON.stringify(succeed));
+	}
+	control = false;
+	var creator = document.getElementById('creator');
+	creator.value = selectedId;
+}
 
 //채팅 관련
 function appendDIV(event) {

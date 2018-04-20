@@ -37,5 +37,7 @@ public class MemberSaveRequestDto {
 						.member_name(member_name)
 						.build();
 	}
+	
+	
 		
 }

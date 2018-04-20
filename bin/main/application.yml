@@ -36,7 +36,8 @@ server:
 --- 
 spring.profiles: set1
 spring.profiles.include: real-db
-
+spring.http.multipart.maxFileSize: 5242880
+spring.http.multipart.maxRequestSize: 5242880
 server: 
   port: 8889
   
