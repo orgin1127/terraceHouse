@@ -22,5 +22,11 @@ public class MemberMainResponseDto {
 		member_name = member.getMember_name();
 		mail_confirmed = member.getMail_confirmed();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "MemberMainResponseDto [member_number=" + member_number + ", memberid=" + memberid + ", memberpw="
+				+ memberpw + ", member_email=" + member_email + ", member_name=" + member_name + ", mail_confirmed="
+				+ mail_confirmed + "]";
+	}
 }

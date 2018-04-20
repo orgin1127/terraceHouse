@@ -45,4 +45,13 @@ public class Member {
 		this.member_email = member_email;
 		this.member_name = member_name;
 	}
+
+	@Override
+	public String toString() {
+		return "Member [member_number=" + member_number + ", memberid=" + memberid + ", memberpw=" + memberpw
+				+ ", member_email=" + member_email + ", member_name=" + member_name + ", mail_confirmed="
+				+ mail_confirmed + "]";
+	}
+	
+	
 }

@@ -31,7 +31,7 @@ public class TerraceRoom {
 	@Column(nullable = false)
 	private int terrace_room_mop;
 	
-	@Column(columnDefinition = "atetime default now()")
+	@Column(columnDefinition = "datetime default now()")
 	private String create_date;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

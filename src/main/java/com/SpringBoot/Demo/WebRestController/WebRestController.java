@@ -24,6 +24,7 @@ import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.RegularTerraceService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
+import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.RegularTerraceSaveRequestDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
@@ -75,20 +76,21 @@ public class WebRestController {
 	}
 	
 	@PostMapping("/registTerraceRoom")
-	public String registTerraceRoom(TerraceRoomSaveRequestDto dto, HttpSession session){
+	public String registTerraceRoom(@RequestBody TerraceRoomSaveRequestDto dto, HttpSession session){
 		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
-		//Long member_number = session.getAttribute("")
-		MemberSaveRequestDto m = (MemberSaveRequestDto) session.getAttribute("loginedMember");
-		dto.setMember(m.toEntity());
-		terraceRoomService.save(dto);
+		
+		Member m = (Member) session.getAttribute("loginedMember");
+		System.out.println(m.toString());
+		
+		terraceRoomService.save(dto, m);
 		
 		
-		return "";
+		return terraceRoomService.findAllAsc().toString();
 	}
 	
 	@PostMapping("/login")
 	public String login(@RequestBody MemberSaveRequestDto dto, HttpSession session){
-		MemberSaveRequestDto loginedM = memberService.findByIdAndPw(dto);
+		Member loginedM = memberService.findByIdAndPw(dto);
 		String result = "";
 		if (loginedM != null){
 			if(loginedM.getMail_confirmed().equals("y")){

@@ -46,7 +46,7 @@ $(document).ready(function() {
 			else if(radioValue == "URterrace"){
 				var content = '';
 				content += '<div id="URterraceInfoDiv"><form>';
-				content += '<p><select id="urTerraceMop">';
+				content += '<p><select id="terraceMop">';
 				content += '<option value="2">2</option>';
 				content +=	'<option value="3">3</option>';
 				content +=	'<option value="4">4</option>';
@@ -62,10 +62,26 @@ $(document).ready(function() {
 });
 
 function regiTerraceRoom() {
-	var terrace_name = $('#terraceName').val();
-	if (terrace_name != ''){
+	var terrace_room_name = $('#terraceName').val();
+	var terrace_room_mop = $('#terraceMop option:selected').val();
+	var dto = {terrace_room_name: terrace_room_name, terrace_room_mop: terrace_room_mop};
+	
+	if (terrace_room_name != ''){
 		alert('js 작동');
-		
+		$.ajax({
+			url: 'registTerraceRoom',
+			type: 'post',
+			data: JSON.stringify(dto),
+			dataType: 'JSON',
+			contentType:'application/json; charset=utf-8',
+			success: function(result) {
+				alert('방 등록 성공');
+				console.log(result);
+			}
+		, error: function(e) {
+			alert(JSON.stringify(e));
+		}
+		});
 	}
 }
 
