@@ -718,6 +718,7 @@ function UploadtoServer(){
         success: function (data) {
         	if(data != '') {
         		console.log('success');
+        		console.log(data);
         		lines = new Array();
         		canvasLineCnt = 0;
         		cPage = 0;

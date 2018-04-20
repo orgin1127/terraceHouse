@@ -63,7 +63,7 @@ public class S3FileUploadAndDownload {
 			PDFRenderer renderer = new PDFRenderer(doc);
 			pages = doc.getNumberOfPages();
 			ArrayList<File> imgs = new ArrayList<>();
-			for (int i = 0 ; i <= pages ; i++) {
+			for (int i = 0 ; i < pages ; i++) {
 				BufferedImage image = renderer.renderImage(i);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				ImageIO.write(image, "png", os);

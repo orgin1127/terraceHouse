@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.RegularTerraceService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
@@ -76,6 +77,10 @@ public class WebRestController {
 	@PostMapping("/registTerraceRoom")
 	public String registTerraceRoom(TerraceRoomSaveRequestDto dto, HttpSession session){
 		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
+		//Long member_number = session.getAttribute("")
+		MemberSaveRequestDto m;
+		m.setMemberid(memberid);
+		dto.setMember(member);
 		terraceRoomService.save(dto);
 		
 		
