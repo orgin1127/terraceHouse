@@ -75,7 +75,7 @@ public class WebRestController {
 	
 	@PostMapping("/registTerraceRoom")
 	public String registTerraceRoom(TerraceRoomSaveRequestDto dto, HttpSession session){
-		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name());
+		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
 		terraceRoomService.save(dto);
 		
 		

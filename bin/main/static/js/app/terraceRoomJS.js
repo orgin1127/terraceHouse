@@ -722,7 +722,7 @@ function UploadtoServer(){
         		canvasLineCnt = 0;
         		cPage = 0;
         		endOfPage = data;
-        		
+        		console.log('마지막 페이지:' + endOfPage);
         		img = document.getElementById('image1');
         		img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"image/myImage"+cPage+".png";
         		img.onload = function(){
@@ -822,6 +822,7 @@ function backwardPage(inputId){
 	}
 	else{
 		alert('첫페이지입니다');
+		return;
 	}
 	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
@@ -860,7 +861,9 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	else{
+		console.log('끝페이지 : '+endOfPage);
 		alert('마지막 페이지입니다');
+		return;
 	}
 	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
