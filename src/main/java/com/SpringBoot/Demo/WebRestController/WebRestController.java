@@ -78,9 +78,8 @@ public class WebRestController {
 	public String registTerraceRoom(TerraceRoomSaveRequestDto dto, HttpSession session){
 		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
 		//Long member_number = session.getAttribute("")
-		MemberSaveRequestDto m;
-		m.setMemberid(memberid);
-		dto.setMember(member);
+		MemberSaveRequestDto m = (MemberSaveRequestDto) session.getAttribute("loginedMember");
+		dto.setMember(m.toEntity());
 		terraceRoomService.save(dto);
 		
 		
