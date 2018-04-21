@@ -18,6 +18,9 @@ public class TerraceRoomSaveRequestDto {
 	private Long terrace_room_number;
 	private String terrace_room_name;
 	private int terrace_room_mop;
+	private String original_file_name;
+	private String saved_file_path;
+	private String shared_file_path;
 	private String create_date;
 	private Member member;
 	

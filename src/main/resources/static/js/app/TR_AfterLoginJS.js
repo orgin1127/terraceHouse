@@ -75,8 +75,10 @@ function regiTerraceRoom() {
 			dataType: 'JSON',
 			contentType:'application/json; charset=utf-8',
 			success: function(result) {
-				alert('방 등록 성공');
-				console.log(result);
+				if(result != 0){
+					alert('방 등록 성공');
+					location.href="/tr?terrace_room_number="+result
+				}
 			}
 		, error: function(e) {
 			alert(JSON.stringify(e));

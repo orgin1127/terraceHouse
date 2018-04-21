@@ -22,11 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Service.MemberService;
-import com.SpringBoot.Demo.Service.RegularTerraceService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
-import com.SpringBoot.Demo.dto.RegularTerraceSaveRequestDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
@@ -76,16 +74,15 @@ public class WebRestController {
 	}
 	
 	@PostMapping("/registTerraceRoom")
-	public String registTerraceRoom(@RequestBody TerraceRoomSaveRequestDto dto, HttpSession session){
+	public Long registTerraceRoom(@RequestBody TerraceRoomSaveRequestDto dto, HttpSession session){
 		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
 		
 		Member m = (Member) session.getAttribute("loginedMember");
 		System.out.println(m.toString());
 		
-		terraceRoomService.save(dto, m);
+		Long result = terraceRoomService.save(dto, m);
 		
-		
-		return terraceRoomService.findAllAsc().toString();
+		return result;
 	}
 	
 	@PostMapping("/login")
@@ -97,12 +94,14 @@ public class WebRestController {
 				result = "y";
 				session.setAttribute("loginedMember", loginedM);
 				session.setAttribute("loginID", loginedM.getMemberid());
+				session.setAttribute("member_number", loginedM.getMember_number());
 				session.setAttribute("loginName", loginedM.getMember_name());
 			}
 			else if(loginedM.getMail_confirmed().equals("n")){
 				result = "n";
 			}
 		}
+		System.out.println(session.getAttribute("member_number"));
 		return result;
 	}
 	

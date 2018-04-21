@@ -4,16 +4,26 @@ package com.SpringBoot.Demo.WebRestController;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.JoinRoomMember.JoinRoomMember;
+import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
+import com.SpringBoot.Demo.Service.JoinRoomMemberService;
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.Service.TerraceRoomService;
+import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
+import com.SpringBoot.Demo.dto.JoinRoomMemberSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
 
@@ -25,6 +35,8 @@ public class WebController {
 	
 	
 	private MemberService memberService;
+	private TerraceRoomService terraceRoomService;
+	private JoinRoomMemberService joinRoomMemberService;
 	
 	@Autowired
 	S3Util s3;
@@ -42,9 +54,18 @@ public class WebController {
 	}
 	
 	@GetMapping("/tr")
-	public String terraceRoom(Model model, HttpSession session) {
+	public String terraceRoom(Long terrace_room_number,Model model, HttpSession session) {
 		model.addAttribute("loginid", session.getAttribute("loginID"));
-		model.addAttribute("terraceName", "testingTerrace");
+		System.out.println(terrace_room_number);
+		TerraceRoom tr = terraceRoomService.findOneByTerraceRoomNumber(terrace_room_number);
+		model.addAttribute("terraceName", tr.getTerrace_room_name());
+		model.addAttribute("terraceInfo",tr);
+		JoinRoomMemberSaveRequestDto dto = new JoinRoomMemberSaveRequestDto();
+		dto.setMember((Member)session.getAttribute("loginedMember"));
+		dto.setTerraceRoom(tr);
+		Long result = joinRoomMemberService.save(dto);
+		System.out.println(result);
+		
 		return "terraceRoom";
 	}
 	
@@ -77,6 +98,15 @@ public class WebController {
 		model.addAttribute("creator",creator);
 		model.addAttribute("pages", pages);
 		return "myBlackBoard";
+	}
+	
+	@GetMapping("/myFiles")
+	public String myFiles(HttpSession session, Model model){
+		
+		Long l = (Long)session.getAttribute("member_number");
+		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
+		model.addAttribute("jrm", list.toString());
+		return "willDelete";
 	}
 	
 }

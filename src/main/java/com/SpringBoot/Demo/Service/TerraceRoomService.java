@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.Member.MemberRepository;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoomRepository;
 import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
@@ -22,9 +23,9 @@ public class TerraceRoomService {
 	private MemberRepository memberRepository;
 	
 	@Transactional
-	public void save(TerraceRoomSaveRequestDto dto, Member m){
+	public Long save(TerraceRoomSaveRequestDto dto, Member m){
 		dto.setMember(memberRepository.findOne(m.getMember_number()));
-		terraceRoomRepository.save(dto.toEntity());
+		return terraceRoomRepository.save(dto.toEntity()).getTerrace_room_number();
 	}
 	
 	@Transactional(readOnly = true)
@@ -32,6 +33,11 @@ public class TerraceRoomService {
 		return terraceRoomRepository.findAllAsc()
 				.map(TerraceRoomMainResponseDto::new)
 				.collect(Collectors.toList()); 
+	}
+	
+	@Transactional(readOnly = true)
+	public TerraceRoom findOneByTerraceRoomNumber(Long terrace_room_number){
+		return terraceRoomRepository.findOne(terrace_room_number);
 	}
 
 }
