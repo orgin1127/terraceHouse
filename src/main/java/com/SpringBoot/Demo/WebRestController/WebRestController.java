@@ -1,12 +1,22 @@
 package com.SpringBoot.Demo.WebRestController;
 
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Base64;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpHeaders;
@@ -127,8 +137,115 @@ public class WebRestController {
 		return result;
 	}
 	
-	@GetMapping("/loadPDF")
-	public String loadPDF(){
+	@PostMapping("/makePDF")
+	public String loadPDF(@RequestParam("imageArray") String[] imageArray){
+		//받은 배열을 저장
+		String[] imgArray = imageArray;
+		//그 배열로 이미지를 생성할 변수
+		BufferedImage image = null;
+		byte[] bytimage;
+		//새 PDF 생성
+		PDDocument doc = new PDDocument();
+		//페이지 갯수 만큼
+		for (int i = 0; i < imgArray.length ; i++){
+			bytimage = Base64.getDecoder().decode(imgArray[i].substring("data:image/png;base64,".length()));
+			ByteArrayInputStream bis = new ByteArrayInputStream(bytimage);
+			
+			try
+			{
+				image = ImageIO.read(bis);
+				bis.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}			
+			//새 페이지 생성
+			PDPage page = new PDPage(new PDRectangle(595, 842));
+						
+			try
+			{
+				doc.addPage(page);
+				PDPageContentStream cs = new PDPageContentStream(doc, page);
+				PDImageXObject pio = JPEGFactory.createFromImage(doc, image);
+				//새 페이지에 그림을 붙여넣음
+				cs.drawImage(pio, 0, 0);
+				cs.close();
+				//이름을 myPDF로
+				doc.save("myPDF.pdf");
+				
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		try
+		{
+			//페이지를 다 집어넣고 나서 문서를 닫음
+			doc.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+				
+		return "";
+	}
+	
+	@PostMapping("/makePersonalPDF")
+	public String makePersonalPDF(@RequestParam("imageArray") String[] imageArray){
+		//받은 배열을 저장
+		String[] imgArray = imageArray;
+		//그 배열로 이미지를 생성할 변수
+		BufferedImage image = null;
+		byte[] bytimage;
+		//새 PDF 생성
+		PDDocument doc = new PDDocument();
+		//페이지 갯수 만큼
+		for (int i = 0; i < imgArray.length ; i++){
+			bytimage = Base64.getDecoder().decode(imgArray[i].substring("data:image/png;base64,".length()));
+			ByteArrayInputStream bis = new ByteArrayInputStream(bytimage);
+			
+			try
+			{
+				image = ImageIO.read(bis);
+				bis.close();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}			
+			//새 페이지 생성
+			PDPage page = new PDPage(new PDRectangle(595, 842));
+						
+			try
+			{
+				doc.addPage(page);
+				PDPageContentStream cs = new PDPageContentStream(doc, page);
+				PDImageXObject pio = JPEGFactory.createFromImage(doc, image);
+				//새 페이지에 그림을 붙여넣음
+				cs.drawImage(pio, 0, 0);
+				cs.close();
+				//이름을 myPDF로
+				doc.save("personalPDF.pdf");
+				
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		try
+		{
+			//페이지를 다 집어넣고 나서 문서를 닫음
+			doc.close();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+				
 		return "";
 	}
 	

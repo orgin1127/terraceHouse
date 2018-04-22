@@ -33,4 +33,10 @@ public class JoinRoomMemberSaveRequestDto {
 								.build();
 	}
 
+	@Override
+	public String toString() {
+		return "JoinRoomMemberSaveRequestDto [join_number=" + join_number + ", member=" + member + ", terraceRoom="
+				+ terraceRoom + "]";
+	}
+
 }

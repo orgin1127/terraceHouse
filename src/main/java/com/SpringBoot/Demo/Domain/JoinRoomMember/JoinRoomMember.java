@@ -41,5 +41,11 @@ public class JoinRoomMember {
 		this.join_member_number = member;
 		this.join_terrace_room_number = terraceRoom;
 	}
-		
+
+	@Override
+	public String toString() {
+		return "JoinRoomMember [join_number=" + join_number + ", join_member_number=" + join_member_number
+				+ ", join_terrace_room_number=" + join_terrace_room_number + "]";
+	}
+	
 }

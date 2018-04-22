@@ -26,6 +26,6 @@ public class JoinRoomMemberMainResponseDto {
 		return "JoinRoomMemberMainResponseDto [join_number=" + join_number + ", member=" + member + ", terraceRoom="
 				+ terraceRoom + "]";
 	}
-	
+
 	
 }

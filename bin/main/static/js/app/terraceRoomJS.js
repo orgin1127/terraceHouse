@@ -2,6 +2,8 @@
  * TerraceRoom JavaScript 
  * Modifi BY SEO D
  */
+window.enableAdapter = true;
+
 var connection = new RTCMultiConnection();
 
 //오늘 날짜
@@ -43,7 +45,7 @@ var endOfPage;
 var cPage = 0;
 var control = false;
 var ownerId;
-
+var lwidth = 5;
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
@@ -78,9 +80,18 @@ connection.onstream = function(event) {
 	
 	temp.innerHTML = '현 접속자 수 : ' + connection.getAllParticipants().length; + '<br>' + '접속자 id : ' + connection.getAllParticipants();
 	
-    addDiv[num].appendChild( event.mediaElement );
+	
+	
+    addDiv[0].appendChild( event.mediaElement );
     
 };
+
+/*connection.onUserStatusChanged = function(event){
+	
+	var userId = event.userid;
+	
+};*/
+
 var predefinedRoomId = null;
 
 document.getElementById('btn-open-room').onclick = function() {
@@ -108,13 +119,74 @@ document.getElementById('btn-join-room').onclick = function() {
     creator.value = ownerId;
 };
 
-connection.onstreamended = function(){
+connection.onstreamended = function(event){
+	
+	var mediaElement = document.getElementById(event.streamid);
+    if (mediaElement) {
+        mediaElement.parentNode.removeChild(mediaElement);
+    }
 	
 	var tempid = loginId;
 	var deleteID = {};
 	deleteID.mode = 'exit';
 	deleteID.id = tempid;
 	connection.send(JSON.stringify(deleteID));
+	
+};
+
+document.getElementById('btn-save-progress').onclick = function(){
+	var tempimg = document.getElementById('image1');
+	var creator = document.getElementById('creator').value;
+	var imageArray = new Array();
+	cPage = 0;
+	for (var i = 0; i < endOfPage ;i++){
+	
+		tempimg.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"image/myImage"+i+".png";
+		var tempCanvas = document.getElementById('imageOnly');
+		var tempImage = document.getElementById('image1');
+		var tempCtx = tempCanvas.getContext('2d');
+		
+		tempCanvas.setAttribute("width","595px");
+		tempCanvas.setAttribute("height","842px");
+		
+		tempCtx.drawImage(tempImage,0,0);
+		
+		tempCtx.lineCap="round";
+		tempCtx.lineWidth = lwidth;
+		for(var j = 0;j < lines.length;j++){
+			
+			if (lines[j][2] == 'none')
+			{
+				continue;
+			}
+			if (i+1 != lines.length && lines[j][3] == cPage){
+			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.beginPath();
+			tempCtx.moveTo(lines[j][0],lines[j][1]);
+			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			tempCtx.stroke();
+			}
+		
+		var strimg = tempCanvas.toDataURL('image/png');
+		imageArray[i] = strimg;
+		
+		}
+		cPage++;
+	}
+	if (imageArray[endOfPage] != ''){
+		
+		$.ajax({
+			
+			url:'makePDF',
+			type:'POST',
+			traditional: true,
+			data:{'imageArray' : imageArray},
+			
+			success:function(e){
+				console.log('보내짐');
+			}
+		});
+	}
 	
 };
 
@@ -129,6 +201,7 @@ function start(){
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
+	ctx.lineWidth = lwidth;
 	img = document.getElementById('image1');
 	if (img != null){
 		imagePaste.drawImage(img,0,0);
@@ -171,6 +244,11 @@ function start(){
 			firstX = sx;
 			firstY = sy;
 		}		
+		
+		if (drawMode == 'circle'){
+			firstX = sx;
+			firstY = sy;
+		}
 
 		if (drawMode == 'line'){
 			if (!(lineAct)){
@@ -274,7 +352,7 @@ function start(){
 				redraw();
 
 				ctx.strokeStyle=lineColor;
-
+				
 				ctx.moveTo(sx,sy);
 				ctx.lineTo(canvasX(e.clientX),sy);
 				ctx.moveTo(canvasX(e.clientX),sy);
@@ -286,6 +364,23 @@ function start(){
 				ctx.stroke();	
 				
 			}
+			
+			if (drawMode == 'circle'){
+				redraw();
+				ctx.strokeStyle = lineColor;
+				ctx.beginPath();
+				var centerX = sx + canvasX(e.clientX);
+				var centerY = sy + canvasY(e.clientY);
+//				ctx.arc((sx+canvasX(e.clientX))/2,(sy+canvasY(e.clientY))/2,Math.abs(sx - canvasX(e.clientX)),0,2 * Math.PI);
+				ctx.arc(centerX / 2 
+						,centerY / 2 
+						,Math.abs(sx > canvasX(e.clientX) ? sx - canvasX(e.clientX) : canvasX(e.clientX) - sx) > Math.abs(e.clientY > sy ? e.clientY - sy : sy - e.clientY) ? (((canvasX(e.clientX) > sx) ? (canvasX(e.clientX) - sx) : (sx - canvasX(e.clientX)))) : (((canvasY(e.clientY) > sy) ? (canvasY(e.clientY) - sy) : (sy - canvasY(e.clientY))))
+						,0
+						,2 * Math.PI);
+				ctx.stroke();
+				
+			}
+			
 
 			if (drawMode == 'line'){
 				
@@ -330,6 +425,23 @@ function start(){
 			location.color = lineColor;
 			location.mode = 'rectangle';
 			connection.send(JSON.stringify(location));
+		}
+		
+		if (drawMode == 'circle'){
+			lastX = canvasX(e.clientX);
+			lastY = canvasY(e.clientY);
+			
+			lines[canvasLineCnt] = new Array();
+			lines[canvasLineCnt][0] = firstX;
+			lines[canvasLineCnt][1] = firstY;
+			lines[canvasLineCnt][2] = loginId;
+			lines[canvasLineCnt][3] = cPage;
+			lines[canvasLineCnt][4] = 'circle';
+			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][6] = lastX;
+			lines[canvasLineCnt][7] = lastY;
+			canvasLineCnt++;
+			
 		}
 		
 		if (drawMode == 'line'){
@@ -387,7 +499,7 @@ function start(){
 		
 		if (e.keyCode != 13) return;
 	    
-	    this.value = this.value.replace(/^\s+|\s+$/g, '');
+	    this.value = loginId+' : '+this.value.replace(/^\s+|\s+$/g, '');
 	    if (!this.value.length) return;
 		
 	    var chatContent = {};
@@ -415,6 +527,12 @@ connection.onopen = function(){
 	}
 }
 connection.onmessage = function(event){
+	
+	if (event instanceof ArrayBuffer || event instanceof DataView){
+		
+		appendDIV(event);
+		return;
+	}
 	
 	var drawData = JSON.parse(event.data);
 	
@@ -568,6 +686,10 @@ connection.onmessage = function(event){
 		
 		appendDIV(drawData.text);		
 	}
+	
+	if (drawData.mode =='file'){
+		console.log('보내짐??');
+	}
 
 };
 //실행취소 버튼
@@ -676,6 +798,10 @@ function canvasRect(){
 	return;
 }
 
+function canvasCircle(){
+	drawMode = 'circle';
+	return;
+}
 
 function canvasLine(){
 	drawMode = 'line';
@@ -718,7 +844,6 @@ function UploadtoServer(){
         success: function (data) {
         	if(data != '') {
         		console.log('success');
-        		console.log(data);
         		lines = new Array();
         		canvasLineCnt = 0;
         		cPage = 0;
@@ -764,7 +889,7 @@ document.getElementById('canvasDownload').addEventListener('click',
 	tempCtx.drawImage(tempImage,0,0);
 	
 	tempCtx.lineCap="round";
-	
+	tempCtx.lineWidth = lwidth;
 	for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
@@ -836,7 +961,7 @@ function backwardPage(inputId){
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
-		console.log('보낸쪽' + imgData.data);
+		
 		imgData.mode = 'backwardPage'; 		
 		connection.send(JSON.stringify(imgData));
 	};	
@@ -877,7 +1002,7 @@ function forwardPage(inputId){
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
-		console.log('보낸쪽' + imgData.data);
+		
 		imgData.mode = 'forwardPage'; 		
 		connection.send(JSON.stringify(imgData));
 	};	
@@ -892,7 +1017,7 @@ function redraw(){
 
 	canvas.setAttribute("width","595px");
 	canvas.setAttribute("height","842px");
-	
+	ctx.lineWidth = lwidth;
 	ctx.lineCap="round";
 	
 	for(var i = 0;i < lines.length;i++){
@@ -902,9 +1027,16 @@ function redraw(){
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
-			console.log('현재페이지: '+cPage);
+			
 		ctx.strokeStyle = lines[i][5];
 		ctx.beginPath();
+		if(lines[i][4] == 'circle'){
+			/*var centerX = lines[i][0]+lines[i][6];
+			var centerY = lines[i][1]+lines[i][7];
+			ctx.arc(lines[i][0]+lines[i][],0,2 * Math.PI);
+			ctx.stroke();*/
+			
+		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
 		ctx.lineTo(lines[i+1][0],lines[i+1][1]);
 		ctx.stroke();
@@ -972,4 +1104,17 @@ function appendDIV(event) {
     div.tabIndex = 0;
     div.focus();
     document.getElementById('input-text-chat').focus();
+};
+
+//파일공유
+
+connection.enableFileSharing = true;
+connection.filesContainer = document.getElementById('file-container');
+document.getElementById('share-file').disabled = false;
+
+document.getElementById('share-file').onclick = function() {
+    var fileSelector = new FileSelector();
+    fileSelector.selectSingleFile(function(file) {
+    	connection.send(file);
+    });
 };

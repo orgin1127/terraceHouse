@@ -105,7 +105,7 @@ public class WebController {
 		
 		Long l = (Long)session.getAttribute("member_number");
 		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
-		model.addAttribute("jrm", list.toString());
+		model.addAttribute("jrm", list);
 		return "willDelete";
 	}
 	
