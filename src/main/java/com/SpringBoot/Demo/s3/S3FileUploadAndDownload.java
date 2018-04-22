@@ -12,13 +12,20 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
+import com.SpringBoot.Demo.Service.TerraceRoomService;
+import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -33,6 +40,8 @@ import com.amazonaws.services.s3.model.PutObjectResult;
 public class S3FileUploadAndDownload {
 	
 	private AmazonS3 S3;
+	
+	private TerraceRoomService terraceRoomService;
 	
 	//Initialize S3 Client 
 	public S3FileUploadAndDownload(String accessKey, String secretKey) throws Exception {
@@ -49,20 +58,37 @@ public class S3FileUploadAndDownload {
         S3.putObject(bucketName, folderName + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
     }
 	
-	//Upload File to AWS S3
-	public int fileUpload(MultipartFile file,String memberid,String bucketName, String terraceName) throws FileNotFoundException {
+	//Upload File to AWS S3 and Convert to PNG Image
+	public HashMap<String, Object> fileUpload(MultipartFile file,String memberid
+						,String bucketName, String terraceName
+						,Long terrace_room_number) throws FileNotFoundException {
+		HashMap<String, Object> map = new HashMap<>();
 		int putResult = 0;
+		
 		try {
 			File f = convertMultiPartToFile(file);
 			String fileName = generateFileName(file);
-			String path = bucketName+"/"+"tr-user-files/"+memberid+"/"+fileName;
-			PutObjectResult result = S3.putObject(new PutObjectRequest(path, fileName+terraceName+".pdf", f));
+			String original_file_name = file.getOriginalFilename();
+			String saved_file_path = bucketName+"/"+"tr-user-files/"+memberid+"/"+fileName+"/"+terraceName;
+			String saved_file_name = fileName+terraceName+".pdf";
+			String shared_file_path = saved_file_path+"/"+fileName+terraceName+"(shared)"+".pdf";
 			
+			map.put("terrace_room_number", terrace_room_number);
+			map.put("original_file_name", original_file_name);
+			map.put("saved_file_path", saved_file_path+"/"+saved_file_name);
+			map.put("shared_file_path", shared_file_path);
+			map.put("saved_file_name", saved_file_name);
+			map.put("shared_file_name", fileName+terraceName+"(shared)"+".pdf");
+			
+			//upload original pdf to aws s3
+			PutObjectResult result = S3.putObject(new PutObjectRequest(saved_file_path, saved_file_name, f));
+			S3.copyObject(saved_file_path, saved_file_name, saved_file_path, fileName+terraceName+"(shared)"+".pdf");
 			int pages = 0;
 			PDDocument doc = PDDocument.load(f);
 			PDFRenderer renderer = new PDFRenderer(doc);
 			pages = doc.getNumberOfPages();
 			ArrayList<File> imgs = new ArrayList<>();
+			
 			for (int i = 0 ; i < pages ; i++) {
 				BufferedImage image = renderer.renderImage(i);
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -72,21 +98,36 @@ public class S3FileUploadAndDownload {
 				ObjectMetadata meta = new ObjectMetadata();
 				meta.setContentLength(buffer.length);
 				String imgName = "myImage"+i;
-				S3.putObject(new PutObjectRequest(path+"image", imgName+".png", is, meta).withCannedAcl(CannedAccessControlList.PublicRead));
+				S3.putObject(new PutObjectRequest(saved_file_path+"image", imgName+".png", is, meta).withCannedAcl(CannedAccessControlList.PublicRead));
 				is.close();
 				os.close();
 			}
+			
 			f.delete();
+			
 			if (result != null) {
 				putResult = pages;
 			}
+			
+			map.put("page", putResult);
 			
 	     } 
 		 catch (Exception e) {
 			 e.printStackTrace();
 		 }
-		 return putResult;
+		 return map;
     }
+	
+	public void uploadSharedPDF(InputStream is, TerraceRoom tr){
+		try{
+			ObjectMetadata meta = new ObjectMetadata();
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(), tr.getShared_file_name(), is, meta));
+			is.close();
+		}
+		catch (Exception e) {
+		}
+		
+	}
 	
 	private String generateFileName(MultipartFile multiPart) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");

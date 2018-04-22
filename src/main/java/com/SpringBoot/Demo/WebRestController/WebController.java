@@ -21,9 +21,11 @@ import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.JoinRoomMemberService;
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.JoinRoomMemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
 
@@ -37,6 +39,7 @@ public class WebController {
 	private MemberService memberService;
 	private TerraceRoomService terraceRoomService;
 	private JoinRoomMemberService joinRoomMemberService;
+	private PersonalFileService personalFileService;
 	
 	@Autowired
 	S3Util s3;
@@ -57,13 +60,19 @@ public class WebController {
 	public String terraceRoom(Long terrace_room_number,Model model, HttpSession session) {
 		model.addAttribute("loginid", session.getAttribute("loginID"));
 		System.out.println(terrace_room_number);
+		
+		//생성된 방의 정보를 db에 등록 후 model에 담아 감
 		TerraceRoom tr = terraceRoomService.findOneByTerraceRoomNumber(terrace_room_number);
 		model.addAttribute("terraceName", tr.getTerrace_room_name());
 		model.addAttribute("terraceInfo",tr);
+		
+		//방 생성자를 즉시 해당 방의 참여자로 db에 등록
 		JoinRoomMemberSaveRequestDto dto = new JoinRoomMemberSaveRequestDto();
 		dto.setMember((Member)session.getAttribute("loginedMember"));
 		dto.setTerraceRoom(tr);
+		
 		Long result = joinRoomMemberService.save(dto);
+		
 		System.out.println(result);
 		
 		return "terraceRoom";
@@ -102,10 +111,15 @@ public class WebController {
 	
 	@GetMapping("/myFiles")
 	public String myFiles(HttpSession session, Model model){
-		
 		Long l = (Long)session.getAttribute("member_number");
 		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
-		model.addAttribute("jrm", list);
+		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(l);
+		if(list != null) {
+			model.addAttribute("jrm", list);
+		}
+		if(pList != null) {			
+			model.addAttribute("pList", pList);
+		}
 		return "willDelete";
 	}
 	

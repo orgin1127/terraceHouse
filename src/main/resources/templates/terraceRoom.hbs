@@ -87,6 +87,7 @@ window.enableAdapter = true;
 						<form id="uploadForm">
 							<input type="hidden" id="loginId" name="loginId" value="{{loginid}}">
 							<input type="hidden" id="terraceName" name="terraceName" value="{{terraceName}}">
+							<input type="hidden" id="terrace_room_number" name ="terrace_room_number" value="{{terraceInfo.terrace_room_number}}">
 							<input type="file" id="file" name="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data" accept=".pdf">
 						</form>
 						<a href="javascript:canvasUpload()"><img src="image/canvasUpload.png" width="24" height="24"></a><br>
@@ -197,10 +198,9 @@ window.enableAdapter = true;
 	<script src="/js/app/getHTMLMediaElement.js"></script>
 	<script src="/js/app/terraceRoomJS.js"></script>
 	
+	<input type="hidden" id="terraceNumber" value="{{terraceInfo.terrace_room_number}}">
 	<input type="hidden" id="loginId" value="{{loginid}}">
-	
-		<input type="hidden" id="creator">
-	
+	<input type="hidden" id="creator">
 	
 </body>
 </html>

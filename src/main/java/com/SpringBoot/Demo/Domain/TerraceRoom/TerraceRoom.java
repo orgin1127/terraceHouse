@@ -37,8 +37,14 @@ public class TerraceRoom {
 	@Column(columnDefinition = "default non")
 	private String saved_file_path = "non";
 	
+	@Column(columnDefinition = "defualt 'non'")
+	private String saved_file_name = "non";
+	
 	@Column(columnDefinition = "default non")
 	private String shared_file_path = "non";
+	
+	@Column(columnDefinition = "default 'non'")
+	private String shared_file_name = "non";
 	
 	@Column(columnDefinition = "datetime default now()")
 	private String create_date;
@@ -61,8 +67,9 @@ public class TerraceRoom {
 	public String toString() {
 		return "TerraceRoom [terrace_room_number=" + terrace_room_number + ", terrace_room_name=" + terrace_room_name
 				+ ", terrace_room_mop=" + terrace_room_mop + ", original_file_name=" + original_file_name
-				+ ", saved_file_path=" + saved_file_path + ", shared_file_path=" + shared_file_path + ", create_date="
+				+ ", saved_file_path=" + saved_file_path + ", saved_file_name=" + saved_file_name
+				+ ", shared_file_path=" + shared_file_path + ", shared_file_name=" + shared_file_name + ", create_date="
 				+ create_date + ", member=" + member + "]";
 	}
-	
+
 }

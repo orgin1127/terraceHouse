@@ -28,6 +28,22 @@ public class TerraceRoomService {
 		return terraceRoomRepository.save(dto.toEntity()).getTerrace_room_number();
 	}
 	
+	@Transactional
+	public int updateTerraceRoomInPDF(Long terrace_room_number, String original_file_name
+									,String saved_file_path,String saved_file_name 
+									,String shared_file_path,String shared_file_name){
+		System.out.println("update작동");
+		int result = terraceRoomRepository.updateTerraceRoomInPDF(terrace_room_number, original_file_name
+																, saved_file_path, saved_file_name
+																, shared_file_path, shared_file_name);
+		return result;
+	}
+	
+	@Transactional
+	public void save(TerraceRoomSaveRequestDto dto){
+		terraceRoomRepository.save(dto.toEntity());
+	}
+	
 	@Transactional(readOnly = true)
 	public List<TerraceRoomMainResponseDto> findAllAsc(){
 		return terraceRoomRepository.findAllAsc()
@@ -37,7 +53,7 @@ public class TerraceRoomService {
 	
 	@Transactional(readOnly = true)
 	public TerraceRoom findOneByTerraceRoomNumber(Long terrace_room_number){
-		return terraceRoomRepository.findOne(terrace_room_number);
+		return terraceRoomRepository.findOneByTerraceRoomNumber(terrace_room_number);
 	}
 
 }

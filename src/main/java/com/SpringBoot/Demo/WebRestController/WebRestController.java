@@ -3,10 +3,13 @@ package com.SpringBoot.Demo.WebRestController;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -15,6 +18,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +35,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
@@ -85,7 +91,7 @@ public class WebRestController {
 	
 	@PostMapping("/registTerraceRoom")
 	public Long registTerraceRoom(@RequestBody TerraceRoomSaveRequestDto dto, HttpSession session){
-		System.out.println("regi tr room : " + dto.toEntity().getTerrace_room_name()+", " + dto.getTerrace_room_mop());
+		System.out.println("regi tr room : " + dto.toString());
 		
 		Member m = (Member) session.getAttribute("loginedMember");
 		System.out.println(m.toString());
@@ -125,12 +131,24 @@ public class WebRestController {
 	@PostMapping("/uploadPDF")
 	public String uploadPDF(@RequestParam("file") MultipartFile file
 							, @RequestParam("loginId") String memberid
-							, @RequestParam("terraceName") String terraceName) {
+							, @RequestParam("terraceName") String terraceName
+							, @RequestParam("terrace_room_number") Long terrace_room_number
+							,HttpSession session) {
 		String result = "";
 		System.out.println(file.getOriginalFilename()+", "+memberid+", " +terraceName);
 		try{
 			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
-			result = s3File.fileUpload(file, memberid, s3.getBucket(), terraceName)+"";
+			HashMap<String, Object> map = s3File.fileUpload(file, memberid, s3.getBucket(), terraceName,terrace_room_number);
+			result = map.get("page")+"";
+			String original_file_name = (String)map.get("original_file_name");
+			String saved_file_path = (String)map.get("saved_file_path");
+			String shared_file_path = (String)map.get("shared_file_path");
+			String saved_file_name = (String)map.get("saved_file_name");
+			String shared_file_name = (String)map.get("shared_file_name");
+			
+			terraceRoomService.updateTerraceRoomInPDF(terrace_room_number, original_file_name
+													, saved_file_path, saved_file_name 
+													,shared_file_path,shared_file_name);
 		}
 		catch (Exception e) {
 		}
@@ -138,7 +156,9 @@ public class WebRestController {
 	}
 	
 	@PostMapping("/makePDF")
-	public String loadPDF(@RequestParam("imageArray") String[] imageArray){
+	public String loadPDF(@RequestParam("imageArray") String[] imageArray,
+							@RequestParam("terrace_room_number")Long terrace_room_number
+							,HttpSession session) {
 		//받은 배열을 저장
 		String[] imgArray = imageArray;
 		//그 배열로 이미지를 생성할 변수
@@ -151,20 +171,17 @@ public class WebRestController {
 			bytimage = Base64.getDecoder().decode(imgArray[i].substring("data:image/png;base64,".length()));
 			ByteArrayInputStream bis = new ByteArrayInputStream(bytimage);
 			
-			try
-			{
+			try {
 				image = ImageIO.read(bis);
 				bis.close();
 			}
-			catch(Exception e)
-			{
+			catch(Exception e) {
 				e.printStackTrace();
 			}			
 			//새 페이지 생성
 			PDPage page = new PDPage(new PDRectangle(595, 842));
 						
-			try
-			{
+			try {
 				doc.addPage(page);
 				PDPageContentStream cs = new PDPageContentStream(doc, page);
 				PDImageXObject pio = JPEGFactory.createFromImage(doc, image);
@@ -172,24 +189,32 @@ public class WebRestController {
 				cs.drawImage(pio, 0, 0);
 				cs.close();
 				//이름을 myPDF로
-				doc.save("myPDF.pdf");
+				//doc.save("myPDF.pdf");
 				
 			}
-			catch (Exception e)
-			{
+			catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		try
-		{
+		try {
+			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
+			TerraceRoom tr = terraceRoomService.findOneByTerraceRoomNumber(terrace_room_number);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			doc.save(out);
+			
+			InputStream is = null;
+		    byte[] data = out.toByteArray();
+	        is = new ByteArrayInputStream(data);
+			
+			
+			s3File.uploadSharedPDF(is, tr);
+			is.close();
 			//페이지를 다 집어넣고 나서 문서를 닫음
 			doc.close();
 		}
-		catch(Exception e)
-		{
+		catch(Exception e){
 			e.printStackTrace();
 		}
-				
 		return "";
 	}
 	
@@ -207,20 +232,17 @@ public class WebRestController {
 			bytimage = Base64.getDecoder().decode(imgArray[i].substring("data:image/png;base64,".length()));
 			ByteArrayInputStream bis = new ByteArrayInputStream(bytimage);
 			
-			try
-			{
+			try{
 				image = ImageIO.read(bis);
 				bis.close();
 			}
-			catch(Exception e)
-			{
+			catch(Exception e){
 				e.printStackTrace();
 			}			
 			//새 페이지 생성
 			PDPage page = new PDPage(new PDRectangle(595, 842));
 						
-			try
-			{
+			try{
 				doc.addPage(page);
 				PDPageContentStream cs = new PDPageContentStream(doc, page);
 				PDImageXObject pio = JPEGFactory.createFromImage(doc, image);
@@ -228,26 +250,20 @@ public class WebRestController {
 				cs.drawImage(pio, 0, 0);
 				cs.close();
 				//이름을 myPDF로
-				doc.save("personalPDF.pdf");
-				
+				//doc.save("personalPDF.pdf");
 			}
-			catch (Exception e)
-			{
+			catch (Exception e){
 				e.printStackTrace();
 			}
 		}
-		try
-		{
+		try{
 			//페이지를 다 집어넣고 나서 문서를 닫음
 			doc.close();
 		}
-		catch(Exception e)
-		{
+		catch(Exception e){
 			e.printStackTrace();
 		}
-				
 		return "";
 	}
-	
-	
+
 }
