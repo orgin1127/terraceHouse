@@ -142,7 +142,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 	cPage = 0;
 	for (var i = 0; i < endOfPage ;i++){
 	
-		tempimg.src = img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+		tempimg.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 		var tempCanvas = document.getElementById('imageOnly');
 		var tempImage = document.getElementById('image1');
 		var tempCtx = tempCanvas.getContext('2d');
