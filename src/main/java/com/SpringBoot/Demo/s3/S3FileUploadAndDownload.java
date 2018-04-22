@@ -75,7 +75,7 @@ public class S3FileUploadAndDownload {
 			
 			map.put("terrace_room_number", terrace_room_number);
 			map.put("original_file_name", original_file_name);
-			map.put("saved_file_path", saved_file_path+"/"+saved_file_name);
+			map.put("saved_file_path", saved_file_path);
 			map.put("shared_file_path", shared_file_path);
 			map.put("saved_file_name", saved_file_name);
 			map.put("shared_file_name", fileName+terraceName+"(shared)"+".pdf");
@@ -121,7 +121,7 @@ public class S3FileUploadAndDownload {
 	public void uploadSharedPDF(InputStream is, TerraceRoom tr){
 		try{
 			ObjectMetadata meta = new ObjectMetadata();
-			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(), tr.getShared_file_name(), is, meta));
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(), tr.getShared_file_name(), is, meta).withCannedAcl(CannedAccessControlList.PublicRead));
 			is.close();
 		}
 		catch (Exception e) {
