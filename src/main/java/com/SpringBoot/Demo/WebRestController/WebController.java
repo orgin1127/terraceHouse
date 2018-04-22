@@ -26,6 +26,7 @@ import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.JoinRoomMemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
+import com.SpringBoot.Demo.dto.PersonalFileSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
 
@@ -73,7 +74,7 @@ public class WebController {
 		
 		Long result = joinRoomMemberService.save(dto);
 		
-		System.out.println(result);
+		System.out.println("tr result : " + result);
 		
 		return "terraceRoom";
 	}
@@ -102,10 +103,21 @@ public class WebController {
 		return "/";
 	}
 	@GetMapping("myBlackBoard")
-	public String blackBoard(String creator,String pages,Model model){
+	public String blackBoard(String creator, String pages
+							, Model model, Long terrace_room_number,HttpSession session){
 		
 		model.addAttribute("creator",creator);
 		model.addAttribute("pages", pages);
+		
+		Member m = (Member)session.getAttribute("loginedMember");
+		JoinRoomMember jrm = joinRoomMemberService.findOneByJoinMemberNumberAndJoinTerrarcNumber(m.getMember_number(), terrace_room_number);
+		System.out.println("jrm : "+ jrm.toString());
+		PersonalFileSaveRequestDto dto = new PersonalFileSaveRequestDto();
+		
+		dto.setTerrace_room_number(jrm);
+		dto.setMember_number(m);
+		System.out.println("pfs : " + dto.toString());
+		personalFileService.save(dto);
 		return "myBlackBoard";
 	}
 	

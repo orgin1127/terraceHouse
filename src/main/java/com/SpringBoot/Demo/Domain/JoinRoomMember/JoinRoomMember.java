@@ -27,25 +27,27 @@ public class JoinRoomMember {
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "join_member_number")
-	private Member join_member_number;
+	private Member member;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "join_terrace_room_number")
-	private TerraceRoom join_terrace_room_number;
+	private TerraceRoom terrace_room;
 
 	public JoinRoomMember() {
 	}
 	
 	@Builder
 	public JoinRoomMember(Member member, TerraceRoom terraceRoom) {
-		this.join_member_number = member;
-		this.join_terrace_room_number = terraceRoom;
+		this.member = member;
+		this.terrace_room = terraceRoom;
 	}
 
 	@Override
 	public String toString() {
-		return "JoinRoomMember [join_number=" + join_number + ", join_member_number=" + join_member_number
-				+ ", join_terrace_room_number=" + join_terrace_room_number + "]";
+		return "JoinRoomMember [join_number=" + join_number + ", member=" + member + ", terrace_room=" + terrace_room
+				+ "]";
 	}
+
+	
 	
 }

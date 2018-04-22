@@ -928,8 +928,9 @@ function downloadCanvas(link, canvasId, filename) {
 function canvasBlackBoard(){
 	
 	var creator = document.getElementById('creator').value;
+	var terrace_room_number = document.getElementById('terraceNumber').value;
 	console.log('creator: '+creator);
-	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage,'myBlackBoard','top=50,left=600,width=800,height=750');
+	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage+'&terrace_room_number='+terrace_room_number,'myBlackBoard','top=50,left=600,width=800,height=750');
 }
 
 function backwardPage(inputId){
@@ -952,7 +953,7 @@ function backwardPage(inputId){
 		alert('첫페이지입니다');
 		return;
 	}
-	img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -993,7 +994,7 @@ function forwardPage(inputId){
 		alert('마지막 페이지입니다');
 		return;
 	}
-	var stringURL = img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){

@@ -129,6 +129,14 @@ public class S3FileUploadAndDownload {
 		
 	}
 	
+	public void uploadPersonalPDF(InputStream is, TerraceRoom tr){
+		try{
+			
+		}
+		catch (Exception e) {
+		}
+	}
+	
 	private String generateFileName(MultipartFile multiPart) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String savedFilename = sdf.format(new Date());

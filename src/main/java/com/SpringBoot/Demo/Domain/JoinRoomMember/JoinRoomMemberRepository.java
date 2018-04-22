@@ -10,7 +10,15 @@ public interface JoinRoomMemberRepository extends JpaRepository<JoinRoomMember, 
 	
 	@Query("SELECT jrm " + 
 			"FROM JoinRoomMember jrm " + 
-			"WHERE join_member_number.member_number= :join_member_number")
+			"WHERE join_member_number= :join_member_number")
 	Stream<JoinRoomMember> findOneByMemberNumber(@Param("join_member_number") Long join_member_number);
 	
+	@Query("SELECT jrm " + 
+			"FROM JoinRoomMember jrm " + 
+			"WHERE join_member_number= :join_member_number " + 
+			"and " +
+			"join_terrace_room_number= :join_terrace_number")
+	JoinRoomMember findOneByJoinMemberNumberAndJoinTerraceNumber(
+											@Param("join_member_number") Long join_member_number
+											, @Param("join_terrace_number") Long join_terrace_number);
 }

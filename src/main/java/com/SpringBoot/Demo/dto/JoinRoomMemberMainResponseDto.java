@@ -16,8 +16,8 @@ public class JoinRoomMemberMainResponseDto {
 	
 	public JoinRoomMemberMainResponseDto(JoinRoomMember jrm) {
 		this.join_number = jrm.getJoin_number();
-		this.member = jrm.getJoin_member_number();
-		this.terraceRoom = jrm.getJoin_terrace_room_number();
+		this.member = jrm.getMember();
+		this.terraceRoom = jrm.getTerrace_room();
 	}
 
 

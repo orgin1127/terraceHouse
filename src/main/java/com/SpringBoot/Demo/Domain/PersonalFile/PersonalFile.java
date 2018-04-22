@@ -30,7 +30,7 @@ public class PersonalFile {
 	private String saved_personal_file_path = "non";
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	@JoinColumn(name = "join_terrace_room_number")
+	@JoinColumn(name = "terrace_room_number")
 	private JoinRoomMember terrace_room_number;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)

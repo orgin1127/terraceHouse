@@ -30,4 +30,9 @@ public class JoinRoomMemberService {
 										.map(JoinRoomMemberMainResponseDto::new)
 										.collect(Collectors.toList()); 
 	}
+	
+	@Transactional(readOnly = true)
+	public JoinRoomMember findOneByJoinMemberNumberAndJoinTerrarcNumber(Long join_member_number, Long join_terrace_number){
+		return joinRoomMemberRepository.findOneByJoinMemberNumberAndJoinTerraceNumber(join_member_number, join_terrace_number);
+	}
 }
