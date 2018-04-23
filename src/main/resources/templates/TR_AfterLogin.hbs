@@ -12,113 +12,349 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="/js/app/TR_AfterLoginJS.js"></script>
+
+<!-- w3schools 템플릿 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Shadows+Into+Light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+<!-- CSS -->
+<link rel="stylesheet" type="text/css" href="/css/app/mystyle.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
 <style>
 
-.container {
-  background:#fff;
-  width:1500px;
-  height:800px;
-  margin: 0 auto;
-  padding: 2px 2px 0 2px;
-  
+
+#slider{text-align:center}
+#slider{margin:0 auto}
+.try1{display:none}
+#slide1:checked ~ #slides .inner{margin-left:0}
+#slide2:checked ~ #slides .inner{margin-left:-100%}
+#slide3:checked ~ #slides .inner{margin-left:-200%}
+#slide4:checked ~ #slides .inner{margin-left:-300%}
+#slide5:checked ~ #slides .inner{margin-left:-400%}
+#container{width:100%;overflow:hidden}
+article img{width:100%}
+#slides .inner{width:500%;line-height:0}
+#slides article{width:20%;float:left}
+#commands{margin:-35% 0 0 0;width:100%;height:50px}
+#commands label{display:none;width:80px;height:80px;opacity:0.5}
+#commands label:hover{opacity:0.8}
+#active{position:relative;z-index:5;margin:25% 0 0;text-align:center}
+#active label{-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;display:inline-block;width:10px;height:10px;background:#bbb}
+#active label:hover{background:#333;border-color:#777!important}
+#slide1:checked ~ #commands label:nth-child(2),#slide2:checked ~ #commands label:nth-child(3),#slide3:checked ~ #commands label:nth-child(4),#slide4:checked ~ #commands label:nth-child(5),#slide5:checked ~ #commands label:nth-child(1){background:url('/image/right.png') no-repeat;float:right;margin:0 0px 0 0;display:block}
+#slide1:checked ~ #commands label:nth-child(5),#slide2:checked ~ #commands label:nth-child(1),#slide3:checked ~ #commands label:nth-child(2),#slide4:checked ~ #commands label:nth-child(3),#slide5:checked ~ #commands label:nth-child(4){background:url('/image/left.png') no-repeat;float:left;margin:0 0 0 20px;display:block}
+#slide1:checked ~ #active label:nth-child(1),#slide2:checked ~ #active label:nth-child(2),#slide3:checked ~ #active label:nth-child(3),#slide4:checked ~ #active label:nth-child(4),#slide5:checked ~ #active label:nth-child(5){background:#000;opacity:0.6;border-color:#fff!important;border:2px solid #fff}
+.caption{line-height:20px;margin:0 0 -150%;position:absolute;padding:450px 12px;opacity:0;color:#fff;text-transform:none;font-family:'Open Sans',Arial,Helvetica,sans-serif;text-align:left;font-size:20px;}
+.caption bar{display:inline-block;padding:10px;background:#000;border-radius:3px 3px 3px 3px;-moz-border-radius:3px 3px 3px 3px;-webkit-border-radius:3px 3px 3px 3px;opacity:0.7;filter:progid:DXImageTransform.Microsoft.Alpha(opacity=70)}
+#slides{position:relative;padding:2px;border:1px solid #ddd;margin:45px 0 0;background:#FFF;background:-webkit-linear-gradient(#FFF,#FFF 20%,#EEE 80%,#DDD);background:-moz-linear-gradient(#FFF,#FFF 20%,#EEE 80%,#DDD);background:-ms-linear-gradient(#FFF,#FFF 20%,#EEE 80%,#DDD);background:-o-linear-gradient(#FFF,#FFF 20%,#EEE 80%,#DDD);background:linear-gradient(#FFF,#FFF 20%,#EEE 80%,#DDD);-webkit-border-radius:2px 2px 2px 2px;-moz-border-radius:2px 2px 2px 2px;border-radius:2px 2px 2px 2px;-webkit-box-shadow:0 0 3px rgba(0,0,0,0.2);-moz-box-shadow:0 0 3px rgba(0,0,0,0.2);box-shadow:0 0 3px rgba(0,0,0,0.2)}
+#slides .inner{-webkit-transform:translateZ(0);-webkit-transition:all 800ms cubic-bezier(0.770,0.000,0.175,1.000);-moz-transition:all 800ms cubic-bezier(0.770,0.000,0.175,1.000);-ms-transition:all 800ms cubic-bezier(0.770,0.000,0.175,1.000);-o-transition:all 800ms cubic-bezier(0.770,0.000,0.175,1.000);transition:all 800ms cubic-bezier(0.770,0.000,0.175,1.000);-webkit-transition-timing-function:cubic-bezier(0.770,0.000,0.175,1.000);-moz-transition-timing-function:cubic-bezier(0.770,0.000,0.175,1.000);-ms-transition-timing-function:cubic-bezier(0.770,0.000,0.175,1.000);-o-transition-timing-function:cubic-bezier(0.770,0.000,0.175,1.000);transition-timing-function:cubic-bezier(0.770,0.000,0.175,1.000)}
+#slider{-webkit-transform:translateZ(0);-webkit-transition:all 0.5s ease-out;-moz-transition:all 0.5s ease-out;-o-transition:all 0.5s ease-out;transition:all 0.5s ease-out}
+#commands label{-webkit-transform:translateZ(0);-webkit-transition:opacity 0.2s ease-out;-moz-transition:opacity 0.2s ease-out;-o-transition:opacity 0.2s ease-out;transition:opacity 0.2s ease-out}
+#slide1:checked ~ #slides article:nth-child(1) .caption,#slide2:checked ~ #slides article:nth-child(2) .caption,#slide3:checked ~ #slides article:nth-child(3) .caption,#slide4:checked ~ #slides article:nth-child(4) .caption,#slide5:checked ~ #slides article:nth-child(5) .caption{opacity:1;-webkit-transition:all 1s ease-out 0.6s;-moz-transition:all 1s ease-out 0.6s;-o-transition:all 1s ease-out 0.6s;transition:all 1s ease-out 0.6s}
+#commands,#commands label,#slides,#active,#active label{-webkit-transform:translateZ(0);-webkit-transition:all 0.5s ease-out;-moz-transition:all 0.5s ease-out;-o-transition:all 0.5s ease-out;transition:all 0.5s ease-out}
+#slider{max-width:1000px}
+
+.ao-item {
+	width: 80%;
+	margin: 0 auto;
+	padding: 35px 0;
+	position: relative;
+	clear: both;
 }
 
-.slideshow_wrapper {
-  width:1500px;
-  height:800px;
-  overflow: hidden;
-   
+.ao-item:before,
+.ao-item:after {
+    content:"";
+    display:table;
 }
 
-.slideshow {
-  width:4500px;
-  height:800px;
-  margin: 0 0 0 -4500px;
- position: relative;
-  -webkit-animation-name: slide_animation;
-  -webkit-animation-duration:15s;
-  -webkit-animation-iteration-count:infinite;
-  -webkit-animation-direction:alternate;
-   -webkit-animation-play-state: running;
+.ao-item:after {
+    clear:both;
 }
 
-.slide {
-  
-  width:1500px;
-  height: 800px;
-  position:relative;
-  float:left;
-  overflow:hidden;
-  
+.ao-item {
+    zoom:1; /* For IE 6/7 (trigger hasLayout) */
+} /* from CSSTricks: http://css-tricks.com/pseudo-element-roundup/ */
+
+.ao-details {
+	float: right;
+	width: 40%;
+	padding-left: 20px;
 }
 
-.slideshow img{
-  width:1500px; height:800px;
+.ao-item:first-child .ao-details {
+	background: transparent url(../images/try.png) no-repeat bottom left;
+	padding-bottom: 60px;
 }
 
-@-webkit-keyframes slide_animation {
-  
-  0% {left:1500px;}
-  10% {left:1500px;}
-  20% {left:1500px;}
-  30% {left:1500px;}
-  40% {left:3000px;}
-  50% {left:3000px;}
-  60% {left:3000px;}
-  70% {left:4500px;}
-  80% {left:4500px;}
-  90% {left:4500px;}
-  100% {left:4500px;}
-  
+.ao-details h2 {
+	color: #498EA5;
+	margin-top: 0;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+	padding-bottom: 10px;
+	box-shadow:  0 1px 0 #DFDEDC, 0 2px 0 rgba(255,255,255,0.5);
 }
 
-* {box-sizing: border-box;}
-body {font-family: Verdana, sans-serif;}
-.mySlides {display: none;}
-img {vertical-align: middle;}
-
-.active {
-  background-color: #717171;
+.ao-details p {
+	color: #999;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.8);
+	line-height: 22px;
 }
 
-.fade {
-  -webkit-animation-name: fade;
-  -webkit-animation-duration: 1.5s;
-  animation-name: fade;
-  animation-duration: 1.5s;
+.ao-details p a{
+	font-weight: bold;
+	color: #498EA5;
 }
 
-@-webkit-keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
+.ao-details p a:hover{
+	color: #2A3344;
 }
 
-@keyframes fade {
-  from {opacity: .4} 
-  to {opacity: 1}
+.ao-preview {
+	width: 60%;
+	float: left;
+	position: relative;
 }
 
-/* On smaller screens, decrease text size */
-@media only screen and (max-width: 300px) {
-  .text {font-size: 11px}
+.ao-item-left .ao-details{
+	float: left;
+	padding-right: 20px;
+	padding-left: 0px;
+	text-align: right;
 }
 
-.mySlides {display:none;}
-
-#mySidebar {
-
- position: fixed;
-
+.ao-item img {
+	margin: 0 auto;
+	max-width: 100%;
+	display: block;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+	opacity: 0.8;
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.2);
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
-body, html {
-    height: 100%;
-    line-height: 1.8;
+.ao-annotations {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background: rgba(33,62,68,0.3);
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+	opacity: 0;
+	z-index: 5;
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	-o-transform: scale(0.8);
+	-ms-transform: scale(0.8);
+	transform: scale(0.8);
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
 }
 
-.w3-bar .w3-button {
-    padding: 16px;
+.ao-annotations span {
+	display: block;
+	position: absolute;
+	padding: 10px 25px;
+	width: 33%;
+	min-width: 140px;
+	text-align: center;
+	background: rgba(255,255,255,1);
+	color: rgba(20,40,47,0.9);
+	font-size: 16px;
+	font-style: italic;
+	text-shadow: 1px 1px 1px rgba(255,255,255,0.9);
+	box-shadow: 0px 1px 4px rgba(0,0,0,0.2);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+	opacity: 0;
+	-webkit-transform: scale(1.3);
+	-moz-transform: scale(1.3);
+	-o-transform: scale(1.3);
+	-ms-transform: scale(1.3);
+	transform: scale(1.3);
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+}
+
+.ao-annotations span:after {
+	position: absolute;
+	background: transparent url() no-repeat center center;
+	width: 32px;
+	height: 33px;
+	top: 50%;
+	left: 100%;
+	margin: -16px 0 0 -16px;
+	content: '';
+}
+
+.ao-annotations span:nth-child(1) {
+	top: 5%;
+	left: 5%;
+}
+
+.ao-annotations span:nth-child(2) {
+	top: 20%;
+	left: -13%;
+}
+
+.ao-annotations span:nth-child(3) {
+	top: 37%;
+	right: 2%;
+}
+
+.ao-annotations span:nth-child(4) {
+	top: 53%;
+	right: -8%;
+}
+
+.ao-annotations span:nth-child(5) {
+	bottom: 18%;
+	left: -4%;
+}
+
+.ao-item:nth-child(2) .ao-annotations span:nth-child(1) {
+	top: 12%;
+	left: 37%;
+}
+
+.ao-item:nth-child(2) .ao-annotations span:nth-child(2) {
+	top: 32%;
+	left: -5%;
+}
+
+.ao-item:nth-child(2) .ao-annotations span:nth-child(3) {
+	top: 40%;
+	right: -5%;
+}
+
+.ao-annotations span:nth-child(3):after,
+.ao-annotations span:nth-child(4):after,
+.ao-item:nth-child(2) .ao-annotations span:nth-child(1):after {
+	left: auto;
+	right: 100%;
+	margin: -16px -16px 0 0;
+	background-image: url();
+}
+
+input.ao-toggle {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	margin: 0;
+	padding: 0;
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+	opacity: 0;
+	z-index: 100;
+	border: none;
+	cursor: pointer;
+}
+
+input.ao-toggle:checked + img {
+	box-shadow: 1px 1px 6px rgba(0,0,0,0.2);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=99)";
+    filter: alpha(opacity=99);
+	opacity: 1;
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	-o-transform: scale(0.8);
+	-ms-transform: scale(0.8);
+	transform: scale(0.8);
+}
+
+input.ao-toggle:hover + img{
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=99)";
+    filter: alpha(opacity=99);
+	opacity: 1;
+}
+
+input.ao-toggle:checked ~ .ao-annotations,
+input.ao-toggle:checked ~ .ao-annotations span{
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=99)";
+    filter: alpha(opacity=99);
+	opacity: 1;
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-o-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+}
+
+input.ao-toggle:checked ~ .ao-annotations span:nth-child(1) {
+	-webkit-transition-delay: 0.3s;
+	-moz-transition-delay: 0.3s;
+	-o-transition-delay: 0.3s;
+	-ms-transition-delay: 0.3s;
+	transition-delay: 0.3s;
+}
+
+input.ao-toggle:checked ~ .ao-annotations span:nth-child(2) {
+	-webkit-transition-delay: 0.4s;
+	-moz-transition-delay: 0.4s;
+	-o-transition-delay: 0.4s;
+	-ms-transition-delay: 0.4s;
+	transition-delay: 0.4s;
+}
+
+input.ao-toggle:checked ~ .ao-annotations span:nth-child(3) {
+	-webkit-transition-delay: 0.5s;
+	-moz-transition-delay: 0.5s;
+	-o-transition-delay: 0.5s;
+	-ms-transition-delay: 0.5s;
+	transition-delay: 0.5s;
+}
+
+input.ao-toggle:checked ~ .ao-annotations span:nth-child(4) {
+	-webkit-transition-delay: 0.6s;
+	-moz-transition-delay: 0.6s;
+	-o-transition-delay: 0.6s;
+	-ms-transition-delay: 0.6s;
+	transition-delay: 0.6s;
+}
+
+input.ao-toggle:checked ~ .ao-annotations span:nth-child(5) {
+	-webkit-transition-delay: 0.7s;
+	-moz-transition-delay: 0.7s;
+	-o-transition-delay: 0.7s;
+	-ms-transition-delay: 0.7s;
+	transition-delay: 0.7s;
+}
+
+@media screen and (max-width: 730px){
+	.ao-item .ao-details,
+	.ao-preview { 
+		float: none; 
+		width: 100%;
+		padding: 0;
+		text-align: left;
+	}
+	.ao-annotations span {
+		font-size: 11px;
+	}
 }
 
 </style>
@@ -136,216 +372,266 @@ body, html {
 	<input type="button" class="w3-bar-item w3-button" id="myFilesBtn" value="My Files">
 </div>
 
-<!-- Navbar (sit on top) -->
+<!-- 상위메뉴 -->
 <div class="w3-top">
 
-  <div class="w3-bar w3-white w3-card" id="myNavbar">
+  <div class="w3-bar w3-white w3-card" id="myNavbar" style="height: 58px;">
     
     <a href="#home" class="w3-bar-item w3-button w3-wide">TERRACE HOUSE</a>
     <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> &#9956;</button>
      
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="#about" class="w3-bar-item w3-button"><i class="fa fa-cloud"></i> aaa</a>
-      <a href="#team" class="w3-bar-item w3-button"><i class="fa fa-user"></i> bbb</a>
-      <a href="#work" class="w3-bar-item w3-button"><i class="fa fa-cloud"></i> ccc</a>
-      <a href="#pricing" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> ddd</a>
-      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> eee</a>
+      <!-- <span class="w3-bar-item w3-wide" style="margin-top: 9px;">소개</span> -->
+      <a href="#go1" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;
+      		font-size: 15px;">｜Service</a>
+      <a href="#go2" class="w3-bar-item w3-button w3-wide"
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Menu</a>
+      <a href="#go3" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Terrace</a>
+      <a href="#go4" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Board</a>
+      <a href="#team" class="w3-bar-item w3-button w3-wide"
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px; margin-right: 50px;">｜Developers</a>
       
     </div>
-    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
-
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
-      <i class="fa fa-bars"></i>
-    </a>
+   
   </div>
+  
 </div>
 
-<!-- Sidebar on small screens when clicking the menu icon -->
-<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
-  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
-  <a href="#about" onclick="w3_close()" class="w3-bar-item w3-button">aaa</a>
-  <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button">bbb</a>
-  <a href="#work" onclick="w3_close()" class="w3-bar-item w3-button">ccc</a>
-  <a href="#pricing" onclick="w3_close()" class="w3-bar-item w3-button">ddd</a>
-  <a href="#contact" onclick="w3_close()" class="w3-bar-item w3-button">eee</a>
-</nav>
-
-<!-- Header with full-height image -->
+<!-- 상위 슬라이드(첫 화면)이미지 -->
 <header id="home">
      
-<div class="container">
+<div class="container" style="padding:10px">
   <div class="slideshow_wrapper">
     <div class="slideshow">
       <div class="slide_one slide">
-        <img src="image/qwe1.jpg" />
+        <img src="/image/first1.jpg" />
       </div>
       
       <div class="slide_two slide">
-        <img src="image/qwe222.jpg" />
+        <img src="/image/first2.jpg" />
       </div>
       
-       <div class="slide_three slide">
-        <img src="image/qwe555.jpeg" />
+      <div class="slide_three slide">
+        <img src="/image/first3.jpeg" />
       </div>
     </div></div></div>
 
 <br>
 
-<div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-  <span class="dot"></span> 
-</div>
-       
 </header>
 
-<!-- About Section -->
-<div class="w3-container" style="padding:128px 16px" id="about">
-  <h3 class="w3-center">Terrace House</h3>
-  <p class="w3-center w3-large">플러그인 없는 화상회의 시스템을 구현합니다.</p>
-  <div class="w3-row-padding w3-center" style="margin-top:64px">
-    <div class="w3-quarter">
-      <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
-      <p class="w3-large">전자칠판</p>
+<!-- 목차 -->
+<div class="w3-container" style="padding:128px 16px" id="go1">
+   <h1 class="w3-center w3-large w3-wide">TERRACE HOUSE</h1>
+  <p class="w3-center w3-large w3-wide">플러그인 없는 화상회의 시스템을 제공해 드립니다.</p>
+  <div class="w3-row-padding w3-center" style="margin-top:256px;">
+    <div class="w3-third">
+      <i class="fa fa-address-card-o w3-margin-bottom w3-jumbo w3-center"></i>
+      <p class="w3-large w3-wide">화상 대화</p>
       <p></p>
     </div>
-    <div class="w3-quarter">
-      <i class="fa fa-heart w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">회의록</p>
+    <div class="w3-third">
+      <i class="fa fa-share-alt w3-margin-bottom w3-jumbo"></i>
+      <p class="w3-large w3-wide">파일 공유</p>
       <p></p>
     </div>
-    <div class="w3-quarter">
-      <i class="fa fa-diamond w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">영상 대화</p>
-      <p></p>
-    </div>
-    <div class="w3-quarter">
-      <i class="fa fa-cog w3-margin-bottom w3-jumbo"></i>
-      <p class="w3-large">자료 공유</p>
+    <div class="w3-third">
+      <i class="fa fa-pencil-square-o w3-margin-bottom w3-jumbo"></i>
+      <p class="w3-large w3-wide">전자 칠판</p>
       <p></p>
     </div>
   </div>
 </div>
 
-<!-- Promo Section - "We know design" -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px">
-  <div class="w3-row-padding">
-    <div class="w3-col m6">
-      <h3>Terrace House</h3>
-      <p>Terrace House</p>
-      <p><a href="#work" class="w3-button w3-black"><i class="fa fa-th"> </i> Terrace House</a></p>
-    </div>
-    <div class="w3-col m6">
-      <img class="w3-image w3-round-large" src="image/qwe2.png" alt="" width="300" height="294">
-    </div>
-  </div>
+<!-- 1. 사이드바 설명 -->
+<div class="w3-container w3-center w3-light-grey" style="padding:128px 16px; padding-top: 10px; padding-bottom: 80px;" id="go2">
+
+<article id="slider">
+<input checked type='radio' name='slider' id='slide1' class='try1'/>
+<input type='radio' name='slider' id='slide2' class='try1'/>
+<input type='radio' name='slider' id='slide3' class='try1'/>
+<input type='radio' name='slider' id='slide4' class='try1'/>
+<input type='radio' name='slider' id='slide5' class='try1'/>
+<div id="slides">
+	<div id="container">
+		<div class="inner">
+			<article>
+			<div class='caption' style="margin-top: -300px;">
+				<bar style="margin-left: 100px; transform: rotate(-30deg); color: black; font-family: 'Nanum Pen Script', cursive;
+					background-color: transparent; font-size: 80px; position: fixed; letter-spacing: 3px;">Terrace</bar>
+				<br>
+				<bar style="margin-left: 240px; transform: rotate(-30deg); color: black; font-family: 'Nanum Pen Script', cursive;
+					background-color: transparent; font-size: 80px; letter-spacing: 3px;">House</bar>
+			</div>
+			<div class='caption' style="margin-top: -300px;">
+				<bar style="margin-left: 700px; margin-top: 370px; background-color: transparent;
+					 color: black; font-size: 30px; font-weight: bold; font-family: 'Do Hyeon', sans-serif;">- Tips -</bar>
+			</div>
+			<img src="/image/slide0.jpg"/>
+			</article>
+			<article>
+			<div class='caption'>
+				<bar>테라스 검색 - 제목 또는 아이디를 이용해 테라스를 검색합니다</bar>
+			</div>
+			<img src="/image/slide3.jpg"/>
+			</article>
+			<article>
+			<div class='caption'>
+				<bar>알림 서비스 - 소식 및 초대여부를 확인합니다</bar>
+			</div>
+			<img src="/image/slide4.jpg"/>
+			</article>
+			<article>
+			<div class='caption'>
+				<bar>테라스 개설 - 날짜, 인원 등의 조건을 지정하여 테라스를 개설합니다</bar>
+			</div>
+			<img src="/image/slide1.jpg"/>
+			</article>
+			<article>
+			<div class='caption'>
+				<bar>테라스 이동 - 현재 개설중인 테라스 목록을 확인합니다</bar>
+			</div>
+			<img src="/image/slide2.jpg"/>
+			</article>
+		</div>
+	</div>
+</div>
+<div id="commands">
+	<label for='slide1'></label>
+	<label for='slide2'></label>
+	<label for='slide3'></label>
+	<label for='slide4'></label>
+	<label for='slide5'></label>
+</div>
+<div id="active">
+	<label for='slide1'></label>
+	<label for='slide2'></label>
+	<label for='slide3'></label>
+	<label for='slide4'></label>
+	<label for='slide5'></label>
+</div>
+</article>
+  
+</div>
+  
+<!-- 2. 테라스 화면 및 기능설명 -->  
+<div class="w3-container" style="padding:128px 16px" id="go3">
+  <h3 class="w3-center">Inner Terrace</h3>
+  
+				<div class="ao-item">
+					<div class="ao-details">
+						<h2>Terrace book</h2>
+						<p>자유로운 업로드 및 다운로드가 가능합니다</p>
+						<p>나만의 테라스 북을 만들 수 있습니다</p>
+					</div>
+					<div class="ao-preview">
+						<input type="checkbox" id="ao-toggle" class="ao-toggle" name="ao-toggle" />
+						<img src="/image/load.jpg" alt="image01" />
+						<div class="ao-annotations">
+							<span>Upload</span>
+							<span>Download</span>
+							<span>Terrace book</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="ao-item ao-item-left">
+					<div class="ao-details">
+						<h2>Authority</h2>
+						<p>도형, 지우개 등 그리기 툴을 사용가능합니다</p>
+						<p>그리기 툴의 권한을 제어할 수 있습니다</p>
+					</div>
+					<div class="ao-preview">
+						<input type="checkbox" id="ao-toggle" class="ao-toggle" name="ao-toggle" />
+						<img src="/image/painttool.jpg" alt="image02" />
+						<div class="ao-annotations">
+							<span>Clean</span>
+							<span>Figure</span>
+							<span>Line</span>
+						</div>
+					</div>
+				</div>
+  
 </div>
 
-<!-- Team Section -->
-<div class="w3-container" style="padding:128px 16px" id="team">
-  <h3 class="w3-center">THE TEAM</h3>
-  <p class="w3-center w3-large">E반 예비과정</p>
-  <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="" style="width:100%">
-        <div class="w3-container">
-          <h3>김우진</h3>
-          <p class="w3-opacity"></p>
-          <p></p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-        </div>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="" style="width:100%">
-        <div class="w3-container">
-          <h3>서관훈</h3>
-          <p class="w3-opacity"></p>
-          <p></p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-        </div>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="" style="width:100%">
-        <div class="w3-container">
-          <h3>서대한</h3>
-          <p class="w3-opacity"></p>
-          <p></p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-        </div>
-      </div>
-    </div>
-    <div class="w3-col l3 m6 w3-margin-bottom">
-      <div class="w3-card">
-        <img src="" alt="" style="width:100%">
-        <div class="w3-container">
-          <h3>이재준</h3>
-          <p class="w3-opacity"></p>
-          <p></p>
-          <p><button class="w3-button w3-light-grey w3-block"><i class="fa fa-envelope"></i> Contact</button></p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- 3. 전자칠판(화이트 보드)기능 설명 -->
+<div class="w3-container w3-light-grey" style="padding:128px 16px" id="go4">
+  <h3 class="w3-center" style=" font-family: 'Nanum Gothic Coding', monospace;">Electronic Board</h3>
+  <br>
+<div class="w3-row w3-container ">
+<div class="w3-half w3-container">
+ 
+    <video muted="muted" src="/video/share.mp4" style="width:100%" id="myVideo" autoplay="autoplay" loop="loop"></video>
+    <h2 align="center">Share</h2>
+    <p align="center">자료와 기록을 공유할 수 있습니다.</p>
+ 
 </div>
 
-<!-- Promo Section "Statistics" -->
-<div class="w3-container w3-row w3-center w3-dark-grey w3-padding-64">
-  <div class="w3-quarter">
+<div class="w3-half w3-container">
+  
+    <video muted="muted" src="/video/chatting.mp4" style="width:100%" id="myVideo" autoplay="autoplay" loop="loop"></video>
+    <h2 align="center">Chatting</h2>
+    <p align="center">채팅으로 서로간의 의견을 주고 받을 수 있습니다.</p>
    
-    <br>aaa
-  </div>
-  <div class="w3-quarter">
-   
-    <br>bbb
-  </div>
-  <div class="w3-quarter">
-    
-    <br>ccc
-  </div>
-  <div class="w3-quarter">
-    
-    <br>ddd
-  </div>
+</div>
+</div>
+  
+<div class="w3-row w3-container" style="margin:50px 0">
+<div class="w3-half w3-container">
+  
+    <video muted="muted" src="/video/color.mp4" style="width:100%" id="myVideo" autoplay="autoplay" loop="loop"></video>
+    <h2 align="center">Color</h2>
+    <p align="center">다양한 색으로 표현 가능합니다.</p>
+  
 </div>
 
-<!-- Work Section -->
-<div class="w3-container" style="padding:128px 16px" id="work">
-  <h3 class="w3-center">Terrace House</h3>
-  <p class="w3-center w3-large">Terrace House</p>
+<div class="w3-half w3-container">
+  
+    <video muted="muted" src="/video/write.mp4" style="width:100%" id="myVideo" autoplay="autoplay" loop="loop" ></video>
+    <h2 align="center">Write</h2>
+    <p align="center">실제 칠판처럼 자유롭게 기록할 수 있습니다.</p>
+  
+</div>
+</div>
 
+</div>
+
+<!-- 4. 로고페이지 -->
+<div class="w3-container" style="padding:128px 16px">
+  <h1 class="w3-center">TERRACE HOUSE</h1>
+  <h3 class="w3-center">TERRACE HOUSE</h3>
+ 
   <div class="w3-row-padding" style="margin-top:64px">
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
   </div>
 
   <div class="w3-row-padding w3-section">
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="에이">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="비">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="씨">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
     <div class="w3-col l3 m6">
-      <img src="image/qwe2.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="디">
+      <img src="/image/logo1.png" style="width:100%" class="w3-hover-opacity" alt="Terrace House">
     </div>
   </div>
 </div>
@@ -359,118 +645,136 @@ body, html {
   </div>
 </div>
 
-<!-- Skills Section -->
-<div class="w3-container w3-light-grey w3-padding-64">
-  <div class="w3-row-padding">
-    <div class="w3-col m6">
-      <h3>Terrace House</h3>
-      <p>Terrace House<br>
-      Terrace House</p>
-      <p>Terrace House<br>
-      Terrace House</p>
+<!-- 5. 멤버 페이지 -->
+<hr>
+<div class="w3-container" style="padding:128px 16px;" id="team">
+  <h3 class="w3-center">THE TEAM&nbsp;.&nbsp;&nbsp;&nbsp;36기 예비반</h3>
+  <!-- <p class="w3-center w3-large">36기 예비반</p> -->
+  <div class="w3-row-padding" style="margin-top:64px; margin-left: 40px;">
+    <div class="w3-col l3 m6 w3-margin-bottom" style="width: 350px;">
+      <div class="w3-card">
+        <div class="w3-container" style="height: 200px;">
+          <div style="font-family: 굴림; font-weight: bold; float: left;">
+            <h3>김우진</h3>
+            <hr style="width: 145px;">
+            <h6 style="margin-top: 30px; text-align: center;">SC-IT 34th<br>D-class&nbsp;&nbsp;5th-Team</h6>
+          </div>
+          <div style="float: right;">
+          	<img src="/image/analysis.png" alt="Analysis" style="width: 110px; padding: 10px; margin-top: 30px;">
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="w3-col m6">
-      <p class="w3-wide"><i class="fa fa-camera w3-margin-right"></i>4/20</p>
-      <div class="w3-grey">
-        <div class="w3-container w3-dark-grey w3-center" style="width:90%">90%</div>
+    <div class="w3-col l3 m6 w3-margin-bottom" style="width: 350px;">
+      <div class="w3-card">
+        <div class="w3-container" style="height: 200px;">
+          <div style="font-family: 굴림; font-weight: bold; float: left;">
+            <h3>서관훈</h3>
+            <hr style="width: 145px;">
+            <h6 style="margin-top: 30px; text-align: center;">SC-IT 34th<br>D-class&nbsp;&nbsp;5th-Team</h6>
+          </div>
+          <div style="float: right;">
+          	<img src="/image/leadership.png" alt="Leadership" style="width: 130px; padding: 10px; margin-top: 35px;">
+          </div>
+        </div>
       </div>
-      <p class="w3-wide"><i class="fa fa-desktop w3-margin-right"></i>4/18</p>
-      <div class="w3-grey">
-        <div class="w3-container w3-dark-grey w3-center" style="width:85%">85%</div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom" style="width: 350px;">
+      <div class="w3-card">
+        <div class="w3-container" style="height: 200px;">
+          <div style="font-family: 굴림; font-weight: bold; float: left;">
+            <h3>서대한</h3>
+            <hr style="width: 145px;">
+            <h6 style="margin-top: 30px; text-align: center;">SC-IT 34th<br>D-class&nbsp;&nbsp;5th-Team</h6>
+          </div>
+          <div style="float: right;">
+          	<img src="/image/clock.png" alt="Diligence" style="width: 110px; padding: 10px; margin-top: 35px;">
+          </div>
+        </div>
       </div>
-      <p class="w3-wide"><i class="fa fa-photo w3-margin-right"></i>4/16</p>
-      <div class="w3-grey">
-        <div class="w3-container w3-dark-grey w3-center" style="width:75%">75%</div>
+    </div>
+    <div class="w3-col l3 m6 w3-margin-bottom" style="width: 350px;">
+      <div class="w3-card">
+        <div class="w3-container" style="height: 200px;">
+          <div style="font-family: 굴림; font-weight: bold; float: left;">
+            <h3>이재준</h3>
+            <hr style="width: 145px;">
+            <h6 style="margin-top: 30px; text-align: center;">SCIT 34th<br>D-class&nbsp;&nbsp;5th-Team</h6>
+          </div>
+          <div style="float: right;">
+          	<img src="/image/cooperation.png" alt="Cooperation" style="width: 130px; padding: 10px; margin-top: 50px;">
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Pricing Section -->
-<div class="w3-container w3-center w3-dark-grey" style="padding:128px 16px" id="pricing">
-  <h3>Terrace House</h3>
-  <p class="w3-large">Terrace House</p>
-  <div class="w3-row-padding" style="margin-top:64px">
-    <div class="w3-third w3-section">
-      <ul class="w3-ul w3-white w3-hover-shadow">
-        <li class="w3-black w3-xlarge w3-padding-32">Terrace House1</li>
-        <li class="w3-padding-16"><b>1</b> 1</li>
-        <li class="w3-padding-16"><b>2</b> 2</li>
-        <li class="w3-padding-16"><b>3</b> 3</li>
-        <li class="w3-padding-16"><b>4</b> 4</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide">5</h2>
-          <span class="w3-opacity">6</span>
-        </li>
-        <li class="w3-light-grey w3-padding-24">
-          <button class="w3-button w3-black w3-padding-large">7</button>
-        </li>
-      </ul>
-    </div>
-     <div class="w3-third w3-section">
-      <ul class="w3-ul w3-white w3-hover-shadow">
-        <li class="w3-black w3-xlarge w3-padding-32">Terrace House1</li>
-        <li class="w3-padding-16"><b>1</b> 1</li>
-        <li class="w3-padding-16"><b>2</b> 2</li>
-        <li class="w3-padding-16"><b>3</b> 3</li>
-        <li class="w3-padding-16"><b>4</b> 4</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide">5</h2>
-          <span class="w3-opacity">6</span>
-        </li>
-        <li class="w3-light-grey w3-padding-24">
-          <button class="w3-button w3-black w3-padding-large">7</button>
-        </li>
-      </ul>
-    </div>
-     <div class="w3-third w3-section">
-      <ul class="w3-ul w3-white w3-hover-shadow">
-        <li class="w3-black w3-xlarge w3-padding-32">Terrace House1</li>
-        <li class="w3-padding-16"><b>1</b> 1</li>
-        <li class="w3-padding-16"><b>2</b> 2</li>
-        <li class="w3-padding-16"><b>3</b> 3</li>
-        <li class="w3-padding-16"><b>4</b> 4</li>
-        <li class="w3-padding-16">
-          <h2 class="w3-wide">5</h2>
-          <span class="w3-opacity">6</span>
-        </li>
-        <li class="w3-light-grey w3-padding-24">
-          <button class="w3-button w3-black w3-padding-large">7</button>
-        </li>
-      </ul>
-    </div>
-    
-  </div>
-</div>
 
-<!-- Contact Section -->
-<div class="w3-container w3-light-grey" style="padding:128px 16px" id="contact">
-  <h3 class="w3-center">CONTACT</h3>
-  <p class="w3-center w3-large"></p>
-  <div class="w3-row-padding" style="margin-top:64px">
-    <div class="w3-half">
-      <p><i class="fa fa-map-marker fa-fw w3-xxlarge w3-margin-right"></i> scit master</p>
-      <p><i class="fa fa-phone fa-fw w3-xxlarge w3-margin-right"></i> 비밀</p>
-      <p><i class="fa fa-envelope fa-fw w3-xxlarge w3-margin-right"> </i> 비밀</p>
-      <br>
-      <form action="/action_page.php" target="_blank">
-        <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
-        <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
-        <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
-        <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-        <p>
-          <button class="w3-button w3-black" type="submit">
-            <i class="fa fa-paper-plane"></i> SEND MESSAGE
-          </button>
-        </p>
-      </form>
-    </div>
-    <div class="w3-half">
+<!-- 하단부 -->
+<footer class="w3-center w3-light-gray w3-padding-50">
+  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <p>ⓒ 2018 Terrace House, Inc. &nbsp;&nbsp;All Rights Reserved.</p>
+</footer>
+ 
+<script>
+
+// 모달이미지
+function onClick(element) {
+  document.getElementById("img01").src = element.src;
+  document.getElementById("modal01").style.display = "block";
+  var captionText = document.getElementById("caption");
+  captionText.innerHTML = element.alt;
+}
+
+// 사이드바 버튼 열고 닫기
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+    } else {
+        mySidebar.style.display = 'block';
+    }
+}
+
+// 사이드바 닫기
+/* function w3_close() {
+    mySidebar.style.display = "none";
+} */
+
+
+// 목차선택시 부드럽게 스크롤링
+$('a[href*="#"]')
+  
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
     
-      <img src="resources/test9/img/qwe2.png" style="width:100%"  class="w3-hover-opacity" alt="">
-    </div>
-  </div>
-</div>
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      && 
+      location.hostname == this.hostname
+    ) {
+      
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      
+      if (target.length) {
+        
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 600, function() {
+          
+          var $target = $(target);
+         
+        });
+      }
+    }
+  });
+
+</script>
 	<!-- The Terrace Register Modal -->
 	<div id="myTerraceRegisterModal" class="modal">
 	  	<!-- Modal content -->
@@ -484,46 +788,6 @@ body, html {
 		</div>
 		
 	</div>
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
-  <div class="w3-xlarge w3-section">
-    <i class="fa fa-facebook-official w3-hover-opacity"></i>
-    <i class="fa fa-instagram w3-hover-opacity"></i>
-    <i class="fa fa-snapchat w3-hover-opacity"></i>
-    <i class="fa fa-pinterest-p w3-hover-opacity"></i>
-    <i class="fa fa-twitter w3-hover-opacity"></i>
-    <i class="fa fa-linkedin w3-hover-opacity"></i>
-  </div>
-  <p>D반 <a href="" title="W3.CSS" target="_blank" class="w3-hover-text-green">5조 화이팅!</a></p>
-</footer>
-<input type="hidden" id="loginid" value={{loginid}}>
-<script>
 
-// Modal Image Gallery
-function onClick(element) {
-  document.getElementById("img01").src = element.src;
-  document.getElementById("modal01").style.display = "block";
-  var captionText = document.getElementById("caption");
-  captionText.innerHTML = element.alt;
-}
-
-// Toggle between showing and hiding the sidebar when clicking the menu icon
-var mySidebar = document.getElementById("mySidebar");
-
-function w3_open() {
-    if (mySidebar.style.display === 'block') {
-        mySidebar.style.display = 'none';
-    } else {
-        mySidebar.style.display = 'block';
-    }
-}
-
-// Close the sidebar with the close button
-function w3_close() {
-    mySidebar.style.display = "none";
-}
-
-</script>
 </body>
 </html>

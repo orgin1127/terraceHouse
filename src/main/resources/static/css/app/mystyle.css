@@ -1,0 +1,87 @@
+
+<!--첫 화면 메인 슬라이드-->
+
+.container {
+  background:#fff;
+  width:1500px;
+  height:800px;
+  margin: 0 auto;
+  padding: 2px 2px 0 2px;
+  
+}
+
+.slideshow_wrapper {
+  width:1500px;
+  height:800px;
+  overflow: hidden;
+  
+}
+
+.slideshow {
+  width:4500px;
+  height:800px;
+  margin: 0 0 0 -4500px;
+ position: relative;
+  -webkit-animation-name: slide_animation;
+  -webkit-animation-duration:15s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-direction:alternate;
+   -webkit-animation-play-state: running;
+}
+
+.slide {
+  
+  width:1500px;
+  height: 800px;
+  position:relative;
+  float:left;
+  overflow:hidden;
+  
+}
+
+.slideshow img{
+  width:1500px; height:800px;
+}
+
+@-webkit-keyframes slide_animation {
+  
+  0% {left:1500px;}
+  10% {left:1500px;}
+  20% {left:1500px;}
+  30% {left:1500px;}
+  40% {left:3000px;}
+  50% {left:3000px;}
+  60% {left:3000px;}
+  70% {left:4500px;}
+  80% {left:4500px;}
+  90% {left:4500px;}
+  100% {left:4500px;}
+  
+}
+
+<!--상단바 크기 및 화면사이즈-->
+
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+
+.mySlides {display:none;}
+
+#mySidebar {
+
+ position: fixed;
+
+}
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+body, html {
+    height: 100%;
+    line-height: 1.8;
+}
+
+.w3-bar .w3-button {
+    padding: 16px;
+}
+
+
+

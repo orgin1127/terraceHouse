@@ -41,10 +41,10 @@ public class PersonalFile {
 	}
 	
 	@Builder
-	public PersonalFile(String saved_personal_file_path, JoinRoomMember jrm, Member m){
+	public PersonalFile(String saved_personal_file_path, JoinRoomMember jrm){
 		this.saved_personal_file_path = saved_personal_file_path;
 		this.terrace_room_number = jrm;
-		this.member_number = m;
+		this.member_number = jrm.getMember();
 	}
 
 	@Override

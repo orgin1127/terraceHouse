@@ -49,6 +49,9 @@ public class TerraceRoom {
 	@Column(columnDefinition = "datetime default now()")
 	private String create_date;
 	
+	@Column(columnDefinition = "default 'active'")
+	private String terrace_room_active = "active";
+	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number")
 	private Member member;
@@ -69,7 +72,6 @@ public class TerraceRoom {
 				+ ", terrace_room_mop=" + terrace_room_mop + ", original_file_name=" + original_file_name
 				+ ", saved_file_path=" + saved_file_path + ", saved_file_name=" + saved_file_name
 				+ ", shared_file_path=" + shared_file_path + ", shared_file_name=" + shared_file_name + ", create_date="
-				+ create_date + ", member=" + member + "]";
+				+ create_date + ", terrace_room_active=" + terrace_room_active + ", member=" + member + "]";
 	}
-
 }

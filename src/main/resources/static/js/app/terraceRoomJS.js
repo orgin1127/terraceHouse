@@ -47,6 +47,7 @@ var control = false;
 var ownerId;
 var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
+var imageArray = new Array();
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
@@ -136,15 +137,15 @@ connection.onstreamended = function(event){
 };
 
 document.getElementById('btn-save-progress').onclick = function(){
-	var tempimg = document.getElementById('image1');
-	var creator = document.getElementById('creator').value;
-	var imageArray = new Array();
-	cPage = 0;
-	for (var i = 0; i < endOfPage ;i++){
 	
-		tempimg.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	
+	var eop = endOfPage;
+	for (var i = 0; i < eop ;i++){
+		console.log('i : '+i);
+		var strr = 'hi'+i;
 		var tempCanvas = document.getElementById('imageOnly');
-		var tempImage = document.getElementById('image1');
+		var tempImage = document.getElementById(strr);
+		console.log(tempImage.src);
 		var tempCtx = tempCanvas.getContext('2d');
 		
 		tempCanvas.setAttribute("width","595px");
@@ -160,7 +161,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 			{
 				continue;
 			}
-			if (i+1 != lines.length && lines[j][3] == cPage){
+			if (i+1 != lines.length && lines[j][3] == i){
 			tempCtx.strokeStyle = lines[j][5];
 			tempCtx.beginPath();
 			tempCtx.moveTo(lines[j][0],lines[j][1]);
@@ -168,28 +169,60 @@ document.getElementById('btn-save-progress').onclick = function(){
 			tempCtx.stroke();
 			}
 		
-		var strimg = tempCanvas.toDataURL('image/png');
-		imageArray[i] = strimg;
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 		
-		}
-		cPage++;
 	}
-	if (imageArray[endOfPage] != ''){
+	if (imageArray[endOfPage] != '' && imageArray[endOfPage] != null){
+		console.log('에이잭스 실행');
 		var terrace_room_number = document.getElementById('terraceNumber').value;
 		$.ajax({
-			
+				
 			url:'makePDF',
 			type:'POST',
 			traditional: true,
 			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
-			
+				
 			success:function(e){
 				console.log('보내짐');
 			}
 		});
+		
+	}
 	}
 	
 };
+
+function makeHiddenImg(pages){
+	console.log('실행됨');
+	var hiddenImg = document.getElementById('hiddenImg');
+	var str = '';
+	for (var i = 0; i < pages; i++){
+		str += '<img hidden = "hidden" id = "hi'+i+'"';
+		str += 'src="https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/';
+		str	+= loginId+'/'+todayString+'/'+terraceName+'image/myImage'+i+'.png">';
+	}
+	
+	hiddenImg.innerHTML = str;
+}
+
+
+function completePDF(){
+	var eop = endOfPage;
+	
+	var terrace_room_number = document.getElementById('terraceNumber').value;
+	$.ajax({
+			
+		url:'makePDF',
+		type:'POST',
+		traditional: true,
+		data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
+			
+		success:function(e){
+			console.log('보내짐');
+		}
+	});
+	
+}
 
 //공용 칠판 영역
 window.onload = start();
@@ -443,6 +476,17 @@ function start(){
 			lines[canvasLineCnt][7] = lastY;
 			canvasLineCnt++;
 			
+			var location = {};
+			location.firstX = firstX;
+			location.firstY = firstY;
+			location.lastX = lastX;
+			location.lastY = lastY;
+			location.id = loginId;
+			location.color = lineColor;
+			location.mode = 'circle';
+			connection.send(JSON.stringify(location));
+			
+			
 		}
 		
 		if (drawMode == 'line'){
@@ -617,6 +661,22 @@ connection.onmessage = function(event){
 		
 		rectMaker(firstX,firstY,lastX,lastY,id,rectColor);
 	}
+	
+	if (drawData.mode == 'circle'){
+			
+		lines[canvasLineCnt] = new Array();
+		lines[canvasLineCnt][0] = drawData.firstX;
+		lines[canvasLineCnt][1] = drawData.firstY;
+		lines[canvasLineCnt][2] = drawData.id;
+		lines[canvasLineCnt][3] = cPage;
+		lines[canvasLineCnt][4] = 'circle';
+		lines[canvasLineCnt][5] = drawData.color;
+		lines[canvasLineCnt][6] = drawData.lastX;
+		lines[canvasLineCnt][7] = drawData.lastY;
+		canvasLineCnt++;
+		
+	}
+	
 	if (drawData.mode == 'line'){
 		
 		lines[canvasLineCnt] = new Array();
@@ -851,6 +911,7 @@ function UploadtoServer(){
         		cPage = 0;
         		endOfPage = data;
         		console.log('마지막 페이지:' + endOfPage);
+        		
         		img = document.getElementById('image1');
         		img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
         		img.onload = function(){
@@ -860,12 +921,16 @@ function UploadtoServer(){
         			tempCtx.drawImage(img,0,0);
         			redraw();
         			
+        			
+        			
         			var imgData = {};
         			imgData.data = tempCanvas.toDataURL();
         			imgData.pages = endOfPage;
         			imgData.mode = 'uploadImage';
-        			connection.send(JSON.stringify(imgData));        			
+        			connection.send(JSON.stringify(imgData));  
+        			
         		};
+        		makeHiddenImg(endOfPage);
         	}
         },
         error: function (e) {
@@ -928,9 +993,8 @@ function downloadCanvas(link, canvasId, filename) {
 function canvasBlackBoard(){
 	
 	var creator = document.getElementById('creator').value;
-	var terrace_room_number = document.getElementById('terraceNumber').value;
 	console.log('creator: '+creator);
-	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage+'&terrace_room_number='+terrace_room_number,'myBlackBoard','top=50,left=600,width=800,height=750');
+	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage,'myBlackBoard','top=50,left=600,width=800,height=750');
 }
 
 function backwardPage(inputId){
@@ -953,7 +1017,7 @@ function backwardPage(inputId){
 		alert('첫페이지입니다');
 		return;
 	}
-	stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -994,7 +1058,7 @@ function forwardPage(inputId){
 		alert('마지막 페이지입니다');
 		return;
 	}
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var stringURL = img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -1034,11 +1098,15 @@ function redraw(){
 		ctx.strokeStyle = lines[i][5];
 		ctx.beginPath();
 		if(lines[i][4] == 'circle'){
-			/*var centerX = lines[i][0]+lines[i][6];
+			var centerX = lines[i][0]+lines[i][6];
 			var centerY = lines[i][1]+lines[i][7];
-			ctx.arc(lines[i][0]+lines[i][],0,2 * Math.PI);
-			ctx.stroke();*/
-			
+			ctx.arc(centerX / 2 
+					,centerY / 2 
+					,Math.abs(lines[i][0] > lines[i][6] ? lines[i][0] - lines[i][6] : lines[i][6] - lines[i][0]) > Math.abs(lines[i][7]> lines[i][1] ? lines[i][7] - lines[i][1] : lines[i][1] - lines[i][7]) ? (((lines[i][6] > lines[i][0]) ? (lines[i][6] - lines[i][0]) : (lines[i][0] - lines[i][6]))) : (((lines[i][7] > lines[i][1]) ? (lines[i][7] - lines[i][1]) : (lines[i][1] - lines[i][7])))
+					,0
+					,2 * Math.PI);
+			ctx.stroke();
+			continue;
 		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
 		ctx.lineTo(lines[i+1][0],lines[i+1][1]);

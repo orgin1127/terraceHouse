@@ -26,14 +26,13 @@ public class PersonalFileSaveRequestDto {
 	public PersonalFileSaveRequestDto(String saved_personal_file_path, JoinRoomMember terrace_room_number, Member member_number){
 		this.saved_personal_file_path = saved_personal_file_path;
 		this.terrace_room_number = terrace_room_number;
-		this.member_number = member_number;
+		this.member_number = terrace_room_number.getMember();
 	}
 	
 	public PersonalFile toEntity(){
 		return PersonalFile.builder()
 							.saved_personal_file_path(saved_personal_file_path)
 							.jrm(terrace_room_number)
-							.m(member_number)
 							.build();
 	}
 

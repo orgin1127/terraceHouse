@@ -18,6 +18,7 @@ public class TerraceRoomMainResponseDto {
 	private String shared_file_path;
 	private String shared_file_name;
 	private String create_date;
+	private String terrace_room_active;
 	private Member member;
 	
 	public TerraceRoomMainResponseDto(TerraceRoom tr){
@@ -30,6 +31,7 @@ public class TerraceRoomMainResponseDto {
 		shared_file_path = tr.getShared_file_path();
 		shared_file_name = tr.getShared_file_name();
 		create_date = tr.getCreate_date();
+		terrace_room_active = tr.getTerrace_room_active();
 		member = tr.getMember();
 	}
 
@@ -39,7 +41,7 @@ public class TerraceRoomMainResponseDto {
 				+ terrace_room_name + ", terrace_room_mop=" + terrace_room_mop + ", original_file_name="
 				+ original_file_name + ", saved_file_path=" + saved_file_path + ", saved_file_name=" + saved_file_name
 				+ ", shared_file_path=" + shared_file_path + ", shared_file_name=" + shared_file_name + ", create_date="
-				+ create_date + ", member=" + member + "]";
+				+ create_date + ", terrace_room_active=" + terrace_room_active + ", member=" + member + "]";
 	}
 
 }
