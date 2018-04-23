@@ -197,10 +197,11 @@ function makeHiddenImg(pages){
 	console.log('실행됨');
 	var hiddenImg = document.getElementById('hiddenImg');
 	var str = '';
+	creator = document.getElementById('creator').value;
 	for (var i = 0; i < pages; i++){
 		str += '<img hidden = "hidden" id = "hi'+i+'"';
 		str += 'src="https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/';
-		str	+= loginId+'/'+todayString+'/'+terraceName+'image/myImage'+i+'.png">';
+		str	+= creator+'/'+todayString+'/'+terraceName+'image/myImage'+i+'.png">';
 	}
 	
 	hiddenImg.innerHTML = str;
@@ -890,7 +891,7 @@ function UploadtoServer(){
 	
 	var form = document.getElementById('uploadForm');
 	var formData = new FormData(form);
-	
+	loginId = document.getElementById('loginId').value;
 	
 	$.ajax({
 		
