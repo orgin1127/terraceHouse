@@ -159,6 +159,8 @@ public class WebRestController {
 	public String loadPDF(@RequestParam("imageArray") String[] imageArray,
 							@RequestParam("terrace_room_number")Long terrace_room_number
 							,HttpSession session) {
+		System.out.println("작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨"
+				+ " 작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨작동됨");
 		//받은 배열을 저장
 		String[] imgArray = imageArray;
 		//그 배열로 이미지를 생성할 변수
