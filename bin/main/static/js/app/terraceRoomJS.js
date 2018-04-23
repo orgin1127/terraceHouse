@@ -169,10 +169,13 @@ document.getElementById('btn-save-progress').onclick = function(){
 			tempCtx.stroke();
 			}
 		
-		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 		
+		
+		}
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
+	
 	}
-	if (imageArray[endOfPage] != '' && imageArray[endOfPage] != null){
+	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
 		console.log('에이잭스 실행');
 		var terrace_room_number = document.getElementById('terraceNumber').value;
 		$.ajax({
@@ -188,8 +191,6 @@ document.getElementById('btn-save-progress').onclick = function(){
 		});
 		
 	}
-	}
-	
 };
 
 function makeHiddenImg(pages){
