@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.PersonalFile.PersonalFile;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
@@ -67,7 +68,7 @@ public class S3FileUploadAndDownload {
 		
 		try {
 			File f = convertMultiPartToFile(file);
-			String fileName = generateFileName(file);
+			String fileName = generateFileName();
 			String original_file_name = file.getOriginalFilename();
 			String saved_file_path = bucketName+"/"+"tr-user-files/"+memberid+"/"+fileName+"/"+terraceName;
 			String saved_file_name = fileName+terraceName+".pdf";
@@ -121,7 +122,8 @@ public class S3FileUploadAndDownload {
 	public void uploadSharedPDF(InputStream is, TerraceRoom tr){
 		try{
 			ObjectMetadata meta = new ObjectMetadata();
-			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(), tr.getShared_file_name(), is, meta).withCannedAcl(CannedAccessControlList.PublicRead));
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(), tr.getShared_file_name(), is, meta)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
 			is.close();
 		}
 		catch (Exception e) {
@@ -131,13 +133,17 @@ public class S3FileUploadAndDownload {
 	
 	public void uploadPersonalPDF(InputStream is, TerraceRoom tr){
 		try{
-			
+			ObjectMetadata meta = new ObjectMetadata();
+			String fileName = generateFileName();
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(),fileName +tr.getTerrace_room_name()+ "(personal).pdf", is, meta)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
+			is.close();
 		}
 		catch (Exception e) {
 		}
 	}
 	
-	private String generateFileName(MultipartFile multiPart) {
+	private String generateFileName() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String savedFilename = sdf.format(new Date());
         return savedFilename;

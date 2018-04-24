@@ -4,8 +4,6 @@ package com.SpringBoot.Demo.WebRestController;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Base64;
@@ -18,14 +16,10 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
-import org.apache.pdfbox.pdmodel.common.PDStream;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,10 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.MemberService;
+import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
-import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
-import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
@@ -57,6 +50,7 @@ public class WebRestController {
 	private Environment environment;
 	private TerraceRoomService terraceRoomService;
 	private MemberService memberService;
+	private PersonalFileService personalFileService;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -219,7 +213,9 @@ public class WebRestController {
 	}
 	
 	@PostMapping("/makePersonalPDF")
-	public String makePersonalPDF(@RequestParam("imageArray") String[] imageArray){
+	public String makePersonalPDF(@RequestParam("imageArray") String[] imageArray
+								, @RequestParam("terrace_room_number")Long terrace_room_number
+								, HttpSession session){
 		//받은 배열을 저장
 		String[] imgArray = imageArray;
 		//그 배열로 이미지를 생성할 변수
@@ -257,13 +253,31 @@ public class WebRestController {
 			}
 		}
 		try{
+			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
+			TerraceRoom tr = terraceRoomService.findOneByTerraceRoomNumber(terrace_room_number);
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			doc.save(out);
+			InputStream is = null;
+		    byte[] data = out.toByteArray();
+		    is = new ByteArrayInputStream(data);
+		    
+		    s3File.uploadPersonalPDF(is, tr);
 			//페이지를 다 집어넣고 나서 문서를 닫음
 			doc.close();
+			Member m = (Member) session.getAttribute("loginedMember");
+			personalFileService.updatePersonalFile(terrace_room_number, m.getMember_number()
+												, tr.getSaved_file_path(), tr.getTerrace_room_name()+ "(personal).pdf");
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
 		}
 		return "";
+	}
+	
+	@GetMapping("/endOfTerraceRoom")
+	public void endOfTerraceRoom(@RequestParam("terrace_room_number")Long terrace_room_number){
+		terraceRoomService.endOfTerraceRoom(terrace_room_number);
 	}
 
 }

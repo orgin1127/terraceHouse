@@ -44,11 +44,23 @@ public class TerraceRoomService {
 		terraceRoomRepository.save(dto.toEntity());
 	}
 	
+	@Transactional
+	public void endOfTerraceRoom(Long terrace_room_number){
+		terraceRoomRepository.updateTerraceRoomInActive(terrace_room_number);
+	}
+	
 	@Transactional(readOnly = true)
 	public List<TerraceRoomMainResponseDto> findAllAsc(){
 		return terraceRoomRepository.findAllAsc()
 				.map(TerraceRoomMainResponseDto::new)
 				.collect(Collectors.toList()); 
+	}
+	
+	@Transactional(readOnly = true)
+	public List<TerraceRoomMainResponseDto> findAllByTerraceActive(){
+		return terraceRoomRepository.findAllByTerraceActive()
+				.map(TerraceRoomMainResponseDto::new)
+				.collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)

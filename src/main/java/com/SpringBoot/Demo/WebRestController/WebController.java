@@ -67,6 +67,7 @@ public class WebController {
 		model.addAttribute("terraceName", tr.getTerrace_room_name());
 		model.addAttribute("terraceInfo",tr);
 		
+		
 		//방 생성자를 즉시 해당 방의 참여자로 db에 등록
 		JoinRoomMemberSaveRequestDto dto = new JoinRoomMemberSaveRequestDto();
 		dto.setMember((Member)session.getAttribute("loginedMember"));
@@ -110,11 +111,13 @@ public class WebController {
 		model.addAttribute("pages", pages);
 		
 		Member m = (Member)session.getAttribute("loginedMember");
+		System.out.println("m number : "+m.getMember_number());
+		System.out.println("terrace room : " + terrace_room_number);
 		JoinRoomMember jrm = joinRoomMemberService.findOneByJoinMemberNumberAndJoinTerrarcNumber(m.getMember_number(), terrace_room_number);
 		System.out.println("jrm : "+ jrm.toString());
 		PersonalFileSaveRequestDto dto = new PersonalFileSaveRequestDto();
 		
-		dto.setTerrace_room_number(jrm);
+		dto.setTerrace_room_number(jrm.getTerrace_room());
 		dto.setMember_number(m);
 		System.out.println("pfs : " + dto.toString());
 		personalFileService.save(dto);
@@ -134,5 +137,6 @@ public class WebController {
 		}
 		return "willDelete";
 	}
+	
 	
 }

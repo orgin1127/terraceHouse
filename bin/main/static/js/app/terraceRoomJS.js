@@ -169,10 +169,13 @@ document.getElementById('btn-save-progress').onclick = function(){
 			tempCtx.stroke();
 			}
 		
-		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 		
+		
+		}
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
+	
 	}
-	if (imageArray[endOfPage] != '' && imageArray[endOfPage] != null){
+	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
 		console.log('에이잭스 실행');
 		var terrace_room_number = document.getElementById('terraceNumber').value;
 		$.ajax({
@@ -188,8 +191,6 @@ document.getElementById('btn-save-progress').onclick = function(){
 		});
 		
 	}
-	}
-	
 };
 
 function makeHiddenImg(pages){
@@ -991,10 +992,10 @@ function downloadCanvas(link, canvasId, filename) {
 }
 
 function canvasBlackBoard(){
-	
+	var terrace_room_number = document.getElementById('terraceNumber').value;
 	var creator = document.getElementById('creator').value;
 	console.log('creator: '+creator);
-	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage,'myBlackBoard','top=50,left=600,width=800,height=750');
+	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage+'&terrace_room_number='+terrace_room_number,'myBlackBoard','top=50,left=600,width=800,height=750');
 }
 
 function backwardPage(inputId){

@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 
 import com.SpringBoot.Demo.Domain.JoinRoomMember.JoinRoomMember;
 import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,12 @@ public class PersonalFile {
 	@Column(columnDefinition = "default non")
 	private String saved_personal_file_path = "non";
 	
+	@Column(columnDefinition = "default non")
+	private String saved_personal_file_name = "non";
+	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "terrace_room_number")
-	private JoinRoomMember terrace_room_number;
+	private TerraceRoom terrace_room_number;
 	
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_number")
@@ -41,10 +45,9 @@ public class PersonalFile {
 	}
 	
 	@Builder
-	public PersonalFile(String saved_personal_file_path, JoinRoomMember jrm){
-		this.saved_personal_file_path = saved_personal_file_path;
-		this.terrace_room_number = jrm;
-		this.member_number = jrm.getMember();
+	public PersonalFile( TerraceRoom tr, Member m){
+		this.terrace_room_number = tr;
+		this.member_number = m;
 	}
 
 	@Override

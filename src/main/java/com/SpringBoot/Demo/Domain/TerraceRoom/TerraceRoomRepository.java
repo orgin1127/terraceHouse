@@ -14,6 +14,12 @@ public interface TerraceRoomRepository extends JpaRepository<TerraceRoom, Long> 
 			"ORDER BY tr.terrace_room_number ASC")
 	Stream<TerraceRoom> findAllAsc();
 	
+	@Query("SELECT tr " + 
+			"FROM TerraceRoom tr " +
+			"WHERE terrace_room_active= 'active'" + 
+			"ORDER BY tr.terrace_room_number DESC")
+	Stream<TerraceRoom> findAllByTerraceActive();
+	
 	
 	@Query("SELECT tr " + 
 			"FROM TerraceRoom tr " + 
@@ -34,4 +40,10 @@ public interface TerraceRoomRepository extends JpaRepository<TerraceRoom, Long> 
 								,@Param("saved_file_name") String saved_file_name
 								,@Param("shared_file_path") String shared_file_path
 								,@Param("shared_file_name") String shared_file_name);
+	
+	@Query("UPDATE TerraceRoom " + 
+			"SET terrace_room_active= 'inactive' " +
+			"WHERE terrace_room_number= :terrace_room_number")
+	int updateTerraceRoomInActive(@Param("terrace_room_number") Long terrace_room_number);
+	
 }

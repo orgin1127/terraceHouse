@@ -19,29 +19,23 @@ public class PersonalFileSaveRequestDto {
 	
 	private Long file_number;
 	private String saved_personal_file_path;
-	private JoinRoomMember terrace_room_number;
+	private String saved_personal_file_name;
+	private TerraceRoom terrace_room_number;
 	private Member member_number;
 	
 	@Builder
-	public PersonalFileSaveRequestDto(String saved_personal_file_path, JoinRoomMember terrace_room_number, Member member_number){
-		this.saved_personal_file_path = saved_personal_file_path;
+	public PersonalFileSaveRequestDto(TerraceRoom terrace_room_number, Member member_number){
 		this.terrace_room_number = terrace_room_number;
 		this.member_number = terrace_room_number.getMember();
 	}
 	
 	public PersonalFile toEntity(){
-		return PersonalFile.builder()
-							.saved_personal_file_path(saved_personal_file_path)
-							.jrm(terrace_room_number)
-							.build();
+		return PersonalFile.builder().tr(terrace_room_number)
+									.m(member_number)
+									.build();
 	}
 
-	@Override
-	public String toString() {
-		return "PersonalFileSaveRequestDto [file_number=" + file_number + ", saved_personal_file_path="
-				+ saved_personal_file_path + ", terrace_room_number=" + terrace_room_number + ", member_number="
-				+ member_number + "]";
-	}
+	
 	
 	
 }
