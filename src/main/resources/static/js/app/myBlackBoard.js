@@ -512,10 +512,10 @@ function forwardPage(inputId){
 	{
 		tempId = inputId;
 	}
-	if (cPage >= endOfPage){
+	if (cPage >= endOfPage-1){
 		return;
 	}
-	if (cPage < endOfPage)
+	if (cPage < endOfPage-1)
 	{
 		cPage++;
 	}
