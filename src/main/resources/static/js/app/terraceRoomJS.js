@@ -47,6 +47,7 @@ var control = false;
 var ownerId;
 var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
+
 var imageArray = new Array();
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
@@ -71,6 +72,7 @@ connection.sdpConstraints.mandatory = {
 
 connection.onstream = function(event) {
 	
+	
     //document.body.appendChild( event.mediaElement );
 	var addDiv = document.getElementsByClassName('videoContainer');
 	console.log('실행');
@@ -85,14 +87,9 @@ connection.onstream = function(event) {
 	
 	
     addDiv[0].appendChild( event.mediaElement );
-    
+   
 };
 
-/*connection.onUserStatusChanged = function(event){
-	
-	var userId = event.userid;
-	
-};*/
 
 var predefinedRoomId = null;
 
@@ -133,6 +130,13 @@ connection.onstreamended = function(event){
 	deleteID.mode = 'exit';
 	deleteID.id = tempid;
 	connection.send(JSON.stringify(deleteID));
+	var num = document.getElementById('terraceNumber');
+	$.ajax({
+		url:'endOfTerraceRoom',
+		type:'get',
+		data:{'terrace_room_number' : num }
+		
+	});
 	
 };
 
@@ -318,6 +322,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			
@@ -325,7 +330,7 @@ function start(){
 		    location.x = sx;
 		    location.y = sy;
 		    location.id = id;
-
+		    location.width = lwidth;
 		    location.color = lineColor;
 
 		    location.mode = 'draw';
@@ -341,6 +346,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			
@@ -349,7 +355,7 @@ function start(){
 		    location.id = id;
 
 		    location.color = lineColor;
-
+		    location.width = lwidth;
 		    location.mode = 'draw';
 		    connection.send(JSON.stringify(location));
 			
@@ -450,7 +456,7 @@ function start(){
 			lastX = canvasX(e.clientX);
 			lastY = canvasY(e.clientY);
 			
-			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor);
+			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor,lwidth);
 			
 			var location = {};
 			location.firstX = firstX;
@@ -459,6 +465,7 @@ function start(){
 			location.lastY = lastY;
 			location.id = loginId;
 			location.color = lineColor;
+			location.width = lwidth;
 			location.mode = 'rectangle';
 			connection.send(JSON.stringify(location));
 		}
@@ -476,6 +483,7 @@ function start(){
 			lines[canvasLineCnt][5] = lineColor;
 			lines[canvasLineCnt][6] = lastX;
 			lines[canvasLineCnt][7] = lastY;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			
 			var location = {};
@@ -500,6 +508,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			lines[canvasLineCnt] = new Array();
 			lines[canvasLineCnt][0] = lastX;
@@ -507,6 +516,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			redraw();
 			drawing = false;
@@ -518,7 +528,9 @@ function start(){
 			location.lastY = lastY;
 			location.id = loginId;
 			location.color = lineColor;
+			location.width = lwidth;
 			location.mode = 'line';
+			
 			connection.send(JSON.stringify(location));			
 			}
 		}
@@ -628,6 +640,7 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][2] = drawData.id;
 		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
+		lines[canvasLineCnt][8] = drawData.width;
 
 		canvasLineCnt++;
 	}
@@ -660,8 +673,9 @@ connection.onmessage = function(event){
 		var lastY = drawData.lastY;
 		var id = drawData.id;
 		var rectColor = drawData.color;
+		var linewi = drawData.width;
 		
-		rectMaker(firstX,firstY,lastX,lastY,id,rectColor);
+		rectMaker(firstX,firstY,lastX,lastY,id,rectColor,linewi);
 	}
 	
 	if (drawData.mode == 'circle'){
@@ -675,6 +689,7 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][5] = drawData.color;
 		lines[canvasLineCnt][6] = drawData.lastX;
 		lines[canvasLineCnt][7] = drawData.lastY;
+		lines[canvasLineCnt][8] = drawData.width;
 		canvasLineCnt++;
 		
 	}
@@ -687,6 +702,7 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][2] = drawData.id;
 		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
+		lines[canvasLineCnt][8] = drawData.width;
 		canvasLineCnt++;
 		
 		lines[canvasLineCnt] = new Array();
@@ -695,6 +711,7 @@ connection.onmessage = function(event){
 		lines[canvasLineCnt][2] = drawData.id;
 		lines[canvasLineCnt][3] = cPage;
 		lines[canvasLineCnt][5] = drawData.color;
+		lines[canvasLineCnt][8] = drawData.width;
 		canvasLineCnt++;
 	}
 	
@@ -785,7 +802,7 @@ function canvasUndo(){
 };
 
 
-function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
+function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 
 	
 	var fX = firstX;
@@ -794,6 +811,8 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	var lY = lastY;		
 	var idd = id;
 	var rectColor = rectC;
+	var wid = lineWid;
+	
 	
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
@@ -802,6 +821,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
@@ -829,6 +849,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++; 
 	lines[canvasLineCnt] = new Array();
@@ -838,6 +859,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 	canvasLineCnt++;	
 
 	
@@ -869,6 +891,11 @@ function canvasCircle(){
 function canvasLine(){
 	drawMode = 'line';
 	return;
+}
+
+function changeLineWidth(){
+	var ww = document.getElementById('lineWidth').value;
+	lwidth = ww;
 }
 
 function canvasUpload(){
@@ -1011,14 +1038,16 @@ function backwardPage(inputId){
 	{
 		tempId = inputId;
 	}
+	if (cPage == 0){
+		alert('첫페이지입니다');
+		return;
+	}
+	
 	if (cPage > 0)
 	{
 		cPage--;
 	}
-	else{
-		alert('첫페이지입니다');
-		return;
-	}
+
 	img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
@@ -1027,6 +1056,9 @@ function backwardPage(inputId){
 		imagePaste = imageOnly.getContext('2d');
 		imagePaste.drawImage(img,0,0);
 		redraw();
+		
+		var indexOfPage = document.getElementById('indexOfpage');
+		indexOfPage.value = cPage;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1041,6 +1073,7 @@ function backwardPage(inputId){
 
 function forwardPage(inputId){
 	var tempId;
+	console.log(endOfPage);
 	
 	if (control == false){
 		console.log('권한이 없음');
@@ -1051,15 +1084,18 @@ function forwardPage(inputId){
 	{
 		tempId = inputId;
 	}
-	if (cPage < endOfPage)
-	{
-		cPage++;
-	}
-	else{
+	
+	if (cPage == endOfPage-1){
 		console.log('끝페이지 : '+endOfPage);
 		alert('마지막 페이지입니다');
 		return;
 	}
+	
+	if (cPage < endOfPage-1)
+	{
+		cPage++;
+	}
+	
 	var stringURL = img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
@@ -1068,6 +1104,8 @@ function forwardPage(inputId){
 		imagePaste = imageOnly.getContext('2d');
 		imagePaste.drawImage(img,0,0);
 		redraw();
+		var indexOfPage = document.getElementById('indexOfpage');
+		indexOfPage.value = cPage;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1086,7 +1124,7 @@ function redraw(){
 
 	canvas.setAttribute("width","595px");
 	canvas.setAttribute("height","842px");
-	ctx.lineWidth = lwidth;
+	
 	ctx.lineCap="round";
 	
 	for(var i = 0;i < lines.length;i++){
@@ -1098,6 +1136,7 @@ function redraw(){
 		if (i+1 != lines.length && lines[i][3] == cPage){
 			
 		ctx.strokeStyle = lines[i][5];
+		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
 		if(lines[i][4] == 'circle'){
 			var centerX = lines[i][0]+lines[i][6];

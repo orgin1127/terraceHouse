@@ -19,6 +19,7 @@
     background-color: #cdf2f3;
 	}
 	
+	
 	#green1 {
 	background-color: black;
 	}
@@ -65,8 +66,8 @@
 		display: inline-block;
         width: 230px;
    	 	height: 130px;
-   		border: 3px solid black;  
-   		background-color: white;
+   		/* border: 3px solid black;  */ 
+   		/* background-color: white; */
    		padding-top: 30px;
 		
 	}

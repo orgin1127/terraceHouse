@@ -43,7 +43,7 @@ window.enableAdapter = true;
 			<table id="green2">
 				<tr>
 					<td rowspan="2" id="whiteBoard" style="background-color: white; ">
-						<div style="position: relative; top: -350px; left: 20px" id="canvasScroll">
+						<div style="position: relative; top: -350px; left: 0px" id="canvasScroll">
 						 <canvas height="842" width="595" id="imageOnly"
 						   style="position:absolute; left: 0; top: 0; z-index: 0;"></canvas>
 						 <canvas height="842" width="595" id="mycanvas" 
@@ -60,7 +60,15 @@ window.enableAdapter = true;
 						<div class="icon-bar">
 						<a href="javascript:canvasUpload()"><img src="image/upfile.png"></a><br>
 						<a id="canvasDownload"><img src="image/downfile.png"></a><br>
-						<a href="javascript:canvasPen()"><img src="image/pencil.png"></a><br>
+						<a href="javascript:canvasPen()"><img src="image/pencil.png"></a>
+						<select id="lineWidth" onchange="changeLineWidth()">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5" selected="selected">5</option>
+						</select>
+						<br>
 						<a href="javascript:canvasUndo()"><img src="image/undo.png"></a><br>
 						<a href="javascript:canvasER()"><img src="image/eraser.png"></a><br>
 						<a href="javascript:canvasRect()"><img src="image/square.png"></a><br>
