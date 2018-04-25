@@ -267,5 +267,12 @@ public class WebRestController {
 		}
 		return "";
 	}
+	@PostMapping("/endOfTerrace")
+	public String End(@RequestParam("terraceRoomNumber")Long terraceRoomNumber){
+		System.out.println("실행됨");
+		/*System.out.println("들어온 것 : "+terraceRoomNumber);*/
+		return "";
+	}
+	
 
 }

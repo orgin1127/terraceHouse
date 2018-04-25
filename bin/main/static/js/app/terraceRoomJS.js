@@ -47,7 +47,7 @@ var control = false;
 var ownerId;
 var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
-
+var terraceNum;
 var imageArray = new Array();
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
@@ -129,16 +129,11 @@ connection.onstreamended = function(event){
 	var deleteID = {};
 	deleteID.mode = 'exit';
 	deleteID.id = tempid;
-	connection.send(JSON.stringify(deleteID));
-	var num = document.getElementById('terraceNumber');
-	$.ajax({
-		url:'endOfTerraceRoom',
-		type:'get',
-		data:{'terrace_room_number' : num }
-		
-	});
+	connection.send(JSON.stringify(deleteID));	
 	
 };
+
+
 
 document.getElementById('btn-save-progress').onclick = function(){
 	
@@ -190,7 +185,14 @@ document.getElementById('btn-save-progress').onclick = function(){
 			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
 				
 			success:function(e){
-				console.log('보내짐');
+				console.log('보내짐');	
+				$.ajax({
+					url:'endOfTerrace',
+					data:{'terraceRoomNumber':terraceNum},
+					type:'POST'
+				});
+				connection.close();
+				
 			}
 		});
 		
@@ -236,7 +238,7 @@ window.onload = start();
 function start(){		
 	
 	loginId = document.getElementById('loginId').value;
-	
+	terraceNum = document.getElementById('terraceNumber').value;
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
@@ -591,6 +593,10 @@ connection.onmessage = function(event){
 	
 	var drawData = JSON.parse(event.data);
 	
+	if (drawData.mode =='test'){
+		alert('테스트'+drawData.number);
+	}
+	
 	if (drawData.mode == 'giveMyInfo'){
 		
 		var otherId = drawData.id;
@@ -869,9 +875,13 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 	return;
 }	
 
-function canvasPen(){	
+function canvasPen(obj){	
 	drawMode = 'pen';
-	
+	var aTag = document.getElementById('nav').getElementsByTagName('a');
+    for(var i=0, len=aTag.length; i<len; i++){
+        if(aTag[i]==obj){ aTag[i].className += " current"; }
+        else { aTag[i].className = "nav-top-item"; }
+    }
 	return;
 }
 
