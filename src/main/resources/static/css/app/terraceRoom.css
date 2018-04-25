@@ -4,6 +4,14 @@
     background-color: white;
     height: -400px;
 	}
+	
+	.nav-top-item {
+    
+    background:white;
+	}
+	.current {
+    background:#cdf2f3;
+	}
 
 	.icon-bar a {
     display: block;

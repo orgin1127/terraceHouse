@@ -348,9 +348,6 @@ if (imageArray[endOfPage] != ''){
 
 };
 
-
-
-
 function canvasUndo(){
 	
 	var currentId = id;	   
@@ -478,7 +475,8 @@ function backwardPage(inputId){
 	{
 		cPage--;
 	}
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	var tempPage = 'hi'+cPage;
+	var stringURL = window.opener.document.getElementById(tempPage).src;
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -504,15 +502,16 @@ function forwardPage(inputId){
 	{
 		tempId = inputId;
 	}
-	if (cPage >= endOfPage){
+	if (cPage >= endOfPage-1){
 		return;
 	}
-	if (cPage < endOfPage)
+	if (cPage < endOfPage-1)
 	{
 		cPage++;
 	}
 	
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	var tempPage = 'hi'+cPage;
+	var stringURL = window.opener.document.getElementById(tempPage).src;
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -526,7 +525,7 @@ function forwardPage(inputId){
 }
 
 function makeHiddenImg(pages){
-	console.log('실행됨');
+	
 	var hiddenImg = document.getElementById('hiddenImg');
 	var str = '';
 	var tempImgSrc = '';

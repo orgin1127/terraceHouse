@@ -411,14 +411,10 @@ function start(){
 				redraw();
 				ctx.strokeStyle = lineColor;
 				ctx.beginPath();
-				var centerX = sx + canvasX(e.clientX);
-				var centerY = sy + canvasY(e.clientY);
-//				ctx.arc((sx+canvasX(e.clientX))/2,(sy+canvasY(e.clientY))/2,Math.abs(sx - canvasX(e.clientX)),0,2 * Math.PI);
-				ctx.arc(centerX / 2 
-						,centerY / 2 
-						,Math.abs(sx > canvasX(e.clientX) ? sx - canvasX(e.clientX) : canvasX(e.clientX) - sx) > Math.abs(e.clientY > sy ? e.clientY - sy : sy - e.clientY) ? (((canvasX(e.clientX) > sx) ? (canvasX(e.clientX) - sx) : (sx - canvasX(e.clientX)))) : (((canvasY(e.clientY) > sy) ? (canvasY(e.clientY) - sy) : (sy - canvasY(e.clientY))))
-						,0
-						,2 * Math.PI);
+				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(canvasX(e.clientX), canvasY(e.clientY), firstX, canvasY(e.clientY), firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				/*ctx.closePath();*/				    
 				ctx.stroke();
 				
 			}
@@ -630,6 +626,11 @@ connection.onmessage = function(event){
 		if (creator == loginId){
 			control = true;
 		}
+	}
+	
+	if (drawData.mode == 'makeHiddenImg'){
+		console.log('이미지 복사 시작');
+		makeHiddenImg(drawData.page);
 	}
 	
 	
@@ -870,26 +871,32 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 
 function canvasPen(){	
 	drawMode = 'pen';
+	
 	return;
 }
 
 function canvasER(){	
 	drawMode = 'eraser';
+	
 	return;
 }
 
 function canvasRect(){
 	drawMode = 'rectangle';
+	
 	return;
 }
 
 function canvasCircle(){
 	drawMode = 'circle';
+	
 	return;
 }
 
 function canvasLine(){
 	drawMode = 'line';
+	
+    
 	return;
 }
 
@@ -949,7 +956,8 @@ function UploadtoServer(){
         			var tempCtx = tempCanvas.getContext('2d');
         			tempCtx.drawImage(img,0,0);
         			redraw();
-        			
+        			var indexOfPage = document.getElementById('indexOfpage');
+        			indexOfPage.value = cPage+1;
         			
         			
         			var imgData = {};
@@ -960,6 +968,10 @@ function UploadtoServer(){
         			
         		};
         		makeHiddenImg(endOfPage);
+        		var hiddenImg = {};
+        		hiddenImg.mode = 'makeHiddenImg';
+        		hiddenImg.page = endOfPage;
+        		connection.send(JSON.stringify(hiddenImg));
         	}
         },
         error: function (e) {
@@ -1058,7 +1070,7 @@ function backwardPage(inputId){
 		redraw();
 		
 		var indexOfPage = document.getElementById('indexOfpage');
-		indexOfPage.value = cPage;
+		indexOfPage.value = cPage+1;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1105,7 +1117,7 @@ function forwardPage(inputId){
 		imagePaste.drawImage(img,0,0);
 		redraw();
 		var indexOfPage = document.getElementById('indexOfpage');
-		indexOfPage.value = cPage;
+		indexOfPage.value = cPage+1;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1138,14 +1150,12 @@ function redraw(){
 		ctx.strokeStyle = lines[i][5];
 		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
-		if(lines[i][4] == 'circle'){
-			var centerX = lines[i][0]+lines[i][6];
-			var centerY = lines[i][1]+lines[i][7];
-			ctx.arc(centerX / 2 
-					,centerY / 2 
-					,Math.abs(lines[i][0] > lines[i][6] ? lines[i][0] - lines[i][6] : lines[i][6] - lines[i][0]) > Math.abs(lines[i][7]> lines[i][1] ? lines[i][7] - lines[i][1] : lines[i][1] - lines[i][7]) ? (((lines[i][6] > lines[i][0]) ? (lines[i][6] - lines[i][0]) : (lines[i][0] - lines[i][6]))) : (((lines[i][7] > lines[i][1]) ? (lines[i][7] - lines[i][1]) : (lines[i][1] - lines[i][7])))
-					,0
-					,2 * Math.PI);
+		if(lines[i][4] == 'circle'){			
+			ctx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*ctx.closePath();*/				    
+			ctx.stroke();
 			ctx.stroke();
 			continue;
 		}
