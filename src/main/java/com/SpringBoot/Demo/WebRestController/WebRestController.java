@@ -97,8 +97,10 @@ public class WebRestController {
 	
 	@PostMapping("/login")
 	public String login(@RequestBody MemberSaveRequestDto dto, HttpSession session){
+		System.out.println("로그인 작동");
+		System.out.println(dto.toString());
 		Member loginedM = memberService.findByIdAndPw(dto);
-		String result = "";
+		String result = "n";
 		if (loginedM != null){
 			if(loginedM.getMail_confirmed().equals("y")){
 				result = "y";
@@ -265,8 +267,8 @@ public class WebRestController {
 			//페이지를 다 집어넣고 나서 문서를 닫음
 			doc.close();
 			Member m = (Member) session.getAttribute("loginedMember");
-			personalFileService.updatePersonalFile(terrace_room_number, m.getMember_number()
-												, tr.getSaved_file_path(), tr.getTerrace_room_name()+ "(personal).pdf");
+			personalFileService.updatePersonalFile(tr.getSaved_file_path(), tr.getTerrace_room_name()+ "(personal).pdf"
+													,terrace_room_number, m.getMember_number());
 			
 		}
 		catch(Exception e){

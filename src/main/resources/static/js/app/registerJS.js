@@ -26,7 +26,7 @@ function makeResForm() {
 		        +'<p><input type="password" id="memberpw" placeholder=" Password" class="inputArea" name="memberpw"></p>'
 		        +'<p><input type="text" id="member_email" placeholder=" Email" class="inputArea" name="member_email"></p>'
 		        +'<p><input type="email" id="member_name" placeholder=" Name" class="inputArea" name="member_name"></p>'
-		       	+'<p><input type="button" id="registerBtn" value="회원가입"> <input type="button" id="resCancle" value="취소"></p></form>';
+		       	+'<p><input type="button" id="registerBtn" value="회원가입" class="w3-button w3-light-gray"></p></form>';
 	$('#myRegisterModalBody').html(resFormContent);
 }
 

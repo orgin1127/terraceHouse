@@ -1,0 +1,99 @@
+
+	.icon-bar {
+    width: 35px;
+    background-color: white;
+    height: -400px;
+	}
+
+	.icon-bar a {
+    display: block;
+    text-align: center;
+    padding: 0px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 5px;
+    margin-bottom: 0px;
+	}
+
+	.icon-bar a:hover {
+    background-color: #cdf2f3;
+	}
+	
+	
+	#green1 {
+	background-color: black;
+	}
+ 
+	#green2 {
+	background-color: black;
+	width: 1538px;
+	
+	}
+
+    #green3 {
+	width: 100px;
+	margin-left: 3px;
+	margin-top: 3px;
+	
+	}
+
+    #green4 {
+    
+	background-color: gray;
+	
+	}
+    #green5 {
+    margin-top: 23px;
+    }
+    
+   
+    #green6 {
+    background-color: #dedede;
+    
+    }
+   
+    #input-text-chat {
+    width: 300px;
+    }
+
+	video {
+		width: 230px;
+		height: 130px;
+	}
+	
+	.videoContainer {
+	    margin-top: 5px;
+		display: inline-block;
+        width: 230px;
+   	 	height: 130px;
+   		/* border: 3px solid black;  */ 
+   		/* background-color: white; */
+   		padding-top: 30px;
+		
+	}
+	.bottom_tr_VideoContainer {
+		margin-left: 0px;
+		width: 500px;
+		height: 100px;
+	}
+	.UserVideoTR {
+		border: 3px Lightgrey;
+	}
+	
+	#invite_DIV, #exit_DIV {
+
+		background-color: #ffffff;
+		color: black;
+		
+	}
+	#whiteBoard {
+		width: 600px;
+		height: 250px;
+		overflow: scroll;
+	}
+	
+	
+	#terraceTitle {
+	    width: 300px;
+		height: 100px;
+	}

@@ -46,13 +46,13 @@ function start(){
 	creator = document.getElementById('creator').value;
 	console.log('creator : '+creator);
 	endOfPage = document.getElementById('pages').value;
-	
+	makeHiddenImg(endOfPage);
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
 	img = document.getElementById('image1');
-	img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"image/myImage"+cPage+".png";
+	img.src = window.opener.document.getElementById('hi0').src;
 	img.onload = function (){
 		imagePaste.drawImage(img,0,0);
 	};
@@ -525,6 +525,21 @@ function forwardPage(inputId){
 	};	
 }
 
+function makeHiddenImg(pages){
+	console.log('실행됨');
+	var hiddenImg = document.getElementById('hiddenImg');
+	var str = '';
+	var tempImgSrc = '';
+	
+	for (var i = 0; i < pages; i++){
+		tempImgSrc = 'hi'+i;
+		str += '<img  hidden="hidden" id = "hi'+i+'"';
+		str += 'src="';
+		str += window.opener.document.getElementById(tempImgSrc).src+'">';
+	}
+	
+	hiddenImg.innerHTML = str;
+}
 
 function redraw(){
 	

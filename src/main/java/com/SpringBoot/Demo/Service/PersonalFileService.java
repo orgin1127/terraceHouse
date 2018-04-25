@@ -32,8 +32,7 @@ public class PersonalFileService {
 										.collect(Collectors.toList());
 	}
 	
-	public int updatePersonalFile(Long terrace_room_number, Long member_number
-								, String saved_personal_file_path, String saved_personal_file_name) {
+	public int updatePersonalFile(String saved_personal_file_path, String saved_personal_file_name,Long terrace_room_number, Long member_number) {
 		return personalFileRepository
 				.updateByPersonalFileNumber(saved_personal_file_path
 											, saved_personal_file_name
