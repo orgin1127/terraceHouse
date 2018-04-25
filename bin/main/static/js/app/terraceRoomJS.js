@@ -133,8 +133,6 @@ connection.onstreamended = function(event){
 	
 };
 
-
-
 document.getElementById('btn-save-progress').onclick = function(){
 	
 	
