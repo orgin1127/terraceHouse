@@ -41,6 +41,7 @@ public interface TerraceRoomRepository extends JpaRepository<TerraceRoom, Long> 
 								,@Param("shared_file_path") String shared_file_path
 								,@Param("shared_file_name") String shared_file_name);
 	
+	@Modifying
 	@Query("UPDATE TerraceRoom " + 
 			"SET terrace_room_active= 'inactive' " +
 			"WHERE terrace_room_number= :terrace_room_number")

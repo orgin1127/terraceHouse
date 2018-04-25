@@ -37,11 +37,15 @@ var cPage = 0;
 var control = true;
 var creator;
 var lwidth = 5;
-
+var terraceName;
+var terrace_room_number;
+var imageArray = new Array();
 window.onload = start();
 
 function start(){		
 	
+	terraceName = document.getElementById('terrace_name').value;
+	terrace_room_number = document.getElementById('terrace_room_number').value;
 	loginId = 'I';
 	creator = document.getElementById('creator').value;
 	console.log('creator : '+creator);
@@ -293,15 +297,15 @@ document.getElementById('canvasDownload').addEventListener('click',
 	}
 
 document.getElementById('save-progress').onclick = function(){
-	var tempimg = document.getElementById('image1');
-	var creator = document.getElementById('creator').value;
-	var imageArray = new Array();
-	cPage = 0;
-	for (var i = 0; i < endOfPage ;i++){
-
-		tempimg.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"image/myImage"+i+".png";
+	
+	var eop = endOfPage;
+	
+	for (var i = 0; i < eop ;i++){
+		console.log('i : '+i);
+		var strr = 'hi'+i;
 		var tempCanvas = document.getElementById('imageOnly');
-		var tempImage = document.getElementById('image1');
+		var tempImage = document.getElementById(strr);
+		console.log(tempImage.src);
 		var tempCtx = tempCanvas.getContext('2d');
 		
 		tempCanvas.setAttribute("width","595px");
@@ -311,40 +315,44 @@ document.getElementById('save-progress').onclick = function(){
 		
 		tempCtx.lineCap="round";
 		tempCtx.lineWidth = lwidth;
-	for(var j = 0;j < lines.length;j++){
-		
-		if (lines[j][2] == 'none')
-		{
-			continue;
+		for(var j = 0;j < lines.length;j++){
+			
+			if (lines[j][2] == 'none')
+			{
+				continue;
+			}
+			if (i+1 != lines.length && lines[j][3] == i){
+			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.beginPath();
+			tempCtx.moveTo(lines[j][0],lines[j][1]);
+			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			tempCtx.stroke();
+			}
 		}
-		if (i+1 != lines.length && lines[j][3] == cPage){
-		tempCtx.strokeStyle = lines[j][5];
-		tempCtx.beginPath();
-		tempCtx.moveTo(lines[j][0],lines[j][1]);
-		tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
-		tempCtx.stroke();
-		}
-	
-		var strimg = tempCanvas.toDataURL('image/png');
-		imageArray[i] = strimg;
-	
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 	}
-	cPage++;
-	}
-if (imageArray[endOfPage] != ''){
 	
-	$.ajax({
+	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
+		console.log('에이잭스 실행');
+		var terrace_room_number = document.getElementById('terrace_room_number').value;
+		$.ajax({
+				
+			url:'makePersonalPDF',
+			type:'POST',
+			traditional: true,
+			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
+			
+			success:function(e){
+				console.log('보내짐');
+			}
+			, error: function(e) {
+				alert(JSON.stringify(e));
+				console.log(JSON.stringify(e));
+
+			}
+		});
 		
-		url:'makePersonalPDF',
-		type:'POST',
-		traditional: true,
-		data:{'imageArray' : imageArray},
-		
-		success:function(e){
-			console.log('보내짐');
-		}
-	});
-}
+	}
 
 };
 
@@ -478,7 +486,7 @@ function backwardPage(inputId){
 	{
 		cPage--;
 	}
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -512,7 +520,7 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"image/myImage"+cPage+".png";
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -524,7 +532,7 @@ function forwardPage(inputId){
 		
 	};	
 }
-
+	
 function makeHiddenImg(pages){
 	console.log('실행됨');
 	var hiddenImg = document.getElementById('hiddenImg');

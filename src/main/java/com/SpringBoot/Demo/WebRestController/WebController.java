@@ -116,7 +116,8 @@ public class WebController {
 		JoinRoomMember jrm = joinRoomMemberService.findOneByJoinMemberNumberAndJoinTerrarcNumber(m.getMember_number(), terrace_room_number);
 		System.out.println("jrm : "+ jrm.toString());
 		PersonalFileSaveRequestDto dto = new PersonalFileSaveRequestDto();
-		
+		model.addAttribute("terrace_name", jrm.getTerrace_room().getTerrace_room_name());
+		model.addAttribute("terrace_room_number", terrace_room_number);
 		dto.setTerrace_room_number(jrm.getTerrace_room());
 		dto.setMember_number(m);
 		System.out.println("pfs : " + dto.toString());
@@ -128,13 +129,13 @@ public class WebController {
 	public String myFiles(HttpSession session, Model model){
 		Long l = (Long)session.getAttribute("member_number");
 		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
-		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(l);
+		//List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(l);
 		if(list != null) {
 			model.addAttribute("jrm", list);
 		}
-		if(pList != null) {			
+		/*if(pList != null) {			
 			model.addAttribute("pList", pList);
-		}
+		}*/
 		return "willDelete";
 	}
 	

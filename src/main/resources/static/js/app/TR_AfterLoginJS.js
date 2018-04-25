@@ -1,12 +1,8 @@
 /**
- * 
+ *  
  */
+
 $(document).ready(function() {
-	
-	$('#myPageBtn').on('click', function() {
-		
-	});
-	
 	$('#makeTerraceBtn').on('click', function() {
 		$('#myTerraceRegisterModal').css('display', 'block');
 		makeTerraceRegister();
@@ -59,7 +55,12 @@ $(document).ready(function() {
 		});
 	});
 	
+	$('#myFilesBtn').on('click', function() {
+		location.href='myFiles';
+	});
+	
 });
+
 
 function regiTerraceRoom() {
 	var terrace_room_name = $('#terraceName').val();
@@ -77,7 +78,8 @@ function regiTerraceRoom() {
 			success: function(result) {
 				if(result != 0){
 					alert('방 등록 성공');
-					location.href="/tr?terrace_room_number="+result
+					//location.href="/tr?terrace_room_number="+result
+					window.open("/tr?terrace_room_number="+result,'terraceRoom','top=50,left=10,width=1000,height=800');
 				}
 			}
 		, error: function(e) {

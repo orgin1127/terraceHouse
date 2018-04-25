@@ -268,7 +268,7 @@ public class WebRestController {
 			doc.close();
 			Member m = (Member) session.getAttribute("loginedMember");
 			personalFileService.updatePersonalFile(tr.getSaved_file_path(), tr.getTerrace_room_name()+ "(personal).pdf"
-													,terrace_room_number, m.getMember_number());
+													,tr, m);
 			
 		}
 		catch(Exception e){
@@ -279,6 +279,7 @@ public class WebRestController {
 	
 	@GetMapping("/endOfTerraceRoom")
 	public void endOfTerraceRoom(@RequestParam("terrace_room_number")Long terrace_room_number){
+		System.out.println("end 작동");
 		terraceRoomService.endOfTerraceRoom(terrace_room_number);
 	}
 

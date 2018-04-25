@@ -60,7 +60,9 @@ window.enableAdapter = true;
 						<div class="icon-bar">
 						<a href="javascript:canvasUpload()"><img src="image/upfile.png"></a><br>
 						<a id="canvasDownload"><img src="image/downfile.png"></a><br>
-						<a href="javascript:canvasPen()"><img src="image/pencil.png"></a>
+						<div id="nav">
+						<a onclick="canvasPen(this)" class="nav-top-item"><img src="image/pencil.png"></a>
+						</div>
 						<select id="lineWidth" onchange="changeLineWidth()">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -70,18 +72,19 @@ window.enableAdapter = true;
 						</select>
 						<br>
 						<a href="javascript:canvasUndo()"><img src="image/undo.png"></a><br>
-						<a href="javascript:canvasER()"><img src="image/eraser.png"></a><br>
-						<a href="javascript:canvasRect()"><img src="image/square.png"></a><br>
-						<a href="javascript:canvasCircle()"><img src="image/circle.png"></a><br>
-						<a href="javascript:canvasLine()"><img src="image/line.png"></a><br>
+						<a onclick="canvasER()" ><img src="image/eraser.png"></a><br>
+						<a onclick="canvasRect()" ><img src="image/square.png"></a><br>
+						<a onclick="canvasCircle()" ><img src="image/circle.png"></a><br>
+						<a onclick="canvasLine()" ><img src="image/line.png"></a><br>
+						
 						<a href="javascript:backwardPage('{{loginid}}')"><img src="image/up-arrow.png"></a><br>
-						<a><input type="text" id="indexOfpage" value="0" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a><br>
+						<a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a><br>
 						<a href="javascript:forwardPage('{{loginid}}')"><img src="image/down-arrow.png"></a><br>
 						<a href="javascript:canvasBlackBoard()"><img src="image/undo.png"></a><br>
 						<a><input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000" style="width:20px;"></a><br>
 						</div>
 					</td>
-					<td colspan="1" id="terraceTitle" style="background-color: white; height:24px; "> Terrace Name </td>
+					<td colspan="1" id="terraceTitle" style="background-color: white; height:24px; "> {{terraceName}} </td>
 					<td style="background-color: white; height:24px; background-color: gray" ></td>
 				</tr>
 				<tr>
@@ -151,29 +154,12 @@ window.enableAdapter = true;
 							
 			</table>
 		</div>
-		<!-- <div id="inner_tr_VideoContainer">
-			<table class="UserVideoTR">
-				<tr>
-					<td>
-						<div class="videoContainer" id="user2"></div>				
-					</td>
-					<td>
-						<div class="videoContainer" id="user3"></div>	
-					</td>
-					<td>
-						<div class="videoContainer" id="user4"></div>
-					</td>
-					<td>
-						<div id="invite_DIV">초대</div><br>
-						<div id="exit_DIV">퇴장</div>
-					</td>
-				</tr>
-			</table>
-		</div> -->
+		
 	
 	
 	<!-- download js and css -->
 	<img id="image1" src="" hidden="hidden" crossOrigin = "anonymous">
+	<input type="hidden" id="terraceNumber" value="{{terraceInfo.terrace_room_number}}">
 	
 	<script src="/js/app/adapter.js"></script>
 	<script src="/js/app/FileBufferReader.js"></script>
@@ -181,7 +167,7 @@ window.enableAdapter = true;
 	<script src="/js/app/terraceRoomJS.js"></script>
 	
 	
-	<input type="hidden" id="terraceNumber" value="{{terraceInfo.terrace_room_number}}">
+	
 	<input type="hidden" id="loginId" value="{{loginid}}">
 	<input type="hidden" id="creator">
 	<div id="hiddenImg"></div>

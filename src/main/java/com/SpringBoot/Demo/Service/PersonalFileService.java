@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.PersonalFile.PersonalFileRepository;
+import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
 import com.SpringBoot.Demo.dto.PersonalFileSaveRequestDto;
 
@@ -32,7 +34,8 @@ public class PersonalFileService {
 										.collect(Collectors.toList());
 	}
 	
-	public int updatePersonalFile(String saved_personal_file_path, String saved_personal_file_name,Long terrace_room_number, Long member_number) {
+	@Transactional
+	public int updatePersonalFile(String saved_personal_file_path, String saved_personal_file_name,TerraceRoom terrace_room_number, Member member_number) {
 		return personalFileRepository
 				.updateByPersonalFileNumber(saved_personal_file_path
 											, saved_personal_file_name

@@ -47,7 +47,7 @@ var control = false;
 var ownerId;
 var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
-
+var terraceNum;
 var imageArray = new Array();
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
@@ -129,21 +129,17 @@ connection.onstreamended = function(event){
 	var deleteID = {};
 	deleteID.mode = 'exit';
 	deleteID.id = tempid;
-	connection.send(JSON.stringify(deleteID));
-	var num = document.getElementById('terraceNumber');
-	$.ajax({
-		url:'endOfTerraceRoom',
-		type:'get',
-		data:{'terrace_room_number' : num }
-		
-	});
+	connection.send(JSON.stringify(deleteID));	
 	
 };
+
+
 
 document.getElementById('btn-save-progress').onclick = function(){
 	
 	
 	var eop = endOfPage;
+	
 	for (var i = 0; i < eop ;i++){
 		console.log('i : '+i);
 		var strr = 'hi'+i;
@@ -172,13 +168,11 @@ document.getElementById('btn-save-progress').onclick = function(){
 			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
 			tempCtx.stroke();
 			}
-		
-		
-		
+
 		}
 		imageArray[i] =  tempCanvas.toDataURL('image/png');	
-	
 	}
+	
 	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
 		console.log('에이잭스 실행');
 		var terrace_room_number = document.getElementById('terraceNumber').value;
@@ -190,7 +184,14 @@ document.getElementById('btn-save-progress').onclick = function(){
 			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
 				
 			success:function(e){
-				console.log('보내짐');
+				console.log('보내짐');	
+				$.ajax({
+					url:'endOfTerraceRoom',
+					data:{'terrace_room_number':terraceNum},
+					type:'get'
+				});
+				connection.close();
+				
 			}
 		});
 		
@@ -236,7 +237,7 @@ window.onload = start();
 function start(){		
 	
 	loginId = document.getElementById('loginId').value;
-	
+	terraceNum = document.getElementById('terraceNumber').value;
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
@@ -411,14 +412,10 @@ function start(){
 				redraw();
 				ctx.strokeStyle = lineColor;
 				ctx.beginPath();
-				var centerX = sx + canvasX(e.clientX);
-				var centerY = sy + canvasY(e.clientY);
-//				ctx.arc((sx+canvasX(e.clientX))/2,(sy+canvasY(e.clientY))/2,Math.abs(sx - canvasX(e.clientX)),0,2 * Math.PI);
-				ctx.arc(centerX / 2 
-						,centerY / 2 
-						,Math.abs(sx > canvasX(e.clientX) ? sx - canvasX(e.clientX) : canvasX(e.clientX) - sx) > Math.abs(e.clientY > sy ? e.clientY - sy : sy - e.clientY) ? (((canvasX(e.clientX) > sx) ? (canvasX(e.clientX) - sx) : (sx - canvasX(e.clientX)))) : (((canvasY(e.clientY) > sy) ? (canvasY(e.clientY) - sy) : (sy - canvasY(e.clientY))))
-						,0
-						,2 * Math.PI);
+				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(canvasX(e.clientX), canvasY(e.clientY), firstX, canvasY(e.clientY), firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				/*ctx.closePath();*/				    
 				ctx.stroke();
 				
 			}
@@ -595,6 +592,10 @@ connection.onmessage = function(event){
 	
 	var drawData = JSON.parse(event.data);
 	
+	if (drawData.mode =='test'){
+		alert('테스트'+drawData.number);
+	}
+	
 	if (drawData.mode == 'giveMyInfo'){
 		
 		var otherId = drawData.id;
@@ -630,6 +631,11 @@ connection.onmessage = function(event){
 		if (creator == loginId){
 			control = true;
 		}
+	}
+	
+	if (drawData.mode == 'makeHiddenImg'){
+		console.log('이미지 복사 시작');
+		makeHiddenImg(drawData.page);
 	}
 	
 	
@@ -868,28 +874,38 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 	return;
 }	
 
-function canvasPen(){	
+function canvasPen(obj){	
 	drawMode = 'pen';
+	var aTag = document.getElementById('nav').getElementsByTagName('a');
+    for(var i=0, len=aTag.length; i<len; i++){
+        if(aTag[i]==obj){ aTag[i].className += " current"; }
+        else { aTag[i].className = "nav-top-item"; }
+    }
 	return;
 }
 
 function canvasER(){	
 	drawMode = 'eraser';
+	
 	return;
 }
 
 function canvasRect(){
 	drawMode = 'rectangle';
+	
 	return;
 }
 
 function canvasCircle(){
 	drawMode = 'circle';
+	
 	return;
 }
 
 function canvasLine(){
 	drawMode = 'line';
+	
+    
 	return;
 }
 
@@ -949,7 +965,8 @@ function UploadtoServer(){
         			var tempCtx = tempCanvas.getContext('2d');
         			tempCtx.drawImage(img,0,0);
         			redraw();
-        			
+        			var indexOfPage = document.getElementById('indexOfpage');
+        			indexOfPage.value = cPage+1;
         			
         			
         			var imgData = {};
@@ -960,6 +977,10 @@ function UploadtoServer(){
         			
         		};
         		makeHiddenImg(endOfPage);
+        		var hiddenImg = {};
+        		hiddenImg.mode = 'makeHiddenImg';
+        		hiddenImg.page = endOfPage;
+        		connection.send(JSON.stringify(hiddenImg));
         	}
         },
         error: function (e) {
@@ -1020,10 +1041,10 @@ function downloadCanvas(link, canvasId, filename) {
 }
 
 function canvasBlackBoard(){
-	
+	var terrace_room_number = document.getElementById('terraceNumber').value;
 	var creator = document.getElementById('creator').value;
 	console.log('creator: '+creator);
-	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage,'myBlackBoard','top=50,left=600,width=800,height=750');
+	window.open('myBlackBoard?creator='+creator+'&pages='+endOfPage+"&terrace_room_number="+terrace_room_number,'myBlackBoard','top=50,left=600,width=800,height=750');
 }
 
 function backwardPage(inputId){
@@ -1058,7 +1079,7 @@ function backwardPage(inputId){
 		redraw();
 		
 		var indexOfPage = document.getElementById('indexOfpage');
-		indexOfPage.value = cPage;
+		indexOfPage.value = cPage+1;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1105,7 +1126,7 @@ function forwardPage(inputId){
 		imagePaste.drawImage(img,0,0);
 		redraw();
 		var indexOfPage = document.getElementById('indexOfpage');
-		indexOfPage.value = cPage;
+		indexOfPage.value = cPage+1;
 		
 		var imgData = {};
 		imgData.data = imageOnly.toDataURL();
@@ -1138,14 +1159,12 @@ function redraw(){
 		ctx.strokeStyle = lines[i][5];
 		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
-		if(lines[i][4] == 'circle'){
-			var centerX = lines[i][0]+lines[i][6];
-			var centerY = lines[i][1]+lines[i][7];
-			ctx.arc(centerX / 2 
-					,centerY / 2 
-					,Math.abs(lines[i][0] > lines[i][6] ? lines[i][0] - lines[i][6] : lines[i][6] - lines[i][0]) > Math.abs(lines[i][7]> lines[i][1] ? lines[i][7] - lines[i][1] : lines[i][1] - lines[i][7]) ? (((lines[i][6] > lines[i][0]) ? (lines[i][6] - lines[i][0]) : (lines[i][0] - lines[i][6]))) : (((lines[i][7] > lines[i][1]) ? (lines[i][7] - lines[i][1]) : (lines[i][1] - lines[i][7])))
-					,0
-					,2 * Math.PI);
+		if(lines[i][4] == 'circle'){			
+			ctx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*ctx.closePath();*/				    
+			ctx.stroke();
 			ctx.stroke();
 			continue;
 		}
