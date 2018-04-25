@@ -104,6 +104,11 @@ function start(){
 			}
 		}
 		
+		if (drawMode == 'circle'){
+			firstX = sx;
+			firstY = sy;
+		}
+		
 	};
 	
 	//캔버스에서 움직일 때 이벤트
@@ -196,6 +201,19 @@ function start(){
 				}
 								
 			}			
+			
+			if (drawMode == 'circle'){
+				redraw();
+				ctx.strokeStyle = lineColor;
+				ctx.beginPath();
+				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(canvasX(e.clientX), canvasY(e.clientY), firstX, canvasY(e.clientY), firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				/*ctx.closePath();*/				    
+				ctx.stroke();
+				
+			}
+			
 		}
 		
 	};
@@ -236,6 +254,36 @@ function start(){
 				
 			}
 		}
+		
+		if (drawMode == 'circle'){
+			lastX = canvasX(e.clientX);
+			lastY = canvasY(e.clientY);
+			
+			lines[canvasLineCnt] = new Array();
+			lines[canvasLineCnt][0] = firstX;
+			lines[canvasLineCnt][1] = firstY;
+			lines[canvasLineCnt][2] = loginId;
+			lines[canvasLineCnt][3] = cPage;
+			lines[canvasLineCnt][4] = 'circle';
+			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][6] = lastX;
+			lines[canvasLineCnt][7] = lastY;
+			lines[canvasLineCnt][8] = lwidth;
+			canvasLineCnt++;
+			
+			var location = {};
+			location.firstX = firstX;
+			location.firstY = firstY;
+			location.lastX = lastX;
+			location.lastY = lastY;
+			location.id = loginId;
+			location.color = lineColor;
+			location.mode = 'circle';
+			connection.send(JSON.stringify(location));
+			
+			
+		}
+		
 		
 		//undo를 위한 id가 비어있는 점
 		lines[canvasLineCnt] = new Array();
@@ -464,6 +512,12 @@ function canvasRect(){
 
 function canvasLine(){
 	drawMode = 'line';
+	return;
+}
+
+function canvasCircle(){
+	drawMode = 'circle';
+	
 	return;
 }
 
