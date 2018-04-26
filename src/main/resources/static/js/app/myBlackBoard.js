@@ -55,10 +55,16 @@ function start(){
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
-	img = document.getElementById('image1');
-	img.src = window.opener.document.getElementById('hi0').src;
+	img = document.getElementById('image1');	
+	if (window.opener.document.getElementById('hi0') != null 
+			&& window.opener.document.getElementById('hi0') != ''){
+		img.src = window.opener.document.getElementById('hi0').src;
+	}
+	
 	img.onload = function (){
-		imagePaste.drawImage(img,0,0);
+		
+			imagePaste.drawImage(img,0,0);
+		
 	};
 	
 
@@ -126,6 +132,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			 
@@ -139,6 +146,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			
@@ -229,7 +237,7 @@ function start(){
 			lastX = canvasX(e.clientX);
 			lastY = canvasY(e.clientY);
 			
-			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor);
+			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor,lwidth);
 			
 		}
 		
@@ -242,6 +250,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			lines[canvasLineCnt] = new Array();
 			lines[canvasLineCnt][0] = lastX;
@@ -249,6 +258,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			redraw();
 			drawing = false;
@@ -270,19 +280,7 @@ function start(){
 			lines[canvasLineCnt][6] = lastX;
 			lines[canvasLineCnt][7] = lastY;
 			lines[canvasLineCnt][8] = lwidth;
-			canvasLineCnt++;
-			
-			var location = {};
-			location.firstX = firstX;
-			location.firstY = firstY;
-			location.lastX = lastX;
-			location.lastY = lastY;
-			location.id = loginId;
-			location.color = lineColor;
-			location.mode = 'circle';
-			connection.send(JSON.stringify(location));
-			
-			
+			canvasLineCnt++;		
 		}
 		
 		
@@ -311,7 +309,6 @@ document.getElementById('canvasDownload').addEventListener('click',
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-		tempCtx.lineWidth = lwidth;
 		for(var i = 0;i < lines.length;i++){
 			
 			if (lines[i][2] == 'none')
@@ -319,13 +316,24 @@ document.getElementById('canvasDownload').addEventListener('click',
 				continue;
 			}
 			if (i+1 != lines.length && lines[i][3] == cPage){
+				
 			tempCtx.strokeStyle = lines[i][5];
+			tempCtx.lineWidth = lines[i][8];
 			tempCtx.beginPath();
+			if(lines[i][4] == 'circle'){			
+				tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				/*tempCtx.closePath();*/				    
+				tempCtx.stroke();
+				tempCtx.stroke();
+				continue;
+			}
 			tempCtx.moveTo(lines[i][0],lines[i][1]);
 			tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 			tempCtx.stroke();
 			}
-		}
+		}	
 		
 		downloadCanvas(this, 'imageOnly', 'savedImg.png');
 				
@@ -363,21 +371,32 @@ document.getElementById('save-progress').onclick = function(){
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-		tempCtx.lineWidth = lwidth;
-		for(var j = 0;j < lines.length;j++){
+		
+		for(var i = 0;i < lines.length;i++){
 			
-			if (lines[j][2] == 'none')
+			if (lines[i][2] == 'none')
 			{
 				continue;
 			}
-			if (i+1 != lines.length && lines[j][3] == i){
-			tempCtx.strokeStyle = lines[j][5];
+			if (i+1 != lines.length && lines[i][3] == cPage){
+				
+			tempCtx.strokeStyle = lines[i][5];
+			tempCtx.lineWidth = lines[i][8];
 			tempCtx.beginPath();
-			tempCtx.moveTo(lines[j][0],lines[j][1]);
-			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			if(lines[i][4] == 'circle'){			
+				tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				/*tempCtx.closePath();*/				    
+				tempCtx.stroke();
+				tempCtx.stroke();
+				continue;
+			}
+			tempCtx.moveTo(lines[i][0],lines[i][1]);
+			tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 			tempCtx.stroke();
 			}
-		}
+		}	
 		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 	}
 	
@@ -434,7 +453,7 @@ function canvasUndo(){
 };
 
 
-function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
+function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 
 	
 	var fX = firstX;
@@ -443,6 +462,8 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	var lY = lastY;		
 	var idd = id;
 	var rectColor = rectC;
+	var wid = lineWid;
+	
 	
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
@@ -451,6 +472,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
@@ -478,6 +500,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++; 
 	lines[canvasLineCnt] = new Array();
@@ -487,6 +510,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 	canvasLineCnt++;	
 
 	
@@ -494,7 +518,6 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	
 	return;
 }	
-
 function canvasPen(){	
 	drawMode = 'pen';
 	return;
@@ -522,6 +545,11 @@ function canvasCircle(){
 	return;
 }
 
+function changeLineWidth(){
+	var ww = document.getElementById('lineWidth').value;
+	lwidth = ww;
+}
+
 function backwardPage(inputId){
 	var tempId;
 	
@@ -541,9 +569,9 @@ function backwardPage(inputId){
 	{
 		cPage--;
 	}
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var str = 'hi'+cPage;
 	img = document.getElementById('image1');
-	img.src = stringURL;
+	img.src = document.getElementById(str).src;
 	img.onload = function(){
 		imageOnly = document.getElementById('imageOnly');
 		imagePaste = imageOnly.getContext('2d');
@@ -575,9 +603,9 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var str = 'hi'+cPage;
 	img = document.getElementById('image1');
-	img.src = stringURL;
+	img.src = document.getElementById(str).src;
 	img.onload = function(){
 		imageOnly = document.getElementById('imageOnly');
 		imagePaste = imageOnly.getContext('2d');
@@ -614,7 +642,7 @@ function redraw(){
 	canvas.setAttribute("height","842px");
 	
 	ctx.lineCap="round";
-	ctx.lineWidth = lwidth;
+	
 	for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
@@ -622,14 +650,25 @@ function redraw(){
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
+			
 		ctx.strokeStyle = lines[i][5];
+		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
+		if(lines[i][4] == 'circle'){			
+			ctx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*ctx.closePath();*/				    
+			ctx.stroke();
+			ctx.stroke();
+			continue;
+		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
 		ctx.lineTo(lines[i+1][0],lines[i+1][1]);
 		ctx.stroke();
 		}
 	}		
-	return;		
+	return;	
 }
 
 function colorPicker(){

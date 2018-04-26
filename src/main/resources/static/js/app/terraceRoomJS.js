@@ -153,24 +153,32 @@ document.getElementById('btn-save-progress').onclick = function(){
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-		tempCtx.lineWidth = lwidth;
-		for(var j = 0;j < lines.length;j++){
+		
+		for(var i = 0;i < lines.length;i++){
 			
-			if (lines[j][2] == 'none')
+			if (lines[i][2] == 'none')
 			{
 				continue;
 			}
-			if (i+1 != lines.length && lines[j][3] == i){
-			tempCtx.strokeStyle = lines[j][5];
+			if (i+1 != lines.length && lines[i][3] == cPage){
+				
+			tempCtx.strokeStyle = lines[i][5];
+			tempCtx.lineWidth = lines[i][8];
 			tempCtx.beginPath();
-			tempCtx.moveTo(lines[j][0],lines[j][1]);
-			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			if(lines[i][4] == 'circle'){			
+				tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				/*tempCtx.closePath();*/				    
+				tempCtx.stroke();
+				tempCtx.stroke();
+				continue;
+			}
+			tempCtx.moveTo(lines[i][0],lines[i][1]);
+			tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 			tempCtx.stroke();
 			}
-		
-		
-		
-		}
+		}	
 		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 	
 	}
@@ -1008,7 +1016,6 @@ document.getElementById('canvasDownload').addEventListener('click',
 	tempCtx.drawImage(tempImage,0,0);
 	
 	tempCtx.lineCap="round";
-	tempCtx.lineWidth = lwidth;
 	for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
@@ -1016,13 +1023,24 @@ document.getElementById('canvasDownload').addEventListener('click',
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
+			
 		tempCtx.strokeStyle = lines[i][5];
+		tempCtx.lineWidth = lines[i][8];
 		tempCtx.beginPath();
+		if(lines[i][4] == 'circle'){			
+			console.log('원 그림');
+			tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*tempCtx.closePath();*/				    
+			tempCtx.stroke();			
+			continue;
+		}
 		tempCtx.moveTo(lines[i][0],lines[i][1]);
 		tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 		tempCtx.stroke();
 		}
-	}
+	}	
 	
 	downloadCanvas(this, 'imageOnly', 'savedImg.png');
 			
@@ -1167,7 +1185,7 @@ function redraw(){
 			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
 			/*ctx.closePath();*/				    
 			ctx.stroke();
-			ctx.stroke();
+			
 			continue;
 		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
