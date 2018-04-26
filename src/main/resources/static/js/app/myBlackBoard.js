@@ -37,11 +37,15 @@ var cPage = 0;
 var control = true;
 var creator;
 var lwidth = 5;
-
+var terraceName;
+var terrace_room_number;
+var imageArray = new Array();
 window.onload = start();
 
 function start(){		
 	
+	terraceName = document.getElementById('terrace_name').value;
+	terrace_room_number = document.getElementById('terrace_room_number').value;
 	loginId = 'I';
 	creator = document.getElementById('creator').value;
 	console.log('creator : '+creator);
@@ -98,6 +102,11 @@ function start(){
 			lineAct = false;
 			
 			}
+		}
+		
+		if (drawMode == 'circle'){
+			firstX = sx;
+			firstY = sy;
 		}
 		
 	};
@@ -192,6 +201,20 @@ function start(){
 				}
 								
 			}			
+			
+			if (drawMode == 'circle'){
+				redraw();
+				ctx.strokeStyle = lineColor;
+				ctx.lineWidth = lwidth;
+				ctx.beginPath();
+				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
+				ctx.bezierCurveTo(canvasX(e.clientX), canvasY(e.clientY), firstX, canvasY(e.clientY), firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
+				/*ctx.closePath();*/				    
+				ctx.stroke();
+				
+			}
+			
 		}
 		
 	};
@@ -232,6 +255,36 @@ function start(){
 				
 			}
 		}
+		
+		if (drawMode == 'circle'){
+			lastX = canvasX(e.clientX);
+			lastY = canvasY(e.clientY);
+			
+			lines[canvasLineCnt] = new Array();
+			lines[canvasLineCnt][0] = firstX;
+			lines[canvasLineCnt][1] = firstY;
+			lines[canvasLineCnt][2] = loginId;
+			lines[canvasLineCnt][3] = cPage;
+			lines[canvasLineCnt][4] = 'circle';
+			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][6] = lastX;
+			lines[canvasLineCnt][7] = lastY;
+			lines[canvasLineCnt][8] = lwidth;
+			canvasLineCnt++;
+			
+			var location = {};
+			location.firstX = firstX;
+			location.firstY = firstY;
+			location.lastX = lastX;
+			location.lastY = lastY;
+			location.id = loginId;
+			location.color = lineColor;
+			location.mode = 'circle';
+			connection.send(JSON.stringify(location));
+			
+			
+		}
+		
 		
 		//undo를 위한 id가 비어있는 점
 		lines[canvasLineCnt] = new Array();
@@ -293,15 +346,15 @@ document.getElementById('canvasDownload').addEventListener('click',
 	}
 
 document.getElementById('save-progress').onclick = function(){
-	var tempimg = document.getElementById('image1');
-	var creator = document.getElementById('creator').value;
-	var imageArray = new Array();
-	cPage = 0;
-	for (var i = 0; i < endOfPage ;i++){
-
-		tempimg.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"image/myImage"+i+".png";
+	
+	var eop = endOfPage;
+	
+	for (var i = 0; i < eop ;i++){
+		console.log('i : '+i);
+		var strr = 'hi'+i;
 		var tempCanvas = document.getElementById('imageOnly');
-		var tempImage = document.getElementById('image1');
+		var tempImage = document.getElementById(strr);
+		console.log(tempImage.src);
 		var tempCtx = tempCanvas.getContext('2d');
 		
 		tempCanvas.setAttribute("width","595px");
@@ -311,42 +364,49 @@ document.getElementById('save-progress').onclick = function(){
 		
 		tempCtx.lineCap="round";
 		tempCtx.lineWidth = lwidth;
-	for(var j = 0;j < lines.length;j++){
-		
-		if (lines[j][2] == 'none')
-		{
-			continue;
+		for(var j = 0;j < lines.length;j++){
+			
+			if (lines[j][2] == 'none')
+			{
+				continue;
+			}
+			if (i+1 != lines.length && lines[j][3] == i){
+			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.beginPath();
+			tempCtx.moveTo(lines[j][0],lines[j][1]);
+			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			tempCtx.stroke();
+			}
 		}
-		if (i+1 != lines.length && lines[j][3] == cPage){
-		tempCtx.strokeStyle = lines[j][5];
-		tempCtx.beginPath();
-		tempCtx.moveTo(lines[j][0],lines[j][1]);
-		tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
-		tempCtx.stroke();
-		}
-	
-		var strimg = tempCanvas.toDataURL('image/png');
-		imageArray[i] = strimg;
-	
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
 	}
-	cPage++;
-	}
-if (imageArray[endOfPage] != ''){
 	
-	$.ajax({
+	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
+		console.log('에이잭스 실행');
+		var terrace_room_number = document.getElementById('terrace_room_number').value;
+		$.ajax({
+				
+			url:'makePersonalPDF',
+			type:'POST',
+			traditional: true,
+			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
+			
+			success:function(e){
+				console.log('보내짐');
+			}
+			, error: function(e) {
+				alert(JSON.stringify(e));
+				console.log(JSON.stringify(e));
+
+			}
+		});
 		
-		url:'makePersonalPDF',
-		type:'POST',
-		traditional: true,
-		data:{'imageArray' : imageArray},
-		
-		success:function(e){
-			console.log('보내짐');
-		}
-	});
-}
+	}
 
 };
+
+
+
 
 function canvasUndo(){
 	
@@ -456,6 +516,12 @@ function canvasLine(){
 	return;
 }
 
+function canvasCircle(){
+	drawMode = 'circle';
+	
+	return;
+}
+
 function backwardPage(inputId){
 	var tempId;
 	
@@ -475,8 +541,7 @@ function backwardPage(inputId){
 	{
 		cPage--;
 	}
-	var tempPage = 'hi'+cPage;
-	var stringURL = window.opener.document.getElementById(tempPage).src;
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -510,8 +575,7 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	
-	var tempPage = 'hi'+cPage;
-	var stringURL = window.opener.document.getElementById(tempPage).src;
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -523,9 +587,9 @@ function forwardPage(inputId){
 		
 	};	
 }
-
-function makeHiddenImg(pages){
 	
+function makeHiddenImg(pages){
+	console.log('실행됨');
 	var hiddenImg = document.getElementById('hiddenImg');
 	var str = '';
 	var tempImgSrc = '';

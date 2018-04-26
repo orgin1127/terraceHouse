@@ -412,6 +412,7 @@ function start(){
 			if (drawMode == 'circle'){
 				redraw();
 				ctx.strokeStyle = lineColor;
+				ctx.lineWidth = lwidth;
 				ctx.beginPath();
 				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
 				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
