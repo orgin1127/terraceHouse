@@ -307,7 +307,7 @@ document.getElementById('canvasDownload').addEventListener('click',
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-		for(var i = 0;i < lines.length;i++){
+for(var i = 0;i < lines.length;i++){
 			
 			if (lines[i][2] == 'none')
 			{
@@ -641,7 +641,7 @@ function redraw(){
 	canvas.setAttribute("height","842px");
 	
 	ctx.lineCap="round";
-	ctx.lineWidth = lwidth;
+	
 	for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
@@ -649,14 +649,25 @@ function redraw(){
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
+			
 		ctx.strokeStyle = lines[i][5];
+		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
+		if(lines[i][4] == 'circle'){			
+			ctx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*ctx.closePath();*/				    
+			ctx.stroke();
+			ctx.stroke();
+			continue;
+		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
 		ctx.lineTo(lines[i+1][0],lines[i+1][1]);
 		ctx.stroke();
 		}
 	}		
-	return;		
+	return;	
 }
 
 function colorPicker(){
