@@ -501,6 +501,7 @@ function start(){
 			location.id = loginId;
 			location.color = lineColor;
 			location.mode = 'circle';
+			location.width = lwidth;
 			connection.send(JSON.stringify(location));
 			
 			

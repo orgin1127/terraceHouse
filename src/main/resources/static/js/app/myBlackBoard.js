@@ -356,7 +356,7 @@ document.getElementById('canvasDownload').addEventListener('click',
 document.getElementById('save-progress').onclick = function(){
 	
 	var eop = endOfPage;
-	
+	console.log('페이지:'+eop);
 	for (var i = 0; i < eop ;i++){
 		console.log('i : '+i);
 		var strr = 'hi'+i;
@@ -372,28 +372,28 @@ document.getElementById('save-progress').onclick = function(){
 		
 		tempCtx.lineCap="round";
 		
-		for(var i = 0;i < lines.length;i++){
+		for(var j = 0;j < lines.length;j++){
 			
-			if (lines[i][2] == 'none')
+			if (lines[j][2] == 'none')
 			{
 				continue;
 			}
-			if (i+1 != lines.length && lines[i][3] == cPage){
+			if (j+1 != lines.length && lines[j][3] == cPage){
 				
-			tempCtx.strokeStyle = lines[i][5];
-			tempCtx.lineWidth = lines[i][8];
+			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.lineWidth = lines[j][8];
 			tempCtx.beginPath();
-			if(lines[i][4] == 'circle'){			
-				tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
-				tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
-				tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			if(lines[j][4] == 'circle'){			
+				tempCtx.moveTo(lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][0], lines[j][1], lines[j][6], lines[j][1], lines[j][6], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][6], lines[j][7], lines[j][0], lines[j][7], lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
 				/*tempCtx.closePath();*/				    
 				tempCtx.stroke();
 				tempCtx.stroke();
 				continue;
 			}
-			tempCtx.moveTo(lines[i][0],lines[i][1]);
-			tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
+			tempCtx.moveTo(lines[j][0],lines[j][1]);
+			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
 			tempCtx.stroke();
 			}
 		}	
