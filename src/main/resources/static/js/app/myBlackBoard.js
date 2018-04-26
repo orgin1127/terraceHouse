@@ -132,6 +132,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			 
@@ -145,6 +146,7 @@ function start(){
 			lines[canvasLineCnt][2] = id;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 
 			canvasLineCnt++;
 			
