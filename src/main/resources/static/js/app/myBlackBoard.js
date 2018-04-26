@@ -55,10 +55,16 @@ function start(){
 	imagePaste = imageOnly.getContext('2d');
 	canvas = document.getElementById('mycanvas');	
 	ctx = canvas.getContext('2d');
-	img = document.getElementById('image1');
-	img.src = window.opener.document.getElementById('hi0').src;
+	img = document.getElementById('image1');	
+	if (window.opener.document.getElementById('hi0') != null 
+			&& window.opener.document.getElementById('hi0') != ''){
+		img.src = window.opener.document.getElementById('hi0').src;
+	}
+	
 	img.onload = function (){
-		imagePaste.drawImage(img,0,0);
+		
+			imagePaste.drawImage(img,0,0);
+		
 	};
 	
 
@@ -205,6 +211,7 @@ function start(){
 			if (drawMode == 'circle'){
 				redraw();
 				ctx.strokeStyle = lineColor;
+				ctx.lineWidth = lwidth;
 				ctx.beginPath();
 				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
 				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
@@ -228,7 +235,7 @@ function start(){
 			lastX = canvasX(e.clientX);
 			lastY = canvasY(e.clientY);
 			
-			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor);
+			rectMaker(firstX,firstY,lastX,lastY,loginId,lineColor,lwidth);
 			
 		}
 		
@@ -241,6 +248,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			lines[canvasLineCnt] = new Array();
 			lines[canvasLineCnt][0] = lastX;
@@ -248,6 +256,7 @@ function start(){
 			lines[canvasLineCnt][2] = loginId;
 			lines[canvasLineCnt][3] = cPage;
 			lines[canvasLineCnt][5] = lineColor;
+			lines[canvasLineCnt][8] = lwidth;
 			canvasLineCnt++;
 			redraw();
 			drawing = false;
@@ -269,19 +278,7 @@ function start(){
 			lines[canvasLineCnt][6] = lastX;
 			lines[canvasLineCnt][7] = lastY;
 			lines[canvasLineCnt][8] = lwidth;
-			canvasLineCnt++;
-			
-			var location = {};
-			location.firstX = firstX;
-			location.firstY = firstY;
-			location.lastX = lastX;
-			location.lastY = lastY;
-			location.id = loginId;
-			location.color = lineColor;
-			location.mode = 'circle';
-			connection.send(JSON.stringify(location));
-			
-			
+			canvasLineCnt++;		
 		}
 		
 		
@@ -310,7 +307,6 @@ document.getElementById('canvasDownload').addEventListener('click',
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-		tempCtx.lineWidth = lwidth;
 		for(var i = 0;i < lines.length;i++){
 			
 			if (lines[i][2] == 'none')
@@ -318,91 +314,113 @@ document.getElementById('canvasDownload').addEventListener('click',
 				continue;
 			}
 			if (i+1 != lines.length && lines[i][3] == cPage){
+				
 			tempCtx.strokeStyle = lines[i][5];
+			tempCtx.lineWidth = lines[i][8];
 			tempCtx.beginPath();
+			if(lines[i][4] == 'circle'){			
+				tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+				/*tempCtx.closePath();*/				    
+				tempCtx.stroke();
+				tempCtx.stroke();
+				continue;
+			}
 			tempCtx.moveTo(lines[i][0],lines[i][1]);
 			tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 			tempCtx.stroke();
 			}
-		}
+		}	
 		
 		downloadCanvas(this, 'imageOnly', 'savedImg.png');
 				
 	},false);
 
-	function downloadCanvas(link, canvasId, filename) {
-	    link.href = document.getElementById(canvasId).toDataURL();
-	    link.download = filename;
-	    
-	    var tempCanvas = document.getElementById('imageOnly');
-		var tempImage = document.getElementById('image1');
-		var tempCtx = tempCanvas.getContext('2d');
-		
-		tempCanvas.setAttribute("width","595px");
-		tempCanvas.setAttribute("height","842px");
-		
-		tempCtx.drawImage(tempImage,0,0); 
-	}
+function downloadCanvas(link, canvasId, filename) {
+    link.href = document.getElementById(canvasId).toDataURL();
+    link.download = filename;
+    
+    var tempCanvas = document.getElementById('imageOnly');
+	var tempImage = document.getElementById('image1');
+	var tempCtx = tempCanvas.getContext('2d');
+	
+	tempCanvas.setAttribute("width","595px");
+	tempCanvas.setAttribute("height","842px");
+	
+	tempCtx.drawImage(tempImage,0,0); 
+}
 
-document.getElementById('save-progress').onclick = function(){
-	
-	var eop = endOfPage;
-	
-	for (var i = 0; i < eop ;i++){
-		console.log('i : '+i);
-		var strr = 'hi'+i;
-		var tempCanvas = document.getElementById('imageOnly');
-		var tempImage = document.getElementById(strr);
-		console.log(tempImage.src);
-		var tempCtx = tempCanvas.getContext('2d');
+	document.getElementById('save-progress').onclick = function(){
 		
-		tempCanvas.setAttribute("width","595px");
-		tempCanvas.setAttribute("height","842px");
-		
-		tempCtx.drawImage(tempImage,0,0);
-		
-		tempCtx.lineCap="round";
-		tempCtx.lineWidth = lwidth;
-		for(var j = 0;j < lines.length;j++){
+		var eop = endOfPage;
+		console.log('페이지:'+eop);
+		for (var i = 0; i < eop ;i++){
+			console.log('i : '+i);
+			var strr = 'hi'+i;
+			var tempCanvas = document.getElementById('imageOnly');
+			var tempImage = document.getElementById(strr);
+			console.log(tempImage.src);
+			var tempCtx = tempCanvas.getContext('2d');
 			
-			if (lines[j][2] == 'none')
-			{
-				continue;
-			}
-			if (i+1 != lines.length && lines[j][3] == i){
-			tempCtx.strokeStyle = lines[j][5];
-			tempCtx.beginPath();
-			tempCtx.moveTo(lines[j][0],lines[j][1]);
-			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
-			tempCtx.stroke();
-			}
-		}
-		imageArray[i] =  tempCanvas.toDataURL('image/png');	
-	}
-	
-	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
-		console.log('에이잭스 실행');
-		var terrace_room_number = document.getElementById('terrace_room_number').value;
-		$.ajax({
+			tempCanvas.setAttribute("width","595px");
+			tempCanvas.setAttribute("height","842px");
+			
+			tempCtx.drawImage(tempImage,0,0);
+			
+			tempCtx.lineCap="round";
+			
+			for(var j = 0;j < lines.length;j++){
 				
-			url:'makePersonalPDF',
-			type:'POST',
-			traditional: true,
-			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
-			
-			success:function(e){
-				console.log('보내짐');
-			}
-			, error: function(e) {
-				alert(JSON.stringify(e));
-				console.log(JSON.stringify(e));
-
-			}
-		});
+				if (lines[j][2] == 'none')
+				{
+					continue;
+				}
+				if (j+1 != lines.length && lines[j][3] == cPage){
+					
+				tempCtx.strokeStyle = lines[j][5];
+				tempCtx.lineWidth = lines[j][8];
+				tempCtx.beginPath();
+				if(lines[j][4] == 'circle'){			
+					tempCtx.moveTo(lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+					tempCtx.bezierCurveTo(lines[j][0], lines[j][1], lines[j][6], lines[j][1], lines[j][6], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+					tempCtx.bezierCurveTo(lines[j][6], lines[j][7], lines[j][0], lines[j][7], lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+					/*tempCtx.closePath();*/				    
+					tempCtx.stroke();
+					tempCtx.stroke();
+					continue;
+				}
+				tempCtx.moveTo(lines[j][0],lines[j][1]);
+				tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+				tempCtx.stroke();
+				}
+			}	
+			imageArray[i] =  tempCanvas.toDataURL('image/png');	
+		}
 		
-	}
+		if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
+			console.log('에이잭스 실행');
+			var terrace_room_number = document.getElementById('terrace_room_number').value;
+			$.ajax({
+					
+				url:'makePersonalPDF',
+				type:'POST',
+				traditional: true,
+				data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
+				
+				success:function(e){
+					console.log('보내짐');
+				}
+				, error: function(e) {
+					alert(JSON.stringify(e));
+					console.log(JSON.stringify(e));
 
-};
+				}
+			});
+			
+		}
+
+	};
 
 
 
@@ -433,7 +451,7 @@ function canvasUndo(){
 };
 
 
-function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
+function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 
 	
 	var fX = firstX;
@@ -442,6 +460,8 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	var lY = lastY;		
 	var idd = id;
 	var rectColor = rectC;
+	var wid = lineWid;
+	
 	
 	lines[canvasLineCnt] = new Array();
 	lines[canvasLineCnt][0] = fX;
@@ -450,6 +470,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++;
 	lines[canvasLineCnt] = new Array();
@@ -477,6 +498,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 
 	canvasLineCnt++; 
 	lines[canvasLineCnt] = new Array();
@@ -486,6 +508,7 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC){
 	lines[canvasLineCnt][3] = cPage;
 	lines[canvasLineCnt][4] = 'rectangle';
 	lines[canvasLineCnt][5] = rectColor;
+	lines[canvasLineCnt][8] = wid;
 	canvasLineCnt++;	
 
 	
@@ -521,6 +544,11 @@ function canvasCircle(){
 	return;
 }
 
+function changeLineWidth(){
+	var ww = document.getElementById('lineWidth').value;
+	lwidth = ww;
+}
+
 function backwardPage(inputId){
 	var tempId;
 	
@@ -540,9 +568,9 @@ function backwardPage(inputId){
 	{
 		cPage--;
 	}
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var str = 'hi'+cPage;
 	img = document.getElementById('image1');
-	img.src = stringURL;
+	img.src = document.getElementById(str).src;
 	img.onload = function(){
 		imageOnly = document.getElementById('imageOnly');
 		imagePaste = imageOnly.getContext('2d');
@@ -574,9 +602,9 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+tempId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var str = 'hi'+cPage;
 	img = document.getElementById('image1');
-	img.src = stringURL;
+	img.src = document.getElementById(str).src;
 	img.onload = function(){
 		imageOnly = document.getElementById('imageOnly');
 		imagePaste = imageOnly.getContext('2d');

@@ -24,6 +24,13 @@
 		<td width="80" height="800">
 			<a id="canvasDownload"><img src="image/canvasDownload.png"></a><br>
 			<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br>
+			<select id="lineWidth" onchange="changeLineWidth()">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5" selected="selected">5</option>
+						</select>
 			<input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000"><br>
 			<a href="javascript:canvasUndo()"><img src="image/canvasUndo.png"></a><br>
 			<a href="javascript:canvasER()"><img src="image/canvasEraser.png" width="24" height="24"></a><br>
