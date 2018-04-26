@@ -28,7 +28,7 @@ public class PersonalFileService {
 	
 	
 	@Transactional(readOnly = true)
-	public List<PersonalFileMainResponseDto> findAllByMemberNumber(Long member_number){
+	public List<PersonalFileMainResponseDto> findAllByMemberNumber(Member member_number){
 		return personalFileRepository.findAllByMemberNumber(member_number)
 										.map(PersonalFileMainResponseDto::new)
 										.collect(Collectors.toList());

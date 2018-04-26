@@ -14,8 +14,10 @@ public interface PersonalFileRepository extends JpaRepository<PersonalFile, Long
 	
 	@Query("SELECT pf " + 
 			"FROM PersonalFile pf " + 
-			"WHERE pf.member_number= :member_number")
-	Stream<PersonalFile> findAllByMemberNumber(@Param("member_number") Long member_number);
+			"WHERE pf.member_number= :member_number and " + 
+			"(pf.terrace_room_number.saved_file_path != 'non' and pf.saved_personal_file_path != 'non') " + 
+			"ORDER BY file_number DESC")
+	Stream<PersonalFile> findAllByMemberNumber(@Param("member_number") Member member_number);
 	
 	@Modifying
 	@Query("UPDATE PersonalFile " +

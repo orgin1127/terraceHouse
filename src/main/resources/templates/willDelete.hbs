@@ -1,18 +1,19 @@
 <!DOCTYPE HTML> 
 <html>
 <head> 
+<script type="text/javascript">
 
+
+</script>
 </head> 
 <body>
-{{#each jrm}}
-	<p>{{join_number}}</p>
-	<p>{{member}}</p>
-	<p>{{terraceRoom}}
-{{/each}}
+
 <br>
-<!-- {{#each pList}}
-	<p>{{terrace_room_number}}</p>
-	<p>{{member_number}}</p>
-{{/each}} -->
+
+{{#each pList}}
+	<p>{{terrace_room_number.terrace_room_name}}({{terrace_room_number.create_date}})</p>
+	<p><A href="https://s3.console.aws.amazon.com/s3/buckets/{{terrace_room_number.saved_file_path}}/{{saved_personal_file_name}}">{{saved_personal_file_name}}</A></p>
+{{/each}}
+
 </body> 
 </html>

@@ -128,14 +128,15 @@ public class WebController {
 	@GetMapping("/myFiles")
 	public String myFiles(HttpSession session, Model model){
 		Long l = (Long)session.getAttribute("member_number");
+		Member m = (Member) session.getAttribute("loginedMember");
 		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
-		//List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(l);
+		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(m);
 		if(list != null) {
 			model.addAttribute("jrm", list);
 		}
-		/*if(pList != null) {			
+		if(pList != null) {			
 			model.addAttribute("pList", pList);
-		}*/
+		}
 		return "willDelete";
 	}
 	

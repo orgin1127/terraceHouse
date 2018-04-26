@@ -131,16 +131,19 @@ public class S3FileUploadAndDownload {
 		
 	}
 	
-	public void uploadPersonalPDF(InputStream is, TerraceRoom tr){
+	public String uploadPersonalPDF(InputStream is, TerraceRoom tr){
+		String fileName = "";
 		try{
 			ObjectMetadata meta = new ObjectMetadata();
-			String fileName = generateFileName();
-			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(),fileName +tr.getTerrace_room_name()+ "(personal).pdf", is, meta)
+			fileName = generateFileName()+tr.getTerrace_room_name();
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(),fileName +fileName+ "(personal).pdf", is, meta)
 						.withCannedAcl(CannedAccessControlList.PublicRead));
 			is.close();
+		
 		}
 		catch (Exception e) {
 		}
+		return fileName;
 	}
 	
 	private String generateFileName() {

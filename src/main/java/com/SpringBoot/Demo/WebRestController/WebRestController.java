@@ -263,11 +263,11 @@ public class WebRestController {
 		    byte[] data = out.toByteArray();
 		    is = new ByteArrayInputStream(data);
 		    
-		    s3File.uploadPersonalPDF(is, tr);
+		    String fileName = s3File.uploadPersonalPDF(is, tr);
 			//페이지를 다 집어넣고 나서 문서를 닫음
 			doc.close();
 			Member m = (Member) session.getAttribute("loginedMember");
-			personalFileService.updatePersonalFile(tr.getSaved_file_path(), tr.getTerrace_room_name()+ "(personal).pdf"
+			personalFileService.updatePersonalFile(tr.getSaved_file_path(), fileName+ "(personal).pdf"
 													,tr, m);
 			
 		}
