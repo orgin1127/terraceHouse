@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,9 +18,14 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
@@ -34,9 +40,12 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
 public class S3FileUploadAndDownload {
 	
@@ -144,6 +153,21 @@ public class S3FileUploadAndDownload {
 		catch (Exception e) {
 		}
 		return fileName;
+	}
+	
+	public ResponseEntity<byte[]> download(String saved_file_path, String key) throws IOException {
+		
+		GetObjectRequest getObjectRequest = new GetObjectRequest(saved_file_path, key);
+		S3Object s3Object = S3.getObject(getObjectRequest);
+		S3ObjectInputStream objectInputStream = s3Object.getObjectContent();
+		byte[] bytes = IOUtils.toByteArray(objectInputStream);
+		String fileName = URLEncoder.encode(key, "UTF-8").replaceAll("\\+", "%20");
+		HttpHeaders httpHeaders = new HttpHeaders();
+		
+        httpHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		httpHeaders.setContentLength(bytes.length);
+		httpHeaders.setContentDispositionFormData("attachment", fileName);
+		return new ResponseEntity<>(bytes, httpHeaders, HttpStatus.OK);
 	}
 	
 	private String generateFileName() {

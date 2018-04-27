@@ -282,5 +282,5 @@ public class WebRestController {
 		System.out.println("end 작동");
 		terraceRoomService.endOfTerraceRoom(terrace_room_number);
 	}
-
+	
 }

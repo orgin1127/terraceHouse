@@ -12,7 +12,9 @@
 
 {{#each pList}}
 	<p>{{terrace_room_number.terrace_room_name}}({{terrace_room_number.create_date}})</p>
-	<p><A href="https://s3.console.aws.amazon.com/s3/buckets/{{terrace_room_number.saved_file_path}}/{{saved_personal_file_name}}">{{saved_personal_file_name}}</A></p>
+	<p>개인파일 : <a href="myFilesDownload?filePath={{terrace_room_number.saved_file_path}}&fileName={{saved_personal_file_name}}">{{saved_personal_file_name}}</a></p>
+	<p>공유파일 : <a href="myFilesDownload?filePath={{terrace_room_number.saved_file_path}}&fileName={{terrace_room_number.shared_file_name}}">{{terrace_room_number.shared_file_name}}</a></p>
+	<p>공유파일 : <a href="myFilesDownload?filePath={{terrace_room_number.saved_file_path}}&fileName={{terrace_room_number.saved_file_name}}">{{terrace_room_number.saved_file_name}}</a></p>
 {{/each}}
 {{nullList}}
 </body> 
