@@ -136,7 +136,7 @@ public class S3FileUploadAndDownload {
 		try{
 			ObjectMetadata meta = new ObjectMetadata();
 			fileName = generateFileName()+tr.getTerrace_room_name();
-			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(),fileName +fileName+ "(personal).pdf", is, meta)
+			S3.putObject(new PutObjectRequest(tr.getSaved_file_path(),fileName + "(personal).pdf", is, meta)
 						.withCannedAcl(CannedAccessControlList.PublicRead));
 			is.close();
 		
