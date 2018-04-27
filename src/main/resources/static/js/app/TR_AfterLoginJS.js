@@ -59,6 +59,10 @@ $(document).ready(function() {
 		location.href='myFiles';
 	});
 	
+	$('#terraceListBtn').on('click', function() {
+		location.href='terraceRoomsList';
+	});
+	
 });
 
 

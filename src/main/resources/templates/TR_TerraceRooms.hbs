@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<title>Terrace House</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- w3schools 템플릿 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" type="text/css" href="/css/app/terraceRoomsCSS.css">
+
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Shadows+Into+Light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+
+<body>
+
+<!-- 사이드바  -->
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+  
+  <br><br><br>
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;마이 페이지&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle-o"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;서비스 알림&nbsp;&nbsp;&nbsp;<i class="fa fa-bell"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;나의 테라스&nbsp;&nbsp;&nbsp;<i class="fa fa-home"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 검색&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 이동&nbsp;&nbsp;&nbsp;<i class="fa fa-sign-in"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 개설&nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;개인 열람실&nbsp;&nbsp;&nbsp;<img src="resources/gogo3/image/book.png" style="width: 15px;">
+  </a>
+</div>
+
+<!-- 상위메뉴 -->
+<div class="w3-top">
+
+  <div class="w3-bar w3-white w3-card" id="myNavbar" style="height: 58px;">
+    
+    <a href="#home" class="w3-bar-item w3-button w3-wide">TERRACE HOUSE</a>
+    <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> &#9956;</button>
+     
+  </div>
+  
+</div>
+
+
+<header id="home">
+     
+<div class="container" style="padding:200px">
+
+
+{{#each terraceRoomList}}
+	<div class="terraceRoom">
+		이름 : {{terrace_room_name}}<br>
+		인원 : {{terrace_room_mop}}<br>
+		방장 : {{member.member_name}}<br>
+		<input type="button" id="" value="입장">
+	</div>
+	<br>
+{{/each}}
+</div>
+
+</header>
+
+<script>
+
+// 사이드바 버튼 열고 닫기
+var mySidebar = document.getElementById("mySidebar");
+
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+    } else {
+        mySidebar.style.display = 'block';
+    }
+}
+
+// 사이드바 닫기
+/* function w3_close() {
+    mySidebar.style.display = "none";
+} */
+
+</script>
+
+</body>
+</html>

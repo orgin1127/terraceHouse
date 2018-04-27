@@ -1,0 +1,9 @@
+@CHARSET "UTF-8";
+
+.terraceRoom{
+	width: 350px;
+	margin: auto;
+	border: 1px lightgrey solid;
+	color: white;
+	background-color: #607D8B;
+}

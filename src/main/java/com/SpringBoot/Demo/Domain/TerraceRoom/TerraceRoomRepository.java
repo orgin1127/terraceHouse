@@ -19,7 +19,11 @@ public interface TerraceRoomRepository extends JpaRepository<TerraceRoom, Long> 
 			"WHERE terrace_room_active= 'active'" + 
 			"ORDER BY tr.terrace_room_number DESC")
 	Stream<TerraceRoom> findAllByTerraceActive();
-	
+
+	@Query("SELECT tr " +
+			"FROM TerraceRoom tr " +
+			"WHERE tr.terrace_room_name LIKE CONCAT ('%',:inputTitle,'%')")
+	Stream<TerraceRoom> findAllByTitle(@Param("inputTitle") String inputTitle);
 	
 	@Query("SELECT tr " + 
 			"FROM TerraceRoom tr " + 

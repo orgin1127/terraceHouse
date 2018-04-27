@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
@@ -34,6 +35,7 @@ import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
@@ -281,6 +283,14 @@ public class WebRestController {
 	public void endOfTerraceRoom(@RequestParam("terrace_room_number")Long terrace_room_number){
 		System.out.println("end 작동");
 		terraceRoomService.endOfTerraceRoom(terrace_room_number);
+	}
+	
+	@PostMapping("/searchTerraceRoom")
+	public List<TerraceRoomMainResponseDto> searchTerraceRoom(@RequestParam("inputTitle") String inputTitle){
+		System.out.println(inputTitle);
+		List<TerraceRoomMainResponseDto> list = terraceRoomService.findAllByInputTitle(inputTitle);
+		System.out.println(list);
+		return list;
 	}
 	
 }

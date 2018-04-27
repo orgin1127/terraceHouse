@@ -166,4 +166,10 @@ public class WebController {
 		}
 		return null;
 	}
+	
+	@GetMapping("/terraceRoomsList")
+	public String terraceRoomsList(Model model){
+		model.addAttribute("terraceRoomList", terraceRoomService.findAllByTerraceActive());
+		return "TR_TerraceRooms";
+	}
 }

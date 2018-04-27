@@ -64,6 +64,13 @@ public class TerraceRoomService {
 	}
 	
 	@Transactional(readOnly = true)
+	public List<TerraceRoomMainResponseDto> findAllByInputTitle(String inputTitle){
+		return terraceRoomRepository.findAllByTitle(inputTitle)
+				.map(TerraceRoomMainResponseDto::new)
+				.collect(Collectors.toList());
+	}
+	
+	@Transactional(readOnly = true)
 	public TerraceRoom findOneByTerraceRoomNumber(Long terrace_room_number){
 		return terraceRoomRepository.findOneByTerraceRoomNumber(terrace_room_number);
 	}

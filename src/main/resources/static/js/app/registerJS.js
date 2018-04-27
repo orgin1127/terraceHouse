@@ -1,6 +1,6 @@
 /**
  * JS for Member Register and login
- * create by Seo
+ * create by SEO K
  */
 $(document).ready(function() {
 

@@ -7,11 +7,13 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="css/app/registerTerraceCSS.css">
+<link rel="stylesheet" href="css/app/searchTerraceCSS.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="/js/app/TR_AfterLoginJS.js"></script>
+<script src="/js/app/searchTerraceJS.js"></script>
 
 <!-- w3schools 템플릿 -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -362,13 +364,27 @@ input.ao-toggle:checked ~ .ao-annotations span:nth-child(5) {
 
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
 <br><br><br>
-	<input type="button" class="w3-bar-item w3-button" id="myPageBtn" value="My Page">
-	<input type="button" class="w3-bar-item w3-button" id="noticeBtn" value="알림">
-	<input type="button" class="w3-bar-item w3-button" id="myTerraceBtn" value="내 테라스">
-	<input type="button" class="w3-bar-item w3-button" id="searchTerraceBtn" value="방 검색">
-	<input type="button" class="w3-bar-item w3-button" id="terraceListBtn" value="테라스 목록">
-	<input type="button" class="w3-bar-item w3-button" id="makeTerraceBtn" value="테라스 만들기">
-	<input type="button" class="w3-bar-item w3-button" id="myFilesBtn" value="My Files">
+	<a href="#" id="myPageBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;마이 페이지&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle-o"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="noticeBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;서비스 알림&nbsp;&nbsp;&nbsp;<i class="fa fa-bell"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="myTerraceBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;나의 테라스&nbsp;&nbsp;&nbsp;<i class="fa fa-home"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="searchTerraceBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 검색&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="terraceListBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 이동&nbsp;&nbsp;&nbsp;<i class="fa fa-sign-in"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="makeTerraceBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 개설&nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" id="myFilesBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;개인 열람실&nbsp;&nbsp;&nbsp;<img src="resources/gogo3/image/book.png" style="width: 15px;">
+  </a>
 </div>
 
 <!-- 상위메뉴 -->
@@ -785,7 +801,24 @@ $('a[href*="#"]')
 			  <div class="modal-body" id="myTerraceRegisterModalBody"></div>
 			  <div class="modal-footer" id="myTerraceRegisterModalFooter"><h1> </h1></div>
 		</div>
-		
+	</div>
+	
+	<!-- The Terrace Search Modal -->
+	<div id="terraceSearchModal" class="modal">
+	  	<!-- Modal content -->
+		<div class="modal-content" id="terraceSearchModalContent">
+			  <div class="modal-header" id="terraceSearchModalHeader">
+			    <span class="closeModal" id="terraceSearchModalCloser">&times;</span>
+			    <h2>[ S e a r c h T e r r a c e ]</h2>
+			  </div>
+			  <div class="modal-body" id="terraceSearchModalBody">
+			  	<div id="searchTerraceDiv">
+			  		<input type="text" id="searchTerracTitleInput">&nbsp;&nbsp;<input type="button" id="searchTerraceRoomBtn" value="검색"><br>
+			  		<div id="searchedTerraceDiv"></div>
+			  	</div>
+			  </div>
+			  <div class="modal-footer" id="terraceSearchModalFooter"><h1> </h1></div>
+		</div>
 	</div>
 
 </body>
