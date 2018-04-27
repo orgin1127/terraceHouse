@@ -1,17 +1,32 @@
 <!DOCTYPE html>
 <html>
-<head>
+<title>Terrace House</title>
+
 <meta charset="UTF-8">
-<title>test</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-<script src="/js/lib/jquery.min.js"></script> 
-<!-- <script type="text/javascript" src="jquery.form.min.js"></script> -->
-<script src="/js/lib/bootstrap.min.js"></script>
-
+<!-- w3schools 템플릿 -->
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="css/app/terraceRoom.css">
 
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Shadows+Into+Light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+
+
+<script src="/js/lib/jquery.min.js"></script> 
+
+<script src="/js/lib/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/app/terraceRoom.css">
 <script type="text/javascript">
 window.enableAdapter = true;
 	$(document).ready(function() {
@@ -26,139 +41,122 @@ window.enableAdapter = true;
 		console.log('exit div pushed');
 	}
 </script>
-</head>
+
 <body>
+
+<!-- 상위 메뉴바 -->
+<div class="w3-top">
+
+  <div class="w3-bar w3-white w3-card" id="myNavbar" style="height: 58px;">
+    
+    <a href="#home" class="w3-bar-item w3-button w3-wide">TERRACE HOUSE</a>
+    <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> &#9956;</button>
+     
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <!-- <span class="w3-bar-item w3-wide" style="margin-top: 9px;">소개</span> -->
+    	
+     
+      <button id="btn-save-progress" class="w3-bar-item w3-button w3-wide"
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜회의완료</button>
+      <button id="btn-open-room" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;
+      		font-size: 15px;">｜OPEN Room</button>
+      <button id="btn-join-room" class="w3-bar-item w3-button w3-wide" 
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜JOIN Room</button>
+      <input type="text" id="OwnerId" class="w3-input-small" style="margin-top: 13px; margin-right: 10px">
+      
+      <button onclick="power()" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜권한주기</button>
+      	<a id="userList"></a>
+      
+    </div>
+   
+  </div>
   
-    <div id="green1">
-	<div id="currentJoinID"></div>
-	<button id="btn-open-room" class="w3-button w3-black">Open Room</button>
-	<button id="btn-join-room" class="w3-button w3-black">Join Room</button>&nbsp;&nbsp;<input type="text" id="OwnerId" class="w3-input-small">
-	&nbsp;&nbsp;
-	<div id="userList"></div><button id="btn-open-room" class="w3-button w3-black" onclick="power()">권한주기</button>
-	<button id="btn-save-progress" class="w3-button w3-black">회의 완료</button>
+</div>
+
+<!-- 메인 화면내용 -->
+<div class="container">
+
+<div class="row">
+  <div class="column" style="position: relative; top: 100px; left: 0px; height:600px; overflow-y:scroll;" id="col1">
+		
+				<canvas height="842" width="595" id="imageOnly"
+						style="position:absolute; left: 100; top: 0; z-index: 0;"></canvas>
+				<canvas height="842" width="595" id="mycanvas" 
+						style="position: absolute; left: 100; top: 0; z-index: 1;"></canvas>
+			
+  </div>
+  
+  
+  <div class="column" style="background-color:#f2efef;" id="col2">
+  <div class="icon-bar">
+  <br><br>
+  	<form id="uploadForm">
+		<input type="hidden" id="loginId" name="loginId" value="{{loginid}}">
+		<input type="hidden" id="terraceName" name="terraceName" value="{{terraceName}}">
+		<input type="hidden" id="terrace_room_number" name ="terrace_room_number" value="{{terraceInfo.terrace_room_number}}">
+		<input type="file" id="file" name="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data" accept=".pdf">
+	</form>
+  <a href="javascript:canvasUpload()"><i class="fa fa-upload"></i></a> 
+  <a id="canvasDownload"><img src="image/file1.png"></a> 
+  <a href="javascript:canvasUndo()"><i class="fa fa-undo"></i></a>
+  <a onclick="canvasPen()"><i class="fa fa-pencil"></i></a>
+  
+  <select id="lineWidth" onchange="changeLineWidth()" style="margin: auto;">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5" selected="selected">5</option>
+	</select>
+	<a><input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000" style="width:20px;"></a>
+  <a onclick="canvasER()"><img src="image/eraser1.png"></a>
+  <a onclick="canvasCircle()"><i class="fa fa-circle-o"></i></a> 
+  <a onclick="canvasRect()"><i class="fa fa-square-o"></i></a> 
+  <a onclick="canvasLine()"><i class="fa fa-window-minimize"></i></a> 
+  <a href="javascript:backwardPage('{{loginid}}')"><i class="fa fa-caret-square-o-up"></i></a> 
+  <a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a>
+  <a href="javascript:forwardPage('{{loginid}}')"><i class="fa fa-caret-square-o-down"></i></a>
+  <a href="javascript:canvasBlackBoard()"><img src="image/blackboard.png"></a><br>
+   
+  </div>
+  </div>
+  
+  
+  <div class="column" style="background-color:#ffffff;" id="col3">
+  <hr>
+  <div class="column" style="height:24px; text-align: center;" id="terraceTitle">
+  {{terraceName}} 
+  </div>
+  <hr>
+  <div id="chat-container" style="overflow-y: auto; height: 500px;">
+	<div id="file-container"></div>
+	<div class="chat-output"></div>
 	</div>
-	<div id="currentJoinMember"></div>
-	<div class="bottom_tr_VideoContainer">
-		
-			<table id="green2">
-				<tr>
-					<td rowspan="2" id="whiteBoard" style="background-color: white; ">
-						<div style="position: relative; top: -350px; left: 0px" id="canvasScroll">
-						 <canvas height="842" width="595" id="imageOnly"
-						   style="position:absolute; left: 0; top: 0; z-index: 0;"></canvas>
-						 <canvas height="842" width="595" id="mycanvas" 
-						   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
-						</div>						
-					</td>
-					<td rowspan="2" width="60px" height="50px" id="canvasTools" style="background-color: white;">
-						<form id="uploadForm">
-							<input type="hidden" id="loginId" name="loginId" value="{{loginid}}">
-							<input type="hidden" id="terraceName" name="terraceName" value="{{terraceName}}">
-							<input type="hidden" id="terrace_room_number" name ="terrace_room_number" value="{{terraceInfo.terrace_room_number}}">
-							<input type="file" id="file" name="file" hidden="hidden" onchange="javascript:UploadtoServer()" enctype="multipart/form-data" accept=".pdf">
-						</form>
-						<div class="icon-bar">
-						<a href="javascript:canvasUpload()"><img src="image/upfile.png"></a><br>
-						<a id="canvasDownload"><img src="image/downfile.png"></a><br>
-						<div id="nav">
-						<a onclick="canvasPen(this)" class="nav-top-item"><img src="image/pencil.png"></a>
-						</div>
-						<select id="lineWidth" onchange="changeLineWidth()">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5" selected="selected">5</option>
-						</select>
-						<br>
-						<a href="javascript:canvasUndo()"><img src="image/undo.png"></a><br>
-						<a onclick="canvasER()" ><img src="image/eraser.png"></a><br>
-						<a onclick="canvasRect()" ><img src="image/square.png"></a><br>
-						<a onclick="canvasCircle()" ><img src="image/circle.png"></a><br>
-						<a onclick="canvasLine()" ><img src="image/line.png"></a><br>
-						
-						<a href="javascript:backwardPage('{{loginid}}')"><img src="image/up-arrow.png"></a><br>
-						<a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a><br>
-						<a href="javascript:forwardPage('{{loginid}}')"><img src="image/down-arrow.png"></a><br>
-						<a href="javascript:canvasBlackBoard()"><img src="image/undo.png"></a><br>
-						<a><input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000" style="width:20px;"></a><br>
-						</div>
-					</td>
-					<td colspan="1" id="terraceTitle" style="background-color: white; height:24px; "> {{terraceName}} </td>
-					<td style="background-color: white; height:24px; background-color: gray" ></td>
-				</tr>
-				<tr>
-					<td id="terraceChat" style="background-color: white; padding :0;">
-						
-							<div id="chat-container" style="overflow-y: auto; height: 600px;">
-						        <div id="file-container"></div>
-						        <div class="chat-output"></div>
-						    </div>
-						    
-						    <div id="green4">
-						    <table id="green3">
-						    
-						   
-						    
-		
-						         <tr>
-						         
-									<td id="terraceChatInput" style="background-color: grey; height: 70px;" >
-					 				<button id="share-file" disabled>Share File</button>
-									<input type="text" id="input-text-chat" placeholder="Enter Text Chat">
-									</td>
-								 </tr>
-						    
-						    
-						    </table>
-						    </div>
-						    
-						    
-						  </td>
-					<td id="green6">
-						<div id="inner_tr_VideoContainer">
-							<table class="UserVideoTR">
-								<tr>	
-									<td>								
-										<div class="videoContainer" id="user1"></div>				
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="videoContainer" id="user2"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="videoContainer" id="user3"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<div class="videoContainer" id="user4"></div>
-									</td>
-								</tr>
-								<tr>
-									<td>
-									  <div id="green5">
-										<div id="invite_DIV">초대</div><br>
-										<div id="exit_DIV">퇴장</div>
-									  </div>
-									</td>
-								</tr>
-							</table>
-						</div>
-					</td>
-				</tr>
-				
-							
-			</table>
-		</div>
-		
-	
-	
-	<!-- download js and css -->
-	<img id="image1" src="" hidden="hidden" crossOrigin = "anonymous">
+  <hr>
+  <button class="w3-button w3-black" id="share-file" disabled>Share File</button>
+  <input id="input-text-chat" class="w3-input" type="text" placeholder="Enter Text Chat">
+  </div>
+  
+  
+  <div class="column" style="background-color:#f2efef;" id="col4">
+  <br><br>
+  <div class="videoContainer"></div>
+   
+  
+
+	  
+	  
+  <button id="invite_DIV" class="w3-button w3-black">초대</button>
+  </div>
+  
+</div>
+
+</div>
+<div id="currentJoinMember"></div>
+<img id="image1" src="" hidden="hidden" crossOrigin = "anonymous">
 	<input type="hidden" id="terraceNumber" value="{{terraceInfo.terrace_room_number}}">
 	
 	<script src="/js/app/adapter.js"></script>
@@ -171,6 +169,5 @@ window.enableAdapter = true;
 	<input type="hidden" id="loginId" value="{{loginid}}">
 	<input type="hidden" id="creator">
 	<div id="hiddenImg"></div>
-	
 </body>
 </html>

@@ -1,99 +1,135 @@
+@CHARSET "UTF-8";
 
-	.icon-bar {
-    width: 35px;
-    background-color: white;
-    height: -400px;
-	}
+<!--상단바 크기 및 화면사이즈-->
 
-	.icon-bar a {
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+
+.mySlides {display:none;}
+
+#mySidebar {
+
+ position: fixed;
+
+}
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+    height: 100%;
+    line-height: 1.8;
+}
+
+.w3-bar .w3-button {
+    padding: 16px;
+}
+video{
+	width:230px;
+	height:180px;
+}
+
+video:first-child{
+	border: solid 3px red;
+}
+
+<!--영역 나누기-->
+/* Style the header */
+.header {
+    background-color: #f1f1f1;
+    padding: 30px;
+    text-align: center;    
+}
+
+/* Container for flexboxes */
+.row {
+    display: -webkit-flex;
+    display: flex;
+  
+}
+
+/* Create three equal columns that sits next to each other */
+.column {
+    
+    padding: 10px;
+    height: 730px; 
+}
+
+#canvasScroll{
+	overflow-y:scroll;
+}
+
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media (max-width: 600px) {
+    .row {
+      -webkit-flex-direction: column;
+      flex-direction: column;
+    }
+}
+
+#col1 {
+   width: 700px;
+}
+
+#col2 {
+   width: 90px;
+   
+}
+
+#col3 {
+   width: 380px;
+}
+
+#col4 {
+   width: 380px;
+}
+
+
+
+<!--아이콘 바-->
+<!--지워지면 아이콘바 위치가 달라짐-->
+.icon-bar {
+
+}
+
+.icon-bar a {
     display: block;
     text-align: center;
-    padding: 0px;
+    padding: 5px;
     transition: all 0.3s ease;
-    color: white;
-    font-size: 5px;
-    margin-bottom: 0px;
-	}
+    color: black;
+    font-size: 22px;
+}
 
-	.icon-bar a:hover {
-    background-color: #cdf2f3;
-	}
-	
-	
-	#green1 {
-	background-color: black;
-	}
- 
-	#green2 {
-	background-color: black;
-	width: 1538px;
-	
-	}
+.icon-bar a:hover {
+    background-color: white;
+}
 
-    #green3 {
-	width: 100px;
-	margin-left: 3px;
-	margin-top: 3px;
-	
-	}
+<!--유저 캠크기-->
 
-    #green4 {
-    
-	background-color: gray;
-	
-	}
-    #green5 {
-    margin-top: 23px;
-    }
-    
-   
-    #green6 {
-    background-color: #dedede;
-    
-    }
-   
-    #input-text-chat {
-    width: 300px;
-    }
-
-	video {
-		width: 230px;
-		height: 130px;
-	}
-	
-	.videoContainer {
-	    margin-top: 5px;
-		display: inline-block;
-        width: 230px;
-   	 	height: 130px;
-   		/* border: 3px solid black;  */ 
-   		/* background-color: white; */
-   		padding-top: 30px;
-		
-	}
-	.bottom_tr_VideoContainer {
-		margin-left: 0px;
-		width: 500px;
-		height: 100px;
-	}
-	.UserVideoTR {
-		border: 3px Lightgrey;
-	}
-	
-	#invite_DIV, #exit_DIV {
-
-		background-color: #ffffff;
-		color: black;
-		
-	}
-	#whiteBoard {
-		width: 600px;
-		height: 250px;
-		overflow: scroll;
-	}
-	
-	
-	#terraceTitle {
-	    width: 300px;
-		height: 100px;
-	}
+/* #per777 {
+width: 150px;
+height: 100px;
+background-color: white;
+}
+#per1 {
+width: 180px;
+height: 130px;
+background-color: white;
+}
+#per2 {
+width: 180px;
+height: 130px;
+background-color: white;
+}
+#per3 {
+width: 180px;
+height: 130px;
+background-color: white;
+}
+#per4 {
+width: 180px;
+height: 130px;
+background-color: white;
+} */

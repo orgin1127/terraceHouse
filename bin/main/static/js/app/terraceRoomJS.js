@@ -77,6 +77,7 @@ connection.onstream = function(event) {
 	var addDiv = document.getElementsByClassName('videoContainer');
 	console.log('실행');
 	
+	
 	var temp = document.getElementById('currentJoinMember');
 	var num = connection.getAllParticipants().length;
 	var id = connection.getAllParticipants();
@@ -87,6 +88,8 @@ connection.onstream = function(event) {
 	
 	
     addDiv[0].appendChild( event.mediaElement );
+    
+    console.log('끝났음');
    
 };
 
@@ -94,6 +97,7 @@ connection.onstream = function(event) {
 var predefinedRoomId = null;
 
 document.getElementById('btn-open-room').onclick = function() {
+	console.log('버튼 클릭됨');
 	predefinedRoomId = document.getElementById('loginId').value;
     this.disabled = true;
     console.log('open실행');
@@ -247,6 +251,7 @@ function start(){
 	}
 
 	ctx.lineCap="round";
+	
 	//캔버스위를 클릭 시 이벤트
 	canvas.onmousedown = function(e) {
 		
@@ -409,6 +414,7 @@ function start(){
 			if (drawMode == 'circle'){
 				redraw();
 				ctx.strokeStyle = lineColor;
+				ctx.lineWidth = lwidth;
 				ctx.beginPath();
 				ctx.moveTo(firstX, firstY + (canvasY(e.clientY) - firstY) / 2);
 				ctx.bezierCurveTo(firstX, firstY, canvasX(e.clientX), firstY, canvasX(e.clientX), firstY + (canvasY(e.clientY) - firstY) / 2);
@@ -426,6 +432,7 @@ function start(){
 					redraw();
 					
 					ctx.beginPath();
+					ctx.lineWidth = lwidth;
 					ctx.strokeStyle = lineColor;
 					ctx.moveTo(firstX,firstY);
 					ctx.lineTo(canvasX(e.clientX),canvasY(e.clientY));
@@ -872,13 +879,10 @@ function rectMaker(firstX,firstY,lastX,lastY,id,rectC,lineWid){
 	return;
 }	
 
-function canvasPen(obj){	
+function canvasPen(){	
+	console.log('펜 클릭');
 	drawMode = 'pen';
-	var aTag = document.getElementById('nav').getElementsByTagName('a');
-    for(var i=0, len=aTag.length; i<len; i++){
-        if(aTag[i]==obj){ aTag[i].className += " current"; }
-        else { aTag[i].className = "nav-top-item"; }
-    }
+	
 	return;
 }
 
@@ -1005,20 +1009,31 @@ document.getElementById('canvasDownload').addEventListener('click',
 	
 	tempCtx.lineCap="round";
 	tempCtx.lineWidth = lwidth;
-	for(var i = 0;i < lines.length;i++){
+for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
 		{
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
+			
 		tempCtx.strokeStyle = lines[i][5];
+		tempCtx.lineWidth = lines[i][8];
 		tempCtx.beginPath();
+		if(lines[i][4] == 'circle'){			
+			console.log('원 그림');
+			tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
+			/*tempCtx.closePath();*/				    
+			tempCtx.stroke();			
+			continue;
+		}
 		tempCtx.moveTo(lines[i][0],lines[i][1]);
 		tempCtx.lineTo(lines[i+1][0],lines[i+1][1]);
 		tempCtx.stroke();
 		}
-	}
+	}	
 	
 	downloadCanvas(this, 'imageOnly', 'savedImg.png');
 			
