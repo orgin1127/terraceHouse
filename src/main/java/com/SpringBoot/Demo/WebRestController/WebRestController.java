@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
@@ -19,9 +20,11 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +42,7 @@ import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 
@@ -279,6 +283,16 @@ public class WebRestController {
 		return "";
 	}
 	
+	@GetMapping("/myPage")
+	public String myPage(HttpSession session, Model model){
+		Member member = memberService.findById((String)session.getAttribute("loginID"));
+		model.addAttribute("id",member.getMemberid());
+		
+		model.addAttribute("email",member.getMember_email());
+		model.addAttribute("name", member.getMember_name());
+		return "MyPage";
+	}
+	
 	@GetMapping("/endOfTerraceRoom")
 	public void endOfTerraceRoom(@RequestParam("terrace_room_number")Long terrace_room_number){
 		System.out.println("end 작동");
@@ -286,11 +300,12 @@ public class WebRestController {
 	}
 	
 	@PostMapping("/searchTerraceRoom")
-	public List<TerraceRoomMainResponseDto> searchTerraceRoom(@RequestParam("inputTitle") String inputTitle){
+	public List<TerraceRoom> searchTerraceRoom(@RequestParam("inputTitle") String inputTitle){
 		System.out.println(inputTitle);
-		List<TerraceRoomMainResponseDto> list = terraceRoomService.findAllByInputTitle(inputTitle);
-		System.out.println(list);
-		return list;
+		ArrayList<TerraceRoom>list2 = new ArrayList<>();
+		list2 = terraceRoomService.findAllByInputTitle(inputTitle);
+		System.out.println(list2);
+		return list2;
 	}
 	
 }

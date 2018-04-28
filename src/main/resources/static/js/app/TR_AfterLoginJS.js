@@ -3,6 +3,11 @@
  */
 
 $(document).ready(function() {
+	$('#myPageBtn').on('click',function(){
+		console.log('클릭됨');
+		location.href='myPage';
+	});
+	
 	$('#makeTerraceBtn').on('click', function() {
 		$('#myTerraceRegisterModal').css('display', 'block');
 		makeTerraceRegister();
@@ -83,7 +88,7 @@ function regiTerraceRoom() {
 				if(result != 0){
 					alert('방 등록 성공');
 					//location.href="/tr?terrace_room_number="+result
-					window.open("/tr?terrace_room_number="+result,'terraceRoom','top=50,left=10,width=1000,height=800');
+					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
 				}
 			}
 		, error: function(e) {

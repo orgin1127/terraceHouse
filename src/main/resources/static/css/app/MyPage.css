@@ -1,0 +1,116 @@
+@CHARSET "UTF-8";
+
+<!--상단바 크기 및 화면사이즈-->
+
+@media only screen and (max-width: 300px) {
+	.text {
+		font-size: 11px
+	}
+}
+
+.mySlides {
+	display: none;
+}
+
+#mySidebar {
+	position: fixed;
+	float: left;
+}
+
+body, h1, h2, h3, h4, h5, h6 {
+	font-family: "Raleway", sans-serif
+}
+
+body, html {
+	height: 100%;
+	line-height: 1.8;
+}
+
+.w3-bar .w3-button {
+	padding: 16px;
+}
+
+#myInfoDiv {
+	float: left;
+	margin: 0 auto;
+	margin-top: 130px;
+	margin-left: 500px;
+	width: 600px;
+	height: 480px;
+	background-color: #F5F5F5;
+}
+
+#header {
+	height: 70px;
+	line-height: 60px; 
+	text-align: center;
+	color: white;
+	font-size: 40px;
+	letter-spacing: 5px;
+	background-color: #A9C5D2;
+}
+
+#center {
+	float: bottom;
+	margin-top: 50px;
+	text-align: center;
+}
+
+#bottom {
+	height: 35px;
+	margin-top: 30px;
+	background-color: #A9C5D2;
+}
+
+input.cssValue {
+	border-left-width: 0;
+	border-right-width: 0;
+	border-top-width: 0;
+	border-bottom-width: 1;
+	background-color: #F5F5F5;
+	color: black;
+	font-weight:bold;
+	text-align: center;
+}
+
+input::-webkit-input-placeholder {
+	color: black;
+	font-style: italic;
+	text-align: center;
+}
+
+.tb1 {
+	margin: auto;
+	border: 5px solid white;
+	padding: 20px;
+}
+
+td:first-child {
+	width: 150px;
+	height: 35px;
+	color: gray;
+}
+
+td {
+	text-align: left;
+}
+
+#btnListBtn {
+	width: 105px;
+	height: 35px;
+	margin-top: 15px;
+	color: #A7A6A4;
+	font-size: 17px;
+	letter-spacing: 5px;
+	text-align: center;
+	background-color: transparent;
+	border: 3px solid #A9C5D2;
+	border-radius: 5px;
+}
+
+#btnListBtn:hover {
+	cursor:pointer;
+	background-color: #A9C5D2;
+	border-color: #A9C5D2;
+	color: white;
+}

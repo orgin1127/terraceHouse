@@ -135,6 +135,22 @@ connection.onstreamended = function(event){
 	deleteID.id = tempid;
 	connection.send(JSON.stringify(deleteID));	
 	
+	var terrace_room_number = document.getElementById('terraceNumber').value;
+	$.ajax({
+		url:'endOfTerraceRoom',
+		data:{'terrace_room_number':terraceNum},
+		type:'get'
+	});
+	
+};
+
+window.onbeforeunload = function(){
+	
+	$.ajax({
+		url:'endOfTerraceRoom',
+		data:{'terrace_room_number':terraceNum},
+		type:'get'
+	});
 };
 
 document.getElementById('btn-save-progress').onclick = function(){
@@ -146,6 +162,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 		console.log('i : '+i);
 		var strr = 'hi'+i;
 		var tempCanvas = document.getElementById('imageOnly');
+		
 		var tempImage = document.getElementById(strr);
 		console.log(tempImage.src);
 		var tempCtx = tempCanvas.getContext('2d');
@@ -163,16 +180,27 @@ document.getElementById('btn-save-progress').onclick = function(){
 			{
 				continue;
 			}
-			if (i+1 != lines.length && lines[j][3] == i){
+			if (j+1 != lines.length && lines[j][3] == i){
+			console.log('i :'+i);	
 			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.lineWidth = lines[j][8];
 			tempCtx.beginPath();
+			if(lines[j][4] == 'circle'){			
+				tempCtx.moveTo(lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][0], lines[j][1], lines[j][6], lines[j][1], lines[j][6], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][6], lines[j][7], lines[j][0], lines[j][7], lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				/*ctx.closePath();*/				    
+				tempCtx.stroke();
+				
+				continue;
+			}
 			tempCtx.moveTo(lines[j][0],lines[j][1]);
 			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
 			tempCtx.stroke();
 			}
-
 		}
 		imageArray[i] =  tempCanvas.toDataURL('image/png');	
+		console.log('배열 크기:'+imageArray.length);
 	}
 	
 	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
@@ -192,7 +220,16 @@ document.getElementById('btn-save-progress').onclick = function(){
 					data:{'terrace_room_number':terraceNum},
 					type:'get'
 				});
-				connection.close();
+				var tempCanvas = document.getElementById('imageOnly');
+				var strr = 'hi'+cPage;
+				var tempImage = document.getElementById(strr);
+				console.log(tempImage.src);
+				var tempCtx = tempCanvas.getContext('2d');
+				
+				tempCanvas.setAttribute("width","595px");
+				tempCanvas.setAttribute("height","842px");
+				
+				tempCtx.drawImage(tempImage,0,0);
 				
 			}
 		});
@@ -791,7 +828,7 @@ function canvasUndo(){
 	   
 	   for (var i = lines.length;i>0;i--){
 		   
-		   if (lines[i-1][2] == currentId){
+		   if (lines[i-1][2] == currentId&& lines[i-1][3] == cPage){
 			   
 			   while ((lines[i-1][2] == currentId && lines[i-1][3] == cPage)
 					   || (lines[i-1][2] == currentId && lines[i-1][4] == 'rectangle')){

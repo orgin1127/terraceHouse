@@ -1,5 +1,6 @@
 package com.SpringBoot.Demo.Domain.TerraceRoom;
 
+import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,8 +23,8 @@ public interface TerraceRoomRepository extends JpaRepository<TerraceRoom, Long> 
 
 	@Query("SELECT tr " +
 			"FROM TerraceRoom tr " +
-			"WHERE tr.terrace_room_name LIKE CONCAT ('%',:inputTitle,'%')")
-	Stream<TerraceRoom> findAllByTitle(@Param("inputTitle") String inputTitle);
+			"WHERE tr.terrace_room_name LIKE CONCAT ('%',:inputTitle,'%') AND tr.terrace_room_active = 'inactive'")
+	ArrayList<TerraceRoom> findAllByTitle(@Param("inputTitle") String inputTitle);
 	
 	@Query("SELECT tr " + 
 			"FROM TerraceRoom tr " + 

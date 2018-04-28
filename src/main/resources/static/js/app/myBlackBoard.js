@@ -50,6 +50,7 @@ function start(){
 	creator = document.getElementById('creator').value;
 	console.log('creator : '+creator);
 	endOfPage = document.getElementById('pages').value;
+	console.log(endOfPage);
 	makeHiddenImg(endOfPage);
 	imageOnly = document.getElementById('imageOnly');
 	imagePaste = imageOnly.getContext('2d');
@@ -309,7 +310,7 @@ document.getElementById('canvasDownload').addEventListener('click',
 		tempCtx.drawImage(tempImage,0,0);
 		
 		tempCtx.lineCap="round";
-for(var i = 0;i < lines.length;i++){
+		for(var i = 0;i < lines.length;i++){
 			
 			if (lines[i][2] == 'none')
 			{
@@ -353,76 +354,90 @@ function downloadCanvas(link, canvasId, filename) {
 	tempCtx.drawImage(tempImage,0,0); 
 }
 
-	document.getElementById('save-progress').onclick = function(){
+document.getElementById('save-progress').onclick = function(){
 		
-		var eop = endOfPage;
-		console.log('페이지:'+eop);
-		for (var i = 0; i < eop ;i++){
-			console.log('i : '+i);
-			var strr = 'hi'+i;
-			var tempCanvas = document.getElementById('imageOnly');
-			var tempImage = document.getElementById(strr);
-			console.log(tempImage.src);
-			var tempCtx = tempCanvas.getContext('2d');
+
+	var eop = endOfPage;
+	
+	for (var i = 0; i < eop ;i++){
+		console.log('i : '+i);
+		var strr = 'hi'+i;
+		var tempCanvas = document.getElementById('imageOnly');
+		
+		var tempImage = document.getElementById(strr);
+		console.log(tempImage.src);
+		var tempCtx = tempCanvas.getContext('2d');
+		
+		tempCanvas.setAttribute("width","595px");
+		tempCanvas.setAttribute("height","842px");
+		
+		tempCtx.drawImage(tempImage,0,0);
+		
+		tempCtx.lineCap="round";
+		tempCtx.lineWidth = lwidth;
+		for(var j = 0;j < lines.length;j++){
 			
-			tempCanvas.setAttribute("width","595px");
-			tempCanvas.setAttribute("height","842px");
-			
-			tempCtx.drawImage(tempImage,0,0);
-			
-			tempCtx.lineCap="round";
-			
-			for(var j = 0;j < lines.length;j++){
-				
-				if (lines[j][2] == 'none')
-				{
-					continue;
-				}
-				if (j+1 != lines.length && lines[j][3] == cPage){
-					
-				tempCtx.strokeStyle = lines[j][5];
-				tempCtx.lineWidth = lines[j][8];
-				tempCtx.beginPath();
-				if(lines[j][4] == 'circle'){			
-					tempCtx.moveTo(lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
-					tempCtx.bezierCurveTo(lines[j][0], lines[j][1], lines[j][6], lines[j][1], lines[j][6], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
-					tempCtx.bezierCurveTo(lines[j][6], lines[j][7], lines[j][0], lines[j][7], lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
-					/*tempCtx.closePath();*/				    
-					tempCtx.stroke();
-					tempCtx.stroke();
-					continue;
-				}
-				tempCtx.moveTo(lines[j][0],lines[j][1]);
-				tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			if (lines[j][2] == 'none')
+			{
+				continue;
+			}
+			if (j+1 != lines.length && lines[j][3] == i){
+			console.log('i :'+i);	
+			tempCtx.strokeStyle = lines[j][5];
+			tempCtx.lineWidth = lines[j][8];
+			tempCtx.beginPath();
+			if(lines[j][4] == 'circle'){			
+				tempCtx.moveTo(lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][0], lines[j][1], lines[j][6], lines[j][1], lines[j][6], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				tempCtx.bezierCurveTo(lines[j][6], lines[j][7], lines[j][0], lines[j][7], lines[j][0], lines[j][1] + (lines[j][7] - lines[j][1]) / 2);
+				/*ctx.closePath();*/				    
 				tempCtx.stroke();
-				}
-			}	
-			imageArray[i] =  tempCanvas.toDataURL('image/png');	
-		}
-		
-		if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
-			console.log('에이잭스 실행');
-			var terrace_room_number = document.getElementById('terrace_room_number').value;
-			$.ajax({
-					
-				url:'makePersonalPDF',
-				type:'POST',
-				traditional: true,
-				data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
 				
-				success:function(e){
-					console.log('보내짐');
-				}
-				, error: function(e) {
-					alert(JSON.stringify(e));
-					console.log(JSON.stringify(e));
-
-				}
-			});
-			
+				continue;
+			}
+			tempCtx.moveTo(lines[j][0],lines[j][1]);
+			tempCtx.lineTo(lines[j+1][0],lines[j+1][1]);
+			tempCtx.stroke();
+			}
 		}
-
-	};
+		imageArray[i] =  tempCanvas.toDataURL('image/png');	
+		console.log('배열 크기:'+imageArray.length);
+	}
+	
+	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
+		console.log('에이잭스 실행');
+		var terrace_room_number = document.getElementById('terrace_room_number').value;
+		$.ajax({
+				
+			url:'makePersonalPDF',
+			type:'POST',
+			traditional: true,
+			data:{'imageArray' : imageArray, 'terrace_room_number' : terrace_room_number},
+				
+			success:function(e){
+				console.log('보내짐');	
+				$.ajax({
+					url:'endOfTerraceRoom',
+					data:{'terrace_room_number':terrace_room_number},
+					type:'get'
+				});
+				var tempCanvas = document.getElementById('imageOnly');
+				var strr = 'hi'+cPage;
+				var tempImage = document.getElementById(strr);
+				console.log(tempImage.src);
+				var tempCtx = tempCanvas.getContext('2d');
+				
+				tempCanvas.setAttribute("width","595px");
+				tempCanvas.setAttribute("height","842px");
+				
+				tempCtx.drawImage(tempImage,0,0);
+				redraw();
+				
+			}
+		});
+		
+	}
+};
 
 
 
@@ -434,7 +449,7 @@ function canvasUndo(){
 	   
 	   for (var i = lines.length;i>0;i--){
 		   
-		   if (lines[i-1][2] == currentId){
+		   if (lines[i-1][2] == currentId  && lines[i-1][3] == cPage){
 			   
 			   while ((lines[i-1][2] == currentId && lines[i-1][3] == cPage)
 					   || (lines[i-1][2] == currentId && lines[i-1][4] == 'rectangle')){
@@ -643,7 +658,7 @@ function redraw(){
 	canvas.setAttribute("height","842px");
 	
 	ctx.lineCap="round";
-	
+	ctx.lineWidth = lwidth;
 	for(var i = 0;i < lines.length;i++){
 		
 		if (lines[i][2] == 'none')
@@ -651,25 +666,14 @@ function redraw(){
 			continue;
 		}
 		if (i+1 != lines.length && lines[i][3] == cPage){
-			
 		ctx.strokeStyle = lines[i][5];
-		ctx.lineWidth = lines[i][8];
 		ctx.beginPath();
-		if(lines[i][4] == 'circle'){			
-			ctx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
-			ctx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
-			ctx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
-			/*ctx.closePath();*/				    
-			ctx.stroke();
-			ctx.stroke();
-			continue;
-		}
 		ctx.moveTo(lines[i][0],lines[i][1]);
 		ctx.lineTo(lines[i+1][0],lines[i+1][1]);
 		ctx.stroke();
 		}
 	}		
-	return;	
+	return;		
 }
 
 function colorPicker(){

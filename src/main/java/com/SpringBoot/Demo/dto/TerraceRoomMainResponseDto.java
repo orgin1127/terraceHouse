@@ -2,11 +2,13 @@ package com.SpringBoot.Demo.dto;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TerraceRoomMainResponseDto {
 	
 	private Long terrace_room_number;

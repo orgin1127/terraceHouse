@@ -1,5 +1,6 @@
 package com.SpringBoot.Demo.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,10 +65,8 @@ public class TerraceRoomService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<TerraceRoomMainResponseDto> findAllByInputTitle(String inputTitle){
-		return terraceRoomRepository.findAllByTitle(inputTitle)
-				.map(TerraceRoomMainResponseDto::new)
-				.collect(Collectors.toList());
+	public ArrayList<TerraceRoom> findAllByInputTitle(String inputTitle){
+		return  terraceRoomRepository.findAllByTitle(inputTitle);
 	}
 	
 	@Transactional(readOnly = true)

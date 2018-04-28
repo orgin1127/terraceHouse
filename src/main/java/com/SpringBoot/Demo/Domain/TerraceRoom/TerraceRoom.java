@@ -52,7 +52,7 @@ public class TerraceRoom {
 	@Column(columnDefinition = "default 'active'")
 	private String terrace_room_active = "active";
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "member_number")
 	private Member member;
 
