@@ -21,25 +21,26 @@
 				   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
 			</div>	
 		</td>
-		<td width="80" height="800">
-			<a id="canvasDownload"><img src="image/canvasDownload.png"></a><br>
-			<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br>
+		<td class="icon-bar" width="80" height="800">
+			<a id="canvasDownload"><img src="image/file1.png" width="24" height="24"></a><br><br>
+			<a href="javascript:canvasUndo()"><i class="fa fa-undo" style="font-size:24px"></i></a><br><br>
+			<a href="javascript:canvasPen()"><img src="image/canvasPen.png" width="24" height="24"></a><br><br>
 			<select id="lineWidth" onchange="changeLineWidth()">
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
 							<option value="4">4</option>
 							<option value="5" selected="selected">5</option>
-						</select>
-			<input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000"><br>
-			<a href="javascript:canvasUndo()"><img src="image/canvasUndo.png"></a><br>
-			<a href="javascript:canvasER()"><img src="image/canvasEraser.png" width="24" height="24"></a><br>
-			<a href="javascript:canvasRect()"><img src="image/canvasRect.png"></a><br>
-			<a href="javascript:canvasLine()"><img src="image/canvasLine.png"></a><br>
-			<a href="javascript:canvasCircle()"><img src="image/circle.png"></a><br>
-			<a href="javascript:backwardPage('{{creator}}')"><img src="image/canvasPageUp.png"></a><br>
-			<input type="text" id="indexOfpage" value="0" readonly="readonly" style="width:20px; text-align: center;"><br>
-			<a href="javascript:forwardPage('{{creator}}')"><img src="image/canvasPageDown.png"></a><br>
+						</select><br><br>
+			<input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000" style="width:24px; height:24px;"><br><br>
+			
+			<a href="javascript:canvasER()"><img src="image/eraser1.png" style="width:24px; height:24px;"></a><br><br>
+			<a href="javascript:canvasCircle()"><i class="fa fa-circle-o"></i><br><br>
+			<a href="javascript:canvasRect()"><i class="fa fa-square-o" style="font-size:24px"></i></a><br><br>
+			<a href="javascript:canvasLine()"><i class="fa fa-window-minimize" style="font-size:24px"></i></a><br><br>			
+			<a href="javascript:backwardPage('{{creator}}')"><i class="fa fa-caret-square-o-up" style="font-size:24px"></i></a><br>
+			 <a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a>
+			<br><a href="javascript:forwardPage('{{creator}}')"><i class="fa fa-caret-square-o-down" style="font-size:24px"></i></a><br>
 		</td>
 	</tr>
 </table>

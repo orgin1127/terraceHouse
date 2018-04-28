@@ -382,9 +382,9 @@ input.ao-toggle:checked ~ .ao-annotations span:nth-child(5) {
   <a href="#" id="makeTerraceBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
   	&nbsp;&nbsp;&nbsp;&nbsp;테라스 개설&nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></a>
   <hr style="margin-top: 1px; margin-bottom: 1px;">
-  <a href="#" id="myFilesBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
-  	&nbsp;&nbsp;&nbsp;&nbsp;개인 열람실&nbsp;&nbsp;&nbsp;<img src="resources/gogo3/image/book.png" style="width: 15px;">
-  </a>
+  <a id="myFilesBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;개인 열람실&nbsp;&nbsp;&nbsp;<img src="image/book.png" style="width: 15px;">
+</a>
 </div>
 
 <!-- 상위메뉴 -->
@@ -802,6 +802,25 @@ $('a[href*="#"]')
 			  <div class="modal-footer" id="myTerraceRegisterModalFooter"><h1> </h1></div>
 		</div>
 	</div>
+	<div id="ggo1" class="w3-modal">
+	<div class="w3-modal-content w3-animate-top w3-card-4">
+		<div class="w3-container w3-card w3-white" id="ggo2">
+ 			<span onclick="document.getElementById('ggo1').style.display='none'" 
+       		class="w3-button w3-display-topright">&times;</span>
+        	<div>
+        		<h2 class="w3-text-grey w3-padding-16"><i class="fa fa-star fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>My File</h2>
+        		<hr>
+        	</div>
+        	<div id="terraceDownload">
+	         	<h5 class="w3-text-teal"><b>텍스트1</b></h5>
+	          	<h6 class="w3-opacity">텍스트2</h6>
+	          	<p>텍스트3</p>
+	          	<hr>
+        	</div>       
+		</div>
+	</div>
+</div>
+	
 	
 	<!-- The Terrace Search Modal -->
 	<div id="terraceSearchModal" class="modal">
@@ -814,7 +833,7 @@ $('a[href*="#"]')
 			  <div class="modal-body" id="terraceSearchModalBody">
 			  	<div id="searchTerraceDiv">
 			  		<input type="text" id="searchTerracTitleInput">&nbsp;&nbsp;<input type="button" id="searchTerraceRoomBtn" value="검색"><br>
-			  		<div id="searchedTerraceDiv"></div>
+			  		<div id="searchedTerraceDiv" ></div>
 			  	</div>
 			  </div>
 			  <div class="modal-footer" id="terraceSearchModalFooter"><h1> </h1></div>

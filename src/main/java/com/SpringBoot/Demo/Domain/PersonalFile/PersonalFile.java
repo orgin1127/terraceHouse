@@ -33,11 +33,11 @@ public class PersonalFile {
 	@Column(columnDefinition = "default non")
 	private String saved_personal_file_name = "non";
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "terrace_room_number")
 	private TerraceRoom terrace_room_number;
 	
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "member_number")
 	private Member member_number;
 

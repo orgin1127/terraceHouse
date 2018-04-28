@@ -34,10 +34,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
+import com.SpringBoot.Demo.Service.JoinRoomMemberService;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
+import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
@@ -57,6 +60,7 @@ public class WebRestController {
 	private TerraceRoomService terraceRoomService;
 	private MemberService memberService;
 	private PersonalFileService personalFileService;
+	private JoinRoomMemberService joinRoomMemberService;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -306,6 +310,18 @@ public class WebRestController {
 		list2 = terraceRoomService.findAllByInputTitle(inputTitle);
 		System.out.println(list2);
 		return list2;
+	}
+	
+	@GetMapping("/myFiles")
+	public List<PersonalFileMainResponseDto> myFiles(HttpSession session){
+		
+		Member m = (Member) session.getAttribute("loginedMember");
+		
+		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(m);
+		System.out.println(pList.toString());		
+		
+		
+		return pList;
 	}
 	
 }

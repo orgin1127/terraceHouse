@@ -134,24 +134,7 @@ public class WebController {
 		return "myBlackBoard";
 	}
 	
-	@GetMapping("/myFiles")
-	public String myFiles(HttpSession session, Model model){
-		Long l = (Long)session.getAttribute("member_number");
-		Member m = (Member) session.getAttribute("loginedMember");
-		List<JoinRoomMemberMainResponseDto> list = joinRoomMemberService.findOneByMemberNumber(l);
-		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(m);
-		System.out.println(pList.toString());
-		if(list != null) {
-			model.addAttribute("jrm", list);
-		}
-		if(pList != null) {			
-			model.addAttribute("pList", pList);
-		}
-		if(pList.isEmpty()) {
-			model.addAttribute("nullList", "개인 파일이 존재하지 않습니다.");
-		}
-		return "willDelete";
-	}
+	
 	
 	@GetMapping("/myFilesDownload")
 	public ResponseEntity<byte[]> myFilesDownload(String filePath, String fileName){
