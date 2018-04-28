@@ -66,22 +66,12 @@
 
 <header id="home">
      
-<div class="container" style="padding:200px">
 
+<div id ="didididi" style="margin-top: 300px;">
 
-{{#each terraceRoomList}}
-	<div class="terraceRoom">
-		이름 : {{terrace_room_name}}<br>
-		인원 : {{terrace_room_mop}}<br>
-		방장 : {{member.member_name}}<br>
-		<input type="button" id="" value="입장">
-	</div>
-	<br>
-{{/each}}
 </div>
-
 </header>
-
+<input type="hidden" value="{{terraceRoomList.length}}" id="arrayLength">
 <script>
 
 // 사이드바 버튼 열고 닫기
@@ -101,6 +91,6 @@ function w3_open() {
 } */
 
 </script>
-
+<script src="js/app/TerraceRoom.js"></script>
 </body>
 </html>

@@ -287,6 +287,13 @@ public class WebRestController {
 		return "";
 	}
 	
+	@GetMapping("/roomsList")
+	public List<TerraceRoomMainResponseDto> terraceRoomsList(Model model){
+		System.out.println(terraceRoomService.findAllByTerraceActive());
+		return terraceRoomService.findAllByTerraceActive();
+	}
+	
+	
 	@GetMapping("/myPage")
 	public String myPage(HttpSession session, Model model){
 		Member member = memberService.findById((String)session.getAttribute("loginID"));

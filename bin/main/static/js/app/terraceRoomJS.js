@@ -49,10 +49,11 @@ var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
 var terraceNum;
 var imageArray = new Array();
+var creator = document.getElementById('creator').value;
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
-
+var refreshIntervalId;
 // this line is VERY_important
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
@@ -274,6 +275,14 @@ function completePDF(){
 window.onload = start();
 
 function start(){		
+	
+	console.log(document.getElementById('creator').value);
+	
+	if (creator != '' && creator != null){
+		connection.join(creator);
+		control = false;
+	}
+	
 	
 	loginId = document.getElementById('loginId').value;
 	terraceNum = document.getElementById('terraceNumber').value;
@@ -1030,6 +1039,11 @@ function UploadtoServer(){
 		
 	});
 	
+}
+
+function setCreator(){
+	creator = document.getElementById('creator');
+	clearInterval(refreshIntervalId);
 }
 
 document.getElementById('canvasDownload').addEventListener('click',

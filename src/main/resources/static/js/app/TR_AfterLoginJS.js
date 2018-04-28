@@ -121,7 +121,7 @@ function regiTerraceRoom() {
 				if(result != 0){
 					alert('방 등록 성공');
 					//location.href="/tr?terrace_room_number="+result
-					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
+					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + screen.height + ',width=' + screen.width-10 + 'fullscreen=yes');
 				}
 			}
 		, error: function(e) {
