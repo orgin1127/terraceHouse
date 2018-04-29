@@ -89,6 +89,30 @@ public class WebController {
 		return "terraceRoom";
 	}
 	
+	@GetMapping("/tr2")
+	public String terraceRoom2(Long terrace_room_number,String creator,Model model, HttpSession session) {
+		model.addAttribute("loginid", session.getAttribute("loginID"));
+		model.addAttribute("creator",creator);
+		System.out.println(terrace_room_number);
+		
+		//생성된 방의 정보를 db에 등록 후 model에 담아 감
+		TerraceRoom tr = terraceRoomService.findOneByTerraceRoomNumber(terrace_room_number);
+		model.addAttribute("terraceName", tr.getTerrace_room_name());
+		model.addAttribute("terraceInfo",tr);
+		
+		
+		//방 생성자를 즉시 해당 방의 참여자로 db에 등록
+		JoinRoomMemberSaveRequestDto dto = new JoinRoomMemberSaveRequestDto();
+		dto.setMember((Member)session.getAttribute("loginedMember"));
+		dto.setTerraceRoom(tr);
+		
+		Long result = joinRoomMemberService.save(dto);
+		
+		System.out.println("tr result : " + result);
+		
+		return "terraceRoom";
+	}
+	
 	@GetMapping("/myPage")
 	public String myPage(HttpSession session, Model model){
 		Member member = memberService.findById((String)session.getAttribute("loginID"));
