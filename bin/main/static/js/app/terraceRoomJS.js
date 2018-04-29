@@ -49,7 +49,7 @@ var lwidth = 5;
 var terraceName = document.getElementById('terraceName').value;
 var terraceNum;
 var imageArray = new Array();
-var creator = document.getElementById('creator');
+var creator = document.getElementById('creator').value;
 //채팅 관련
 var chatContainer = document.querySelector('.chat-output');
 var chatInputArea = document.getElementById('input-text-chat');
@@ -79,12 +79,12 @@ connection.onstream = function(event) {
 	console.log('실행');
 	
 	
-	//var temp = document.getElementById('currentJoinMember');
+	var temp = document.getElementById('currentJoinMember');
 	var num = connection.getAllParticipants().length;
 	var id = connection.getAllParticipants();
 	console.log('check : ' + num + ", " + id);
 	
-	//temp.innerHTML = '현 접속자 수 : ' + connection.getAllParticipants().length; + '<br>' + '접속자 id : ' + connection.getAllParticipants();
+	temp.innerHTML = '현 접속자 수 : ' + connection.getAllParticipants().length; + '<br>' + '접속자 id : ' + connection.getAllParticipants();
 	
 	
 	
@@ -113,7 +113,7 @@ document.getElementById('btn-open-room').onclick = function() {
     reUserList();
 };
 
-/*document.getElementById('btn-join-room').onclick = function() {	
+document.getElementById('btn-join-room').onclick = function() {	
 	
 	ownerId = document.getElementById('OwnerId').value;
     this.disabled = true;
@@ -121,7 +121,7 @@ document.getElementById('btn-open-room').onclick = function() {
     control = false;
     var creator = document.getElementById('creator');
     creator.value = ownerId;
-};*/
+};
 
 connection.onstreamended = function(event){
 	
@@ -278,7 +278,7 @@ function start(){
 	
 	console.log(document.getElementById('creator').value);
 	
-	if (creator.value != '' && creator.value != null){
+	if (creator != '' && creator != null){
 		connection.join(creator);
 		control = false;
 	}
