@@ -40,7 +40,7 @@ $(document).ready(function() {
 				content += '<option value="4">4</option>';
 				content += '</select></p>';
 				content += '<p><input type="text" id="rTerraceName" placeholder="Put your Terrace name"></p>';
-				content += '<p><input type="button" id="rSubmitBtn"></p></form></div>';
+				content += '<p><input type="button" id="rSubmitBtn" value="테라스 만들기"></p></form></div>';
 				$('#afterSelectRadioDiv').html(content);
 				$('#rSubmitBtn').on('click', regularTerraceRegi);
 			}
@@ -53,7 +53,7 @@ $(document).ready(function() {
 				content +=	'<option value="4">4</option>';
 				content +=	'</select></p>';
 				content += '<p><input type="text" id="terraceName" placeholder="Put your Terrace name"></p>';
-				content += '<p><input type="button" id="urSubmitBtn"></p></form></div>';
+				content += '<p><input type="button" id="urSubmitBtn" value="테라스 만들기"></p></form></div>';
 				$('#afterSelectRadioDiv').html(content);
 				$('#urSubmitBtn').on('click', regiTerraceRoom);
 			}
@@ -110,7 +110,6 @@ function regiTerraceRoom() {
 	var dto = {terrace_room_name: terrace_room_name, terrace_room_mop: terrace_room_mop};
 	
 	if (terrace_room_name != ''){
-		alert('js 작동');
 		$.ajax({
 			url: 'registTerraceRoom',
 			type: 'post',
@@ -122,6 +121,7 @@ function regiTerraceRoom() {
 					alert('방 등록 성공');
 					//location.href="/tr?terrace_room_number="+result
 					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
+					closeTerraceRegisterModal();
 				}
 			}
 		, error: function(e) {
@@ -137,8 +137,7 @@ function regularTerraceRegi() {
 	var terrace_freq = $('#terraceDuration option:selected').val();
 	var terrace_mop = $('#terraceMoP option:selected').val();
 	var terrace_name = $('#rTerraceName').val();
-	var member_number = 2;
-	var regular_terrace = {terrace_name: terrace_name, terrace_mop: terrace_mop, terrace_freq: terrace_freq, terrace_date: terrace_date, member_number: member_number};
+	var regular_terrace = {terrace_name: terrace_name, terrace_mop: terrace_mop, terrace_freq: terrace_freq, terrace_date: terrace_date};
 	if (terrace_date !='blank' && terrace_freq != 'blank' && terraceMoP != 'blank' && terrace_name != '') {
 		$.ajax({
 			url: 'regularTerraceRegi',
@@ -147,7 +146,13 @@ function regularTerraceRegi() {
 			dataType: 'json',
 			contentType:'application/json; charset=utf-8',
 			success: function(result) {
-				
+				if(result != 0){
+					alert('등록에 성공하였습니다.');
+					closeTerraceRegisterModal();
+				}
+				else {
+					alert ('입력사항을 다시 확인하여 주세요');
+				}
 			}
 		, error: function(e) {
 			alert(JSON.stringify(e));
@@ -170,7 +175,7 @@ function hideExclude(excludeId) {
 function makeTerraceRegister() {
 	var terraceResFormContent = '<form><fieldset><legend>Please select your Terrace Type</legend>'
         +'<div id="selectTerraceTypeRadioDiv">'
-        +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeR" name="terraceType" value="Rterrace" checked="checked" />'
+        +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeR" name="terraceType" value="Rterrace"/>'
         +'<label for="contactChoice1">정기 Terrace</label>'
         +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeUR" name="terraceType" value="URterrace" />'
         +'<label for="contactChoice2">비정기 Terrace</label></div></fieldset></form>'

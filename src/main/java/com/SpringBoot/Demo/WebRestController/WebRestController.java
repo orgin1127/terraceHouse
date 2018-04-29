@@ -37,10 +37,12 @@ import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.JoinRoomMemberService;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
+import com.SpringBoot.Demo.Service.RegularTerraceRoomService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
+import com.SpringBoot.Demo.dto.RegularTerraceSaveRequestDto;
 import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
@@ -61,6 +63,7 @@ public class WebRestController {
 	private MemberService memberService;
 	private PersonalFileService personalFileService;
 	private JoinRoomMemberService joinRoomMemberService;
+	private RegularTerraceRoomService regularTerraceRoomService;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -102,6 +105,16 @@ public class WebRestController {
 		
 		Long result = terraceRoomService.save(dto, m);
 		
+		return result;
+	}
+	
+	@PostMapping("/regularTerraceRegi")
+	public Long regularTerraceRegi(@RequestBody RegularTerraceSaveRequestDto dto, HttpSession session){
+		System.out.println("regi regular tr : "+ dto.toString());
+		Long result;
+		Member m = (Member) session.getAttribute("loginedMember");
+		dto.setMember(m);
+		result = regularTerraceRoomService.saveRegularTerrace(dto);
 		return result;
 	}
 	
