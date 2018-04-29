@@ -89,6 +89,16 @@ public class WebController {
 		return "terraceRoom";
 	}
 	
+	@GetMapping("/myPage")
+	public String myPage(HttpSession session, Model model){
+		Member member = memberService.findById((String)session.getAttribute("loginID"));
+		model.addAttribute("id",member.getMemberid());
+		
+		model.addAttribute("email",member.getMember_email());
+		model.addAttribute("name", member.getMember_name());
+		return "MyPage";
+	}
+	
 	@GetMapping("/afterLogin")
 	public String afterLogin(Model model, HttpSession session){
 		model.addAttribute("loginid", session.getAttribute("loginID"));

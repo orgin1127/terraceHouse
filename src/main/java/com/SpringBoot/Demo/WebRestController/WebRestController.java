@@ -299,15 +299,10 @@ public class WebRestController {
 		}
 		return "";
 	}
-	
-	@GetMapping("/myPage")
-	public String myPage(HttpSession session, Model model){
-		Member member = memberService.findById((String)session.getAttribute("loginID"));
-		model.addAttribute("id",member.getMemberid());
-		
-		model.addAttribute("email",member.getMember_email());
-		model.addAttribute("name", member.getMember_name());
-		return "MyPage";
+	@GetMapping("/roomsList")
+	public List<TerraceRoomMainResponseDto> terraceRoomsList(Model model){
+		System.out.println(terraceRoomService.findAllByTerraceActive());
+		return terraceRoomService.findAllByTerraceActive();
 	}
 	
 	@GetMapping("/endOfTerraceRoom")
