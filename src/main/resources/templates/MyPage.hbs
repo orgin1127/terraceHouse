@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<title>Terrace House</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css/app/MyPage.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+<!-- w3schools 템플릿 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Shadows+Into+Light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+
+
+<title>MyPage</title>
+</head>
+<body>
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+<br><br><br>
+	<input type="button" class="w3-bar-item w3-button" id="myPageBtn" value="My Page">
+	<input type="button" class="w3-bar-item w3-button" id="noticeBtn" value="알림">
+	<input type="button" class="w3-bar-item w3-button" id="myTerraceBtn" value="내 테라스">
+	<input type="button" class="w3-bar-item w3-button" id="searchTerraceBtn" value="방 검색">
+	<input type="button" class="w3-bar-item w3-button" id="terraceListBtn" value="테라스 목록">
+	<input type="button" class="w3-bar-item w3-button" id="makeTerraceBtn" value="테라스 만들기">
+	<input type="button" class="w3-bar-item w3-button" id="myFilesBtn" value="My Files">
+</div>
+<!-- 상위메뉴 -->
+<div class="w3-top">
+
+  <div class="w3-bar w3-white w3-card" id="myNavbar" style="height: 58px;">
+    
+    <a onclick="javascript:toHome()" class="w3-bar-item w3-button w3-wide">TERRACE HOUSE</a>
+    <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> &#9956;</button>
+     
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <!-- <span class="w3-bar-item w3-wide" style="margin-top: 9px;">소개</span> -->
+      <a href="#go1" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;
+      		font-size: 15px;">｜Service</a>
+      <a href="#go2" class="w3-bar-item w3-button w3-wide"
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Menu</a>
+      <a href="#go3" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Terrace</a>
+      <a href="#go4" class="w3-bar-item w3-button w3-wide"
+      	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜Board</a>
+      <a href="#team" class="w3-bar-item w3-button w3-wide"
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px; margin-right: 50px;">｜Developers</a>
+      
+    </div>
+   
+  </div>
+  
+</div>
+
+<div id="myInfoDiv" class="grayBack">
+	<form method="post" action="myInfoModify" id="myInfoForm" class="form">
+		<div id="header">[ My Page ]</div>
+		<div id="center">
+			<table class="tb1">
+				<tr>
+					<td id="td">
+						아이디
+					</td>
+					<td>
+						<input class="cssValue" type="text" readonly="readonly" value="{{id}}"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						비밀번호
+					</td>
+					<td>
+						<input class="cssValue" type="password" id="password" placeholder="Password"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						비밀번호 재입력
+					</td>
+					<td>
+						<input class="cssValue" type="password" id="password" placeholder="Password(Confirm)"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						이름
+					</td>
+					<td>
+						<input class="cssValue" type="text" id="name" value="{{name}}"><br>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						이메일
+					</td>
+					<td>
+						<input class="cssValue" type="email" id="email" value="{{email}}"><br>
+					</td>
+				</tr>
+				<!-- <tr>
+					<td colspan="2">
+						<input type="submit" value="수정">
+					</td>
+				</tr> -->
+			</table>
+			<br>
+			<button type="button" class="btn btn-primary" data-toggle="modal"
+					data-target="#exampleModal" data-whatever="@mdo" id="btnListBtn">수정
+			</button>
+		</div>
+		<div id="bottom">
+		</div>
+	</form>
+</div>
+<script src="/js/app/MyPage.js"></script>
+<script>
+//사이드바 버튼 열고 닫기
+var mySidebar = document.getElementById("mySidebar");
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+    } else {
+        mySidebar.style.display = 'block';
+    }
+}
+</script>
+
+</body>
+</html>

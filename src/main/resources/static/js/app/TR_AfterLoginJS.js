@@ -79,7 +79,11 @@ $(document).ready(function() {
 	});
 	
 	$('#terraceListBtn').on('click', function() {
-		location.href='terraceRoomsList';
+		showAllRoom();
+	});
+	
+	$('#wholeTerraceModalCloser').on('click',function(){
+		closeWholeTerraceModal();
 	});
 	
 });
@@ -102,6 +106,57 @@ function toMyFiles(arr){
 	
 }
 
+function showAllRoom(){
+$.ajax({
+		
+		url:'roomsList',
+		type:'Get',
+		data:{},
+		success: function(dat){
+			console.log('목록 가져왔음');
+			var arr = dat;
+			console.log(arr);
+			makeContent(arr);
+		},
+		error:function(e){
+			console.log('실패');
+		}
+	});
+	
+}
+
+function closeWholeTerraceModal(){
+	document.getElementById('wholeTerraceModal').style.display = 'none';
+}
+
+function makeContent(arr){
+	var content = '';
+	content +='<table><tr>';
+	$.each(arr, function(index, values){
+		if (index % 3 == 0 && index != 0){
+			
+			content += '</tr><tr>';
+		}
+		content += '<td style="border: 30px;">';
+		content += '<div class="TterraceRoom">';
+		content += '<p class="Tname">테라스 명 : '+values.terrace_room_name+'</p>';
+		content += '<p class="Tinfo">인원 : '+values.terrace_room_mop+'<br>';
+		content += '방장 : '+values.member.member_name+'</p>';
+		content += '<p class="Tbtn"><input type="button" onclick ="javascript:enterRoom('+values.terrace_room_number+',\''+values.member.memberid+'\')"value="입장" ></p>';
+		content += '</div>';
+		content += '</td>';
+		
+	});
+	
+	content += '</tr>';
+	content += '</table>';
+	$('#wholeDiv').html(content);
+	document.getElementById('wholeTerraceModal').style.display = 'block';
+}
+
+function enterRoom(roomNum,creator){
+	window.open("/tr2?terrace_room_number="+roomNum+"&creator="+creator,'terraceRoom','height=' + screen.height + ',width=' + screen.width-10 + 'fullscreen=yes');
+}
 
 
 function regiTerraceRoom() {

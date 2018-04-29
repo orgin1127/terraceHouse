@@ -132,6 +132,17 @@ public class WebController {
 		}
 		return "TR_AfterEmailConfirm";
 	}
+	
+	@GetMapping("/myPage")
+	public String myPage(HttpSession session, Model model){
+		Member member = memberService.findById((String)session.getAttribute("loginID"));
+		model.addAttribute("id",member.getMemberid());
+		
+		model.addAttribute("email",member.getMember_email());
+		model.addAttribute("name", member.getMember_name());
+		return "MyPage";
+	}
+	
 	@GetMapping("/logout")
 	public String logout(HttpSession session){
 		session.invalidate();
