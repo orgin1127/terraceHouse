@@ -246,7 +246,7 @@ function makeHiddenImg(pages){
 	for (var i = 0; i < pages; i++){
 		str += '<img hidden = "hidden" id = "hi'+i+'"';
 		str += 'src="https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/';
-		str	+= creator+'/'+todayString+'/'+terraceName+'image/myImage'+i+'.png">';
+		str	+= creator+'/'+todayString+'/'+terraceName+'image/myImage'+i+'.png" crossOrigin="anonymous">';
 	}
 	
 	hiddenImg.innerHTML = str;
