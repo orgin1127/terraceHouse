@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <title>myBlackBoard</title>
 </head>
+<!-- w3schools 템플릿 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+<!-- Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script|Shadows+Into+Light">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Do+Hyeon">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+
 <script src="/js/lib/jquery.min.js"></script> 
 <body>
 <input type="hidden" value="{{creator}}" id="creator">
@@ -34,13 +46,13 @@
 						</select><br><br>
 			<input type="color" onchange="javascript:colorPicker()" id="lineColor" value ="#ff0000" style="width:24px; height:24px;"><br><br>
 			
-			<a href="javascript:canvasER()"><img src="image/eraser1.png" style="width:24px; height:24px;"></a><br><br>
-			<a href="javascript:canvasCircle()"><i class="fa fa-circle-o"></i><br><br>
-			<a href="javascript:canvasRect()"><i class="fa fa-square-o" style="font-size:24px"></i></a><br><br>
-			<a href="javascript:canvasLine()"><i class="fa fa-window-minimize" style="font-size:24px"></i></a><br><br>			
-			<a href="javascript:backwardPage('{{creator}}')"><i class="fa fa-caret-square-o-up" style="font-size:24px"></i></a><br>
-			 <a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a>
-			<br><a href="javascript:forwardPage('{{creator}}')"><i class="fa fa-caret-square-o-down" style="font-size:24px"></i></a><br>
+			 <a onclick="canvasER()"><img src="image/eraser1.png"></a><br><br>
+  			<a onclick="canvasCircle()"><i class="fa fa-circle-o" style="font-size: 24px"></i></a> <br><br>
+			  <a onclick="canvasRect()"><i class="fa fa-square-o" style="font-size: 24px"></i></a> <br><br>
+			  <a onclick="canvasLine()"><i class="fa fa-window-minimize" style="font-size: 24px"></i></a> <br><br>
+			  <a href="javascript:backwardPage('{{loginid}}')"><i class="fa fa-caret-square-o-up" style="font-size: 24px"></i></a> <br>
+			  <a><input type="text" id="indexOfpage" value="1" readonly="readonly" style="width:20px; text-align: center; height: 20px; border-color: green"></a><br>
+			  <a href="javascript:forwardPage('{{loginid}}')"><i class="fa fa-caret-square-o-down" style="font-size: 24px"></i></a>
 		</td>
 	</tr>
 </table>
