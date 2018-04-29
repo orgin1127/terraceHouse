@@ -154,6 +154,7 @@ function makeContent(arr){
 }
 
 function enterRoom(roomNum,creator){
+	
 	window.open("/tr2?terrace_room_number="+roomNum+"&creator="+creator,'terraceRoom','height=' + screen.height + ',width=' + screen.width-10 + 'fullscreen=yes');
 }
 
