@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nanum+Gothic+Coding">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gothic+A1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link href='https://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
+<link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -62,7 +62,10 @@ window.enableAdapter = true;
       <button id="btn-open-room" class="w3-bar-item w3-button w3-wide"
       	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;
       		font-size: 15px;">｜OPEN Room</button>
-     
+      <button id="btn-join-room" class="w3-bar-item w3-button w3-wide" 
+		style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜JOIN Room</button>
+      <input type="text" id="OwnerId" class="w3-input-small" style="margin-top: 13px; margin-right: 10px">
+      
       <button onclick="power()" class="w3-bar-item w3-button w3-wide"
       	style="letter-spacing: 1px;	padding-left: 5px; padding-right: 15px;">｜권한주기</button>
       	<a id="userList"></a>
@@ -152,11 +155,10 @@ window.enableAdapter = true;
 </div>
 
 </div>
+<div id="currentJoinMember"></div>
 <img id="image1" src="" hidden="hidden" crossOrigin = "anonymous">
 	<input type="hidden" id="terraceNumber" value="{{terraceInfo.terrace_room_number}}">
-	<input type="hidden" id="loginId" value="{{loginid}}">
 	<input type="hidden" id="creator" value="{{creator}}">
-	<div id="hiddenImg"></div>
 	
 	<script src="/js/app/adapter.js"></script>
 	<script src="/js/app/FileBufferReader.js"></script>
@@ -165,5 +167,8 @@ window.enableAdapter = true;
 	
 	
 	
+	<input type="hidden" id="loginId" value="{{loginid}}">
+	
+	<div id="hiddenImg"></div>
 </body>
 </html>
