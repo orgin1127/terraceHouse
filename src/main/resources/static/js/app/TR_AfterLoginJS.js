@@ -155,7 +155,7 @@ function makeContent(arr){
 
 function enterRoom(roomNum,creator){
 	
-	window.open("/tr2?terrace_room_number="+roomNum+"&creator="+creator,'terraceRoom','height=' + screen.height + ',width=' + screen.width-10 + 'fullscreen=yes');
+	window.open("/tr2?terrace_room_number="+roomNum+"&creator="+creator,'terraceRoom','height=' + 744 + ',width=' + 1395 + 'fullscreen=yes');
 }
 
 function regiTerraceRoom() {
@@ -174,7 +174,7 @@ function regiTerraceRoom() {
 				if(result != 0){
 					alert('방 등록 성공');
 					//location.href="/tr?terrace_room_number="+result
-					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + screen.height + ',width=' + screen.width + 'fullscreen=yes');
+					window.open("/tr?terrace_room_number="+result,'terraceRoom','height=' + 744 + ',width=' + 1395 + 'fullscreen=yes');
 					closeTerraceRegisterModal();
 				}
 			}

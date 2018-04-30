@@ -137,11 +137,7 @@ connection.onstreamended = function(event){
 	connection.send(JSON.stringify(deleteID));	
 	
 	var terrace_room_number = document.getElementById('terraceNumber').value;
-	$.ajax({
-		url:'endOfTerraceRoom',
-		data:{'terrace_room_number':terraceNum},
-		type:'get'
-	});
+	
 	
 };
 
