@@ -94,9 +94,9 @@ function toMyFiles(arr){
 	$.each(arr, function(index, values){
 		content += '<h5 class="w3-text-teal"><b>테라스이름:'+values.terrace_room_number.terrace_room_name+'</b></h5>';
 		content += '<h6 class="w3-opacity">날짜:'+values.terrace_room_number.create_date+'</h6>';
-		content += '<p>개인파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.saved_personal_file_name+'">'+values.saved_personal_file_name+'</a></p>';
-		content += '<p>공유파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.shared_file_name+'">'+values.terrace_room_number.shared_file_name+'</a></p>';
-		content += '<p>원본파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.saved_file_name+'">'+values.terrace_room_number.saved_file_name+'</a></p>';
+		content += '<p>개인파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.saved_personal_file_name+'"><img src="image/flatButton.png"></a>';
+		content += '<p>공유파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.shared_file_name+'"><img src="image/flatButton.png"></a></p>';
+		content += '<p>원본파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.saved_file_name+'"><img src="image/flatButton.png"></a></p>';
 		content += '<hr>';
 	});
 	
@@ -138,10 +138,10 @@ function makeContent(arr){
 		}
 		content += '<td style="border: 30px;">';
 		content += '<div class="TterraceRoom">';
-		content += '<p class="Tname">테라스 명 : '+values.terrace_room_name+'</p>';
+		content += '<p class="Tname">'+values.terrace_room_name+'</p>';
 		content += '<p class="Tinfo">인원 : '+values.terrace_room_mop+'<br>';
 		content += '방장 : '+values.member.member_name+'</p>';
-		content += '<p class="Tbtn"><input type="button" onclick ="javascript:enterRoom('+values.terrace_room_number+',\''+values.member.memberid+'\')"value="입장" ></p>';
+		content += '<a class="Tbtn" onclick="javascript:enterRoom('+values.terrace_room_number+',\''+values.member.memberid+'\')"><img src="image/enterButton.png"></a>';
 		content += '</div>';
 		content += '</td>';
 		

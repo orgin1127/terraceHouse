@@ -109,7 +109,7 @@
 		    left: 0;
 		    top: 0;
 		    width: 100%; /* Full width */
-		    height: 200%; /* Full height */
+		    height:200%; /* Full height */
 		     /* Enable scroll if needed */
 		    background-color: rgb(0,0,0); /* Fallback color */
 		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -123,12 +123,12 @@
 }
 
 #wholeTerraceModalBody{
-	padding: 2px 16px;
-			margin: auto;
+	/* padding: 2px 16px; */
+			margin: 0;
 			width: 60%;
-			height: 100%;
+			height: 510px;
 			
-			overflow-y: scroll; 
+			/* overflow-y: scroll;  */
 }
 
 #wholeTerraceModalFooter {
@@ -142,7 +142,8 @@
 		    background-color: #fefefe;
 		    margin: auto;
 		    padding: 0;
-		    width: 80%
+		    width: 630px;
+		    height: 600px;
 		    /* border: 1px solid #888;
 		    width: 40%;
 		    height: 50%;
@@ -156,5 +157,8 @@
 		    
 		}
 #wholeTerraceModalDiv{
-	width:100%;
+	width:630px;
+	height :500px;
+	
+	overflow-y : scroll;
 }
