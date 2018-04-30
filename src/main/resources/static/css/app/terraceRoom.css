@@ -74,7 +74,7 @@ video:first-child{
 
 #col2 {
    width: 90px;
-   
+   height: 750px;
 }
 
 #col3 {
@@ -83,6 +83,9 @@ video:first-child{
 
 #col4 {
    width: 380px;
+   height: 750px;
+   
+   border-left:solid 2px #f2efef;
 }
 
 
@@ -105,6 +108,8 @@ video:first-child{
 .icon-bar a:hover {
     background-color: white;
 }
+
+
 
 <!--유저 캠크기-->
 

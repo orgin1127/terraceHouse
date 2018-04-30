@@ -24,19 +24,65 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href='http://fonts.googleapis.com/css?family=Alegreya+SC:700,400italic' rel='stylesheet' type='text/css' />
 
+<style>
+
+@CHARSET "UTF-8";
+
+<!--상단바 크기 및 화면사이즈-->
+
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+
+.mySlides {display:none;}
+
+#mySidebar {
+
+ position: fixed;
+
+}
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+    height: 100%;
+    line-height: 1.8;
+}
+
+.w3-bar .w3-button {
+    padding: 16px;
+}
+
+</style>
 
 <title>MyPage</title>
 </head>
 <body>
 <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+
 <br><br><br>
-	<input type="button" class="w3-bar-item w3-button" id="myPageBtn" value="My Page">
-	<input type="button" class="w3-bar-item w3-button" id="noticeBtn" value="알림">
-	<input type="button" class="w3-bar-item w3-button" id="myTerraceBtn" value="내 테라스">
-	<input type="button" class="w3-bar-item w3-button" id="searchTerraceBtn" value="방 검색">
-	<input type="button" class="w3-bar-item w3-button" id="terraceListBtn" value="테라스 목록">
-	<input type="button" class="w3-bar-item w3-button" id="makeTerraceBtn" value="테라스 만들기">
-	<input type="button" class="w3-bar-item w3-button" id="myFilesBtn" value="My Files">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;마이 페이지&nbsp;&nbsp;&nbsp;<i class="fa fa-user-circle-o"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;서비스 알림&nbsp;&nbsp;&nbsp;<i class="fa fa-bell"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;나의 테라스&nbsp;&nbsp;&nbsp;<i class="fa fa-home"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 검색&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 이동&nbsp;&nbsp;&nbsp;<i class="fa fa-sign-in"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 개설&nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></a>
+  <hr style="margin-top: 1px; margin-bottom: 1px;">
+  <a href="#" class="w3-bar-item w3-button" style="font-size: 17px;">
+  	&nbsp;&nbsp;&nbsp;&nbsp;개인 열람실&nbsp;&nbsp;&nbsp;<img src="image/book.png" style="width: 15px;">
+  </a>
+
 </div>
 <!-- 상위메뉴 -->
 <div class="w3-top">

@@ -147,11 +147,13 @@ connection.onstreamended = function(event){
 
 window.onbeforeunload = function(){
 	
-	$.ajax({
-		url:'endOfTerraceRoom',
-		data:{'terrace_room_number':terraceNum},
-		type:'get'
-	});
+	if (creator == loginId){
+		$.ajax({
+			url:'endOfTerraceRoom',
+			data:{'terrace_room_number':terraceNum},
+			type:'get'
+		});
+	}
 };
 
 document.getElementById('btn-save-progress').onclick = function(){

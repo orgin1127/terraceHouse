@@ -3,7 +3,7 @@ $(document).ready(function() {
 		$('#myLoginModal').css('display', 'block');
 		makeLoginForm();
 		$('#loginCloser').on('click', closeModal);
-		$('#myLoginBtn').on('click', loginMember);
+		$('#myLoginBtn2').on('click', loginMember);
 	});
 });
 
@@ -15,7 +15,7 @@ function makeLoginForm() {
 	var loginFormContent = '<form id="loginForm" action="loginMember" method="post">'
 	+'<p><input type="text" id="memberid" placeholder=" ID" class="inputArea" name="memberid"></p>'
 	+'<p><input type="password" id="memberpw" placeholder=" Password" class="inputArea" name="memberpw"></p>'
-	+'<p><a href="javascript:loginMember()">로그인</a> </form>';
+	+'<p><input type="button" id="myLoginBtn2" value="로그인" class="w3-button w3-light-gray"></p> </form>';
 	$('#myLoginModalBody').html(loginFormContent);
 	console.log('로그인 폼 생성 완료');
 };

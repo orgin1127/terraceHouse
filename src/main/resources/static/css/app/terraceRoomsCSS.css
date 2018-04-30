@@ -18,7 +18,6 @@
 	background-color: #F7BE81;
 	
 }
-
 .Tinfo{
 	background-color: #607D8B;
 } */
@@ -34,4 +33,8 @@
 	margin-top: 100px;
 	margin-left: 300px;
 	
+}
+
+.rightAr{
+	text-align: right;
 }

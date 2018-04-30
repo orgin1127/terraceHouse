@@ -642,7 +642,7 @@ function makeHiddenImg(pages){
 		tempImgSrc = 'hi'+i;
 		str += '<img  hidden="hidden" id = "hi'+i+'"';
 		str += 'src="';
-		str += window.opener.document.getElementById(tempImgSrc).src+'">';
+		str += window.opener.document.getElementById(tempImgSrc).src+'" crossOrigin=anonymous>';
 	}
 	
 	hiddenImg.innerHTML = str;

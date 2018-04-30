@@ -33,15 +33,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.RegularTerrace.RegularTerrace;
+import com.SpringBoot.Demo.Domain.RegularTerraceMember.RegularTerraceMember;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.JoinRoomMemberService;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
+import com.SpringBoot.Demo.Service.RegularTerraceMemberService;
 import com.SpringBoot.Demo.Service.RegularTerraceRoomService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
+import com.SpringBoot.Demo.dto.RegularTerraceMemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.RegularTerraceSaveRequestDto;
 import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
@@ -64,6 +68,7 @@ public class WebRestController {
 	private PersonalFileService personalFileService;
 	private JoinRoomMemberService joinRoomMemberService;
 	private RegularTerraceRoomService regularTerraceRoomService;
+	private RegularTerraceMemberService regularTerraceMemberService;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -115,6 +120,25 @@ public class WebRestController {
 		Member m = (Member) session.getAttribute("loginedMember");
 		dto.setMember(m);
 		result = regularTerraceRoomService.saveRegularTerrace(dto);
+		//개설자를 곧바로 레귤러 테라스의 멤버로 추가
+		if (result != 0) {
+			RegularTerraceMemberSaveRequestDto saveDto = new RegularTerraceMemberSaveRequestDto();
+			saveDto.setMember(m);
+			RegularTerrace rt = regularTerraceRoomService.findOneByTerraceNumber(result);
+			saveDto.setRegularTerrace(rt);
+			regularTerraceMemberService.regularTerrareMemberInsert(saveDto);
+		}
+		return result;
+	}
+	
+	@PostMapping("/acceptRTInvite")
+	public Long regularTerraceMemberRegi(Long regular_terrace_number,HttpSession session){
+		RegularTerraceMemberSaveRequestDto saveDto = new RegularTerraceMemberSaveRequestDto();
+		Member m = (Member) session.getAttribute("loginedMember");
+		saveDto.setMember(m);
+		RegularTerrace rt = regularTerraceRoomService.findOneByTerraceNumber(regular_terrace_number);
+		saveDto.setRegularTerrace(rt);
+		Long result = regularTerraceMemberService.regularTerrareMemberInsert(saveDto);
 		return result;
 	}
 	
