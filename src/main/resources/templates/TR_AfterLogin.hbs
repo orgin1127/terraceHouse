@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="css/app/registerTerraceCSS.css">
 <link rel="stylesheet" href="css/app/searchTerraceCSS.css">
 <link rel="stylesheet" href="css/app/terraceRoomsCSS.css">
+<link rel="stylesheet" href="css/app/myRegularTerraceCSS.css">
+<link rel="stylesheet" href="css/app/myNotificationCSS.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -341,7 +343,7 @@ input.ao-toggle:checked ~ .ao-annotations span:nth-child(5) {
   	&nbsp;&nbsp;&nbsp;&nbsp;테라스 검색&nbsp;&nbsp;&nbsp;<i class="fa fa-search"></i></a>
   <hr style="margin-top: 1px; margin-bottom: 1px;">
   <a href="#" id="terraceListBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
-  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 이동&nbsp;&nbsp;&nbsp;<i class="fa fa-sign-in"></i></a>
+  	&nbsp;&nbsp;&nbsp;&nbsp;테라스 목록&nbsp;&nbsp;&nbsp;<i class="fa fa-sign-in"></i></a>
   <hr style="margin-top: 1px; margin-bottom: 1px;">
   <a href="#" id="makeTerraceBtn" class="w3-bar-item w3-button" style="font-size: 17px;">
   	&nbsp;&nbsp;&nbsp;&nbsp;테라스 개설&nbsp;&nbsp;&nbsp;<i class="fa fa-plus"></i></a>
@@ -812,6 +814,29 @@ $('a[href*="#"]')
 			  <div class="modal-footer" id="wholeTerraceModalFooter"><h1> </h1></div>
 		</div>
 	</div>
-
+	<!-- MyRegularTerrace Modal -->
+	<div id="myRegularTerraceModal" class="modal">
+	  	<!-- Modal content -->
+		<div class="modal-content" id="myRegularTerraceModalContent">
+			  <div class="modal-header" id="myRegularTerraceModalHeader">
+			    <span class="closeModal" id="myRegularTerraceModalCloser">&times;</span>
+			    <h2>[ M y R e g u l a r T e r r a c e ]</h2>
+			  </div>
+			  <div class="modal-body" id="myRegularTerraceModalBody"></div>
+			  <div class="modal-footer" id="myRegularTerraceModalFooter"><h1> </h1></div>
+		</div>
+	</div>
+	<!-- Notification Modal -->
+	<div id="myNotificationModal" class="modal">
+	  	<!-- Modal content -->
+		<div class="modal-content" id="myNotificationModalContent">
+			  <div class="modal-header" id="myNotificationModalHeader">
+			    <span class="closeModal" id="myNotificationModalCloser">&times;</span>
+			    <h2>[ M y N o t i f i c a t i o n ]</h2>
+			  </div>
+			  <div class="modal-body" id="myNotificationModalBody"></div>
+			  <div class="modal-footer" id="myNotificationModalFooter"><h1> </h1></div>
+		</div>
+	</div>
 </body>
 </html>

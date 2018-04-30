@@ -78,6 +78,16 @@ $(document).ready(function() {
 			
 	});
 	
+	$('#myTerraceBtn').on('click', function() {
+		$('#myRegularTerraceModal').css('display', 'block');
+		$('#myRegularTerraceModalCloser').on('click', closeRegularTerraceModal);
+	});
+	
+	$('#noticeBtn').on('click', function() {
+		$('#myNotificationModal').css('display', 'block');
+		$('#myNotificationModalCloser').on('click', closeMyNotificationModal);
+	})
+	
 	$('#terraceListBtn').on('click', function() {
 		showAllRoom();
 	});
@@ -86,6 +96,18 @@ $(document).ready(function() {
 		closeWholeTerraceModal();
 	});
 });
+
+function closeMyNotificationModal() {
+	$('#myNotificationModal').css('display', 'none');
+}
+
+function closeRegularTerraceModal() {
+	$('#myRegularTerraceModal').css('display', 'none');
+}
+
+function makeRegularTerrace() {
+	
+}
 
 function toMyFiles(arr){
 	

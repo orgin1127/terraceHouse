@@ -24,7 +24,7 @@ public class TerraceRoomService {
 	private MemberRepository memberRepository;
 	
 	@Transactional
-	public Long save(TerraceRoomSaveRequestDto dto, Member m){
+	public Long save(TerraceRoomSaveRequestDto dto, Member m){ 	
 		dto.setMember(memberRepository.findOne(m.getMember_number()));
 		return terraceRoomRepository.save(dto.toEntity()).getTerrace_room_number();
 	}
