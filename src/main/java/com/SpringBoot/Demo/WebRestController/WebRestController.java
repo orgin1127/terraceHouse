@@ -113,6 +113,7 @@ public class WebRestController {
 		return result;
 	}
 	
+	//직접 정기 테라스를 만들었을 경우
 	@PostMapping("/regularTerraceRegi")
 	public Long regularTerraceRegi(@RequestBody RegularTerraceSaveRequestDto dto, HttpSession session){
 		System.out.println("regi regular tr : "+ dto.toString());
@@ -131,6 +132,7 @@ public class WebRestController {
 		return result;
 	}
 	
+	//유저가 보낸 정기 테라스 초대를 받았을 경우
 	@PostMapping("/acceptRTInvite")
 	public Long regularTerraceMemberRegi(Long regular_terrace_number,HttpSession session){
 		RegularTerraceMemberSaveRequestDto saveDto = new RegularTerraceMemberSaveRequestDto();
