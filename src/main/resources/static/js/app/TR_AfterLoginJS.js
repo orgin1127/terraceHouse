@@ -92,8 +92,8 @@ function toMyFiles(arr){
 	var content = '';
 	
 	$.each(arr, function(index, values){
-		content += '<h5 class="w3-text-teal"><b>테라스이름:'+values.terrace_room_number.terrace_room_name+'</b></h5>';
-		content += '<h6 class="w3-opacity">날짜:'+values.terrace_room_number.create_date+'</h6>';
+		content += '<h2 class="w3-text-teal"><b>'+values.terrace_room_number.terrace_room_name+'</b></h2>';
+		content += '<h6 class="rightAr">날짜:'+values.terrace_room_number.create_date+'</h6>';
 		content += '<p>개인파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.saved_personal_file_name+'"><img src="image/flatButton.png"></a>';
 		content += '<p>공유파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.shared_file_name+'"><img src="image/flatButton.png"></a></p>';
 		content += '<p>원본파일 : <a href="myFilesDownload?filePath='+values.terrace_room_number.saved_file_path+'&fileName='+values.terrace_room_number.saved_file_name+'"><img src="image/flatButton.png"></a></p>';
