@@ -85,6 +85,10 @@
 			
 		}
 		
+#ggoDiv{
+	width:700px;
+}
+		
 		#ggo1 {
  
  height: 200%;
@@ -96,7 +100,7 @@
  padding: 15px;
  
  height: 500px;
- width: 950px;	  
+ width: 700px;	  
  overflow-y: scroll;
  overflow-x: hidden;   
 }
