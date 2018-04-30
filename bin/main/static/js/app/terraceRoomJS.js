@@ -138,19 +138,17 @@ connection.onstreamended = function(event){
 	
 	var terrace_room_number = document.getElementById('terraceNumber').value;
 	
-	
-};
-
-window.onbeforeunload = function(){
-	
 	if (creator == loginId){
 		$.ajax({
 			url:'endOfTerraceRoom',
-			data:{'terrace_room_number':terraceNum},
+			data:{'terrace_room_number':terrace_room_number},
 			type:'get'
 		});
 	}
+	
 };
+
+
 
 document.getElementById('btn-save-progress').onclick = function(){
 	
