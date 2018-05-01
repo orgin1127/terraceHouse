@@ -21,8 +21,8 @@ public class RegularTerraceRoomService {
 		return regularTerraceRepository.save(dto.toEntity()).getRegular_terrace_number();
 	}
 	
+	@Transactional(readOnly = true)
 	public RegularTerrace findOneByTerraceNumber(Long terrace_number){
 		return regularTerraceRepository.findOneByRegularTerraceNumber(terrace_number);
 	}
-
 }

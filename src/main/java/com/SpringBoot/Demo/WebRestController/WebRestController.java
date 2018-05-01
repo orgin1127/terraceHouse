@@ -132,6 +132,13 @@ public class WebRestController {
 		return result;
 	}
 	
+	@GetMapping("/getMyRegularTerrace")
+	public ArrayList<RegularTerraceMember> getMyRegularTerrace(HttpSession session){
+		Member m = (Member) session.getAttribute("loginedMember");
+		ArrayList<RegularTerraceMember> list = regularTerraceMemberService.getAllMyRegularTerrace(m.getMember_number());
+		return list;
+	}
+	
 	//유저가 보낸 정기 테라스 초대를 받았을 경우
 	@PostMapping("/acceptRTInvite")
 	public Long regularTerraceMemberRegi(Long regular_terrace_number,HttpSession session){

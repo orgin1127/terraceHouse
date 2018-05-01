@@ -11,6 +11,6 @@ public interface MemberNotificationRepository extends JpaRepository<MemberNotifi
 	
 	@Query("SELECT mn " + 
 			"FROM MemberNotification mn " + 
-			"WHERE receiver= :receiver")
+			"WHERE receiver= :receiver AND confirmed != 'y'")
 	public ArrayList<MemberNotification> getNotificationList(@Param("receiver")String receiverID);
 }
