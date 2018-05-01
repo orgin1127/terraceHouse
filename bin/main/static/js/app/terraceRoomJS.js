@@ -1129,7 +1129,7 @@ function backwardPage(inputId){
 		cPage--;
 	}
 
-	img.src = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
