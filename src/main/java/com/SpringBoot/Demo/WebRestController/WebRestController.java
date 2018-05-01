@@ -71,6 +71,7 @@ public class WebRestController {
 	private JoinRoomMemberService joinRoomMemberService;
 	private RegularTerraceRoomService regularTerraceRoomService;
 	private RegularTerraceMemberService regularTerraceMemberService;
+	private MemberNotificationService memberNotificationService;
 	@Autowired
 	private JavaMailSender mailSender;
 	
@@ -158,9 +159,9 @@ public class WebRestController {
 		ArrayList<MemberNotification> result = null;
 		String loginId = (String) session.getAttribute("loginID");
 		
-		MemberNotificationService mns = new MemberNotificationService();
+		
 		System.out.println("검색할 ID : " + loginId);
-		result = mns.getNotificationList(loginId);
+		result = memberNotificationService.getNotificationList(loginId);
 		
 		return result;
 	}

@@ -150,6 +150,7 @@ public class WebController {
 		
 		return "inviteUser";
 	}
+	
 	@GetMapping("/afterLogin")
 	public String afterLogin(Model model, HttpSession session){
 		model.addAttribute("loginid", session.getAttribute("loginID"));

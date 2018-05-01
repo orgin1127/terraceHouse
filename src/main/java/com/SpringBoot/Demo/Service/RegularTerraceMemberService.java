@@ -22,7 +22,7 @@ public class RegularTerraceMemberService {
 		return regularTerraceMemberRepository.save(dto.toEntity()).getRegular_terrace_member_number();
 	}
 	
-	@Transactional
+	@Transactional(readOnly = true)
 	public ArrayList<RegularTerraceMember> getAllMyRegularTerrace(Long member_number){
 		ArrayList<RegularTerraceMember> list = new ArrayList<>();
 		list = regularTerraceMemberRepository.findAllRegularTerraceByMemberNumber(member_number);

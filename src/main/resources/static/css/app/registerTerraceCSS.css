@@ -25,8 +25,8 @@
 		/* Modal Body */
 		#myTerraceRegisterModalBody {
 			padding: 2px 16px;
-			margin: auto;
-			width: 280px;
+			background-color: white;
+			
 		}
 		
 		/* Modal Footer */
@@ -116,7 +116,7 @@
 		button,
 		legend {
 			color: white;
-			background-color: black;
+			background-color: white;
 			padding: 5px 10px;
 			border-radius: 0;
 			border: 0;
@@ -130,6 +130,11 @@
 		
 		button:active {
 			background-color: white;
-			color: black;
-			outline: 1px solid black;
+			color: white;
+			outline: 1px solid white;
 		}
+		
+		
+		a {
+		margin-right: 30px;
+		 }

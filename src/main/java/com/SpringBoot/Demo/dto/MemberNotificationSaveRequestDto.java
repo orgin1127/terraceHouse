@@ -39,4 +39,12 @@ public class MemberNotificationSaveRequestDto {
 								.build();
 	}
 
+	@Override
+	public String toString() {
+		return "MemberNotificationSaveRequestDto [notification_number=" + notification_number + ", sender=" + sender
+				+ ", receiver=" + receiver + ", notification_type=" + notification_type + ", notification_content="
+				+ notification_content + ", confirmed=" + confirmed + "]";
+	}
+
+	
 }

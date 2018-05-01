@@ -47,7 +47,7 @@ $(document).ready(function() {
 				content += '<option value="4">4</option>';
 				content += '</select></p>';
 				content += '<p><input type="text" id="rTerraceName" placeholder="Put your Terrace name"></p>';
-				content += '<p><input type="button" id="rSubmitBtn" value="테라스 만들기"></p></form></div>';
+				content += '<p><input type="button" id="rSubmitBtn" value="테라스 만들기" class="w3-button w3-blue-grey"></p></form></div>';
 				$('#afterSelectRadioDiv').html(content);
 				$('#rSubmitBtn').on('click', regularTerraceRegi);
 			}
@@ -60,7 +60,7 @@ $(document).ready(function() {
 				content +=	'<option value="4">4</option>';
 				content +=	'</select></p>';
 				content += '<p><input type="text" id="terraceName" placeholder="Put your Terrace name"></p>';
-				content += '<p><input type="button" id="urSubmitBtn" value="테라스 만들기"></p></form></div>';
+				content += '<p><input type="button" id="urSubmitBtn" value="테라스 만들기" class="w3-button w3-blue-grey"></p></form></div>';
 				$('#afterSelectRadioDiv').html(content);
 				$('#urSubmitBtn').on('click', regiTerraceRoom);
 			}
@@ -372,15 +372,14 @@ function hideExclude(excludeId) {
 }
 
 function makeTerraceRegister() {
-	var terraceResFormContent = '<form><fieldset><legend>Please select your Terrace Type</legend>'
-        +'<div id="selectTerraceTypeRadioDiv">'
+	var terraceResFormContent = '<form><fieldset style="margin-left: 5px;"><legend style="color:white; background-color:black">Please select your Terrace Type</legend>'
+        +'<div id="selectTerraceTypeRadioDiv" style="margin-left:150px;">'
         +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeR" name="terraceType" value="Rterrace"/>'
         +'<label for="contactChoice1">정기 Terrace</label>'
         +'<input type="radio" class="terraceTypeRadioClass" id="terraceTypeUR" name="terraceType" value="URterrace" />'
         +'<label for="contactChoice2">비정기 Terrace</label></div></fieldset></form>'
         +'<div id="afterSelectRadioDiv"></div>'
 	$('#myTerraceRegisterModalBody').html(terraceResFormContent);
-
 }
 
 function closeTerraceRegisterModal() {
