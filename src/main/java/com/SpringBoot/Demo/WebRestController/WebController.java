@@ -127,23 +127,26 @@ public class WebController {
 	}
 	
 	@GetMapping("/inviteUser")
-	public String inviteUser(String terrace_num,String loginId,Model model){
+	public String inviteUser(String terrace_num,String terrace_name,String loginId,Model model){
 		
 		model.addAttribute("terrace_num", terrace_num);
+		model.addAttribute("terrace_name", terrace_name);
 		
 		return "inviteUser";
 	}
 	
 	@GetMapping("/inviting")
-	public String inviting(String terrace_number, String receiver,HttpSession session){
+	public String inviting(Long terrace_number,String terrace_name, String receiver,HttpSession session){
 		System.out.println("유저 ID : "+receiver);
-		int num = Integer.parseInt(terrace_number);
+		System.out.println("테라스 이름 : "+terrace_name);
+		
 		String loginId = (String)session.getAttribute("loginID");
 		MemberNotificationSaveRequestDto dto = new MemberNotificationSaveRequestDto();
-		
+		dto.setTerrace_name(terrace_name);
+		dto.setTerrace_number(terrace_number);
 		dto.setSender(loginId);
 		dto.setReceiver(receiver);
-		dto.setNotification_content("/tr2?terrace_room_number="+num+"&creator="+loginId);
+		dto.setNotification_content("/tr2?terrace_room_number="+terrace_number+"&creator="+loginId);
 		dto.setNotification_type("invite");
 		System.out.println(dto.toString());
 		memberNotificationService.insertNotification(dto);

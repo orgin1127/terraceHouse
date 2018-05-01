@@ -153,11 +153,6 @@ function makeRegularContent(data){
 		
 	var content = '';
 	
-	content += '<form action="" method="" id="inviteForm">';
-	content += '<input type="hidden" id="terrace_number">';
-	content += '<input type="hidden" id="userName">';
-	content += '</form>';
-	
 	$.each(data, function(index, values){
 			
 		content +='<h2 class =" w3-text-teal"><b>'+values.regularTerrace.terrace_name+'</b></h2>';
@@ -179,7 +174,7 @@ function makeRegularContent(data){
 		case 'sun':content += '<p>요일 : 일요일 </p>';break;
 		}
 			
-		content += '<input type="button" value="유저 초대하기" onclick="javascript:inviteUser('+values.regularTerrace.regular_terrace_number+')">';
+		content += '<input type="button" value="유저 초대하기" onclick="javascript:inviteUser('+values.regularTerrace.regular_terrace_number+',\''+values.regularTerrace.terrace_name+'\')">';
 			
 	});
 	$('#myRegularTerraceModalBody').html(content);
@@ -188,9 +183,9 @@ function makeRegularContent(data){
 		
 	 }
 
-function inviteUser(terrace_num){
+function inviteUser(terrace_num,terrace_name){
 	
-	window.open('/inviteUser?terrace_num='+terrace_num,'invite','height='+300,',width='+300);
+	window.open('/inviteUser?terrace_num='+terrace_num+'&terrace_name='+terrace_name,'invite','height=300,width=300');
 	
 }
 
@@ -210,8 +205,9 @@ function inviteNotifi(data){
 	var content='';
 	console.log(data);
 	$.each(data,function(index,values){
-		content += '<h3 class =" w3-text-teal"><b>'+values.sender+'님이 초대하셨습니다.';
-		content += '<a onclick = "javascript:takeInvite(\''+values.notification_number+'\')"><img src="image/acceptButton.png></a>"';
+		content += '<h3 class =" w3-text-teal"><b>'+values.sender+'님이 초대하셨습니다.<b></h3>';
+		content += '<h4>'+values.terrace_name+'으로 입장</h4>';
+		content += '<a onclick = "javascript:takeInvite(\''+values.notification_number+'\')"><img src="image/acceptButton.png"></a>';
 	});
 	$('#inviteNotifi').html(content);
 }
@@ -219,9 +215,9 @@ function inviteNotifi(data){
 function takeInvite(num){
 	
 	$.ajax({
-		url:'acceptInvite',
-		data : {'num' : num},
-		type:'Get',
+		url:'acceptRTInvite',
+		data : {'regular_terrace_number' : num},
+		type:'Post',
 		success: function(data){
 			console.log('초대받기 성공');
 		},

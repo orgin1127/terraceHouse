@@ -41,6 +41,8 @@ public class MemberNotificationSaveRequestDto {
 								.receiver(receiver)
 								.notification_type(notification_type)
 								.notification_content(notification_content)
+								.terrace_name(terrace_name)
+								.terrace_number(terrace_number)
 								.build();
 	}
 

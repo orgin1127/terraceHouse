@@ -145,12 +145,15 @@ public class WebRestController {
 	//유저가 보낸 정기 테라스 초대를 받았을 경우
 	@PostMapping("/acceptRTInvite")
 	public Long regularTerraceMemberRegi(Long regular_terrace_number,HttpSession session){
+		
+		System.out.println("들어온 번호 : "+regular_terrace_number);
 		RegularTerraceMemberSaveRequestDto saveDto = new RegularTerraceMemberSaveRequestDto();
 		Member m = (Member) session.getAttribute("loginedMember");
 		saveDto.setMember(m);
 		RegularTerrace rt = regularTerraceRoomService.findOneByTerraceNumber(regular_terrace_number);
 		saveDto.setRegularTerrace(rt);
 		Long result = regularTerraceMemberService.regularTerrareMemberInsert(saveDto);		
+		
 		return result;
 	}
 	
@@ -166,13 +169,6 @@ public class WebRestController {
 		return result;
 	}
 	
-	@GetMapping("/acceptInvite")
-	public String acceptInvite(@RequestParam Long num){
-		
-		System.out.println(num);
-		
-		return "";
-	}
 	
 	@PostMapping("/login")
 	public String login(@RequestBody MemberSaveRequestDto dto, HttpSession session){
