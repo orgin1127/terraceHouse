@@ -9,6 +9,6 @@ public interface RegularTerraceRepository extends JpaRepository<RegularTerrace, 
 	
 	@Query("SELECT rt " +
 			"FROM RegularTerrace rt " +
-			"WHERE terrace_number= :terrace_number")
-	public RegularTerrace findOneByRegularTerraceNumber(@Param("terrace_number")Long terrace_number);
+			"WHERE regular_terrace_number= :regular_terrace_number")
+	public RegularTerrace findOneByRegularTerraceNumber(@Param("regular_terrace_number")Long terrace_number);
 }
