@@ -35,6 +35,10 @@ public class MemberNotification {
 	@Column(columnDefinition = "varchar(10) default 'N'")
 	private String confirmed = "n";
 	
+	public MemberNotification() {
+		
+	}
+	
 	@Builder
 	public MemberNotification(String sender, String receiver, String notification_type, String notification_content){
 		this.sender = sender;
@@ -49,5 +53,7 @@ public class MemberNotification {
 				+ receiver + ", notification_type=" + notification_type + ", notification_content="
 				+ notification_content + ", confirmed=" + confirmed + "]";
 	}
+
+	
 	
 }

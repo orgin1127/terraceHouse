@@ -29,11 +29,13 @@ import com.SpringBoot.Demo.Domain.JoinRoomMember.JoinRoomMember;
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.JoinRoomMemberService;
+import com.SpringBoot.Demo.Service.MemberNotificationService;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
 import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.JoinRoomMemberSaveRequestDto;
+import com.SpringBoot.Demo.dto.MemberNotificationSaveRequestDto;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
 import com.SpringBoot.Demo.dto.PersonalFileSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
@@ -50,6 +52,7 @@ public class WebController {
 	private TerraceRoomService terraceRoomService;
 	private JoinRoomMemberService joinRoomMemberService;
 	private PersonalFileService personalFileService;
+	private MemberNotificationService memberNotificationService;
 	
 	@Autowired
 	S3Util s3;
@@ -123,6 +126,30 @@ public class WebController {
 		return "MyPage";
 	}
 	
+	@GetMapping("/inviteUser")
+	public String inviteUser(String terrace_num,String loginId,Model model){
+		
+		model.addAttribute("terrace_num", terrace_num);
+		
+		return "inviteUser";
+	}
+	
+	@GetMapping("/inviting")
+	public String inviting(String terrace_number, String receiver,HttpSession session){
+		System.out.println("유저 ID : "+receiver);
+		int num = Integer.parseInt(terrace_number);
+		String loginId = (String)session.getAttribute("loginID");
+		MemberNotificationSaveRequestDto dto = new MemberNotificationSaveRequestDto();
+		
+		dto.setSender(loginId);
+		dto.setReceiver(receiver);
+		dto.setNotification_content("/tr2?terrace_room_number="+num+"&creator="+loginId);
+		dto.setNotification_type("invite");
+		System.out.println(dto.toString());
+		memberNotificationService.insertNotification(dto);
+		
+		return "inviteUser";
+	}
 	@GetMapping("/afterLogin")
 	public String afterLogin(Model model, HttpSession session){
 		model.addAttribute("loginid", session.getAttribute("loginID"));

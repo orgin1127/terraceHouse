@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Terrace House</title>
+<meta charset="UTF-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+{{terrace_num}}
+아이디 검색 <input type="text" id="searchId"><input type="button" id="searchBtn" value="검색">
+<div id="searchResult">
+</div>
+<form action="inviting" method="get" id="inviteForm">
+	<input type="hidden" id="terrace_number" name ="terrace_number" value = "{{terrace_num}}">
+	<input type="hidden" id="userId" name="receiver">	
+	
+</form>
+<script src="js/app/inviteUser.js"></script>
+</body>
+</html>

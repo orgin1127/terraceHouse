@@ -2,7 +2,14 @@
  *  
  */
 
+var week = new Array('sun','mon','tue','wed','thu','fri','sat');
+var yobi;
+
+
 $(document).ready(function() {
+	var d = new Date();
+	yobi = week[d.getDay()];
+	
 	$('#myPageBtn').on('click',function(){
 		console.log('클릭됨');
 		location.href='myPage';
@@ -95,6 +102,28 @@ $(document).ready(function() {
 	});
 	
 	$('#noticeBtn').on('click', function() {
+		$.ajax({
+			url:'getMyRegularTerrace',
+			data:{},
+			type:'get',
+			success:function(data){
+				commonNotifi(data);
+			},
+			error:function(e){
+				console.log('정기목록 가져오기 실패');
+			}
+		});
+		$.ajax({
+			url:'getAllInvitation',
+			data:{},
+			type:'Post',
+			success:function(data){
+				inviteNotifi(data);
+			},
+			error : function(e){
+				console.log('초대목록 받아오기 실패');
+			}
+		});
 		$('#myNotificationModal').css('display', 'block');
 		$('#myNotificationModalCloser').on('click', closeMyNotificationModal);
 	})
@@ -123,7 +152,12 @@ function makeRegularTerrace() {
 function makeRegularContent(data){
 		
 	var content = '';
-		
+	
+	content += '<form action="" method="" id="inviteForm">';
+	content += '<input type="hidden" id="terrace_number">';
+	content += '<input type="hidden" id="userName">';
+	content += '</form>';
+	
 	$.each(data, function(index, values){
 			
 		content +='<h2 class =" w3-text-teal"><b>'+values.regularTerrace.terrace_name+'</b></h2>';
@@ -145,6 +179,7 @@ function makeRegularContent(data){
 		case 'sun':content += '<p>요일 : 일요일 </p>';break;
 		}
 			
+		content += '<input type="button" value="유저 초대하기" onclick="javascript:inviteUser('+values.regularTerrace.regular_terrace_number+')">';
 			
 	});
 	$('#myRegularTerraceModalBody').html(content);
@@ -153,6 +188,49 @@ function makeRegularContent(data){
 		
 	 }
 
+function inviteUser(terrace_num){
+	
+	window.open('/inviteUser?terrace_num='+terrace_num,'invite','height='+300,',width='+300);
+	
+}
+
+function commonNotifi(data){
+	var content = '';
+	console.log(yobi);
+	$.each(data,function(index,values){
+		if (values.regularTerrace.terrace_date == yobi){
+			content += '<h3 class =" w3-text-teal"><b> 오늘 '+values.regularTerrace.terrace_name+' 테라스가 있습니다. </b></h3>'
+		}
+	});
+	content += '<hr>';
+	$('#commonNotifi').html(content);
+}
+
+function inviteNotifi(data){
+	var content='';
+	console.log(data);
+	$.each(data,function(index,values){
+		content += '<h3 class =" w3-text-teal"><b>'+values.sender+'님이 초대하셨습니다.';
+		content += '<a onclick = "javascript:takeInvite(\''+values.notification_number+'\')"><img src="image/acceptButton.png></a>"';
+	});
+	$('#inviteNotifi').html(content);
+}
+
+function takeInvite(num){
+	
+	$.ajax({
+		url:'acceptInvite',
+		data : {'num' : num},
+		type:'Get',
+		success: function(data){
+			console.log('초대받기 성공');
+		},
+		error : function (e){
+			console.log('초대받기 실패');
+		}
+	});
+	/*window.open(url,'TerraceRoom','height=' + 744 + ',width=' + 1395 + 'fullscreen=yes');*/
+}
 
 function toMyFiles(arr){
 	

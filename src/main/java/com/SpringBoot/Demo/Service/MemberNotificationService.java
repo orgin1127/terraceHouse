@@ -13,8 +13,8 @@ public class MemberNotificationService {
 	
 	private MemberNotificationRepository memberNotificationRepository;
 	
-	public Long insertNotification(MemberNotificationSaveRequestDto dto){
-		return memberNotificationRepository.save(dto.toEntity()).getNotification_number();
+	public void insertNotification(MemberNotificationSaveRequestDto dto){
+		memberNotificationRepository.save(dto.toEntity());
 	}
 	
 	public ArrayList<MemberNotification> getNotificationList(String receiverID){

@@ -33,10 +33,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
+import com.SpringBoot.Demo.Domain.MemberNotification.MemberNotification;
 import com.SpringBoot.Demo.Domain.RegularTerrace.RegularTerrace;
 import com.SpringBoot.Demo.Domain.RegularTerraceMember.RegularTerraceMember;
 import com.SpringBoot.Demo.Domain.TerraceRoom.TerraceRoom;
 import com.SpringBoot.Demo.Service.JoinRoomMemberService;
+import com.SpringBoot.Demo.Service.MemberNotificationService;
 import com.SpringBoot.Demo.Service.MemberService;
 import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.RegularTerraceMemberService;
@@ -147,8 +149,28 @@ public class WebRestController {
 		saveDto.setMember(m);
 		RegularTerrace rt = regularTerraceRoomService.findOneByTerraceNumber(regular_terrace_number);
 		saveDto.setRegularTerrace(rt);
-		Long result = regularTerraceMemberService.regularTerrareMemberInsert(saveDto);
+		Long result = regularTerraceMemberService.regularTerrareMemberInsert(saveDto);		
 		return result;
+	}
+	
+	@PostMapping("/getAllInvitation")
+	public ArrayList<MemberNotification> getAllInvitation(HttpSession session){
+		ArrayList<MemberNotification> result = null;
+		String loginId = (String) session.getAttribute("loginID");
+		
+		MemberNotificationService mns = new MemberNotificationService();
+		System.out.println("검색할 ID : " + loginId);
+		result = mns.getNotificationList(loginId);
+		
+		return result;
+	}
+	
+	@GetMapping("/acceptInvite")
+	public String acceptInvite(@RequestParam Long num){
+		
+		System.out.println(num);
+		
+		return "";
 	}
 	
 	@PostMapping("/login")
@@ -178,6 +200,14 @@ public class WebRestController {
 		return Arrays.stream(environment.getActiveProfiles())
 				.findFirst()
 				.orElse("");
+	}
+	
+	@GetMapping("/searchUser")
+	public Member searchUser(@RequestParam("searchId") String searchId){
+		
+		Member m =memberService.findById(searchId);
+		
+		return m;
 	}
 
 	@PostMapping("/uploadPDF")
