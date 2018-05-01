@@ -359,7 +359,7 @@ input.ao-toggle:checked ~ .ao-annotations span:nth-child(5) {
   <div class="w3-bar w3-white w3-card" id="myNavbar" style="height: 58px;">
     
     <a href="#home" class="w3-bar-item w3-button w3-wide">TERRACE HOUSE</a>
-    <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> &#9956;</button>
+    <button id="openNav" class="w3-button w3-teal w3-large" onclick="w3_open()"> <i class="fa fa-bars"></i></button>
      
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
@@ -789,12 +789,12 @@ $('a[href*="#"]')
 			    <span class="closeModal" id="terraceSearchModalCloser">&times;</span>
 			    <h2>[ S e a r c h T e r r a c e ]</h2>
 			  </div>
-			  <div class="modal-body" id="terraceSearchModalBody">
+			   <div class="modal-body" id="terraceSearchModalBody">
 			  	<div id="searchTerraceDiv">
-			  		<input type="text" id="searchTerracTitleInput">&nbsp;&nbsp;<input type="button" id="searchTerraceRoomBtn" value="검색"><br>
-			  		<div id="searchedTerraceDiv" ></div>
+			  		<input type="text" id="searchTerracTitleInput">&nbsp;&nbsp;<input type="button" id="searchTerraceRoomBtn" value="검색" ><br><br>
+			  		<div id="searchedTerraceDiv" style="margin-bottom:1300px;"></div>
 			  	</div>
-			  </div>
+			  </div>	
 			  <div class="modal-footer" id="terraceSearchModalFooter"><h1> </h1></div>
 		</div>
 	</div>

@@ -1,14 +1,14 @@
 @CHARSET "UTF-8";
 		
-		#terraceSearchModal {
+#terraceSearchModal {
 		    display: none; /* Hidden by default */
 		    position: fixed; /* Stay in place */
 		    z-index: 1; /* Sit on top */
-		    padding-top: 100px; /* Location of the box */
+		    padding-top: 50px; /* Location of the box */
 		    left: 0;
 		    top: 0;
 		    width: 100%; /* Full width */
-		    height: 200%; /* Full height */
+		    height: 120%; /* Full height */
 		     /* Enable scroll if needed */
 		    background-color: rgb(0,0,0); /* Fallback color */
 		    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
@@ -25,16 +25,12 @@
 		/* Modal Body */
 		#terraceSearchModalBody {
 			padding: 2px 16px;
-			margin: auto;
-			width: 100%;
-			height: 80%;
-			
-			overflow-y: scroll; 
+		   
 		}
 		
 		/* Modal Footer */
 		#terraceSearchModalFooter {
-		    padding: 2px 16px;
+		   
 		    background-color: #90A4AE;
 		    font: "Raleway";
 		    color: white;
@@ -47,7 +43,7 @@
 		    margin: auto;
 		    padding: 0;
 		    border: 1px solid #888;
-		    width: 40%;
+		    width: 50%;
 		    height: 50%;
 		    font: "Raleway";
 		    font-size: 15px;
@@ -59,8 +55,7 @@
 		    
 		}
 		#searchedTerraceRoom{
-			width: 350px;
-			height: 500px;
+			
 		}
 		/* The Close Button */
 		.closeModal {
@@ -81,7 +76,7 @@
 		}
 		
 		#searchedTerraceDiv{
-			padding-left: 100px;
+			padding-left: 10px;
 			
 		}
 		

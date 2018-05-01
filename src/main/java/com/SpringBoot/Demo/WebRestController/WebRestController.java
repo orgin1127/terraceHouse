@@ -153,7 +153,7 @@ public class WebRestController {
 		RegularTerrace rt = regularTerraceRoomService.findOneByTerraceNumber(regular_terrace_number);
 		saveDto.setRegularTerrace(rt);
 		Long result = regularTerraceMemberService.regularTerrareMemberInsert(saveDto);		
-		
+		memberNotificationService.updateConfirmed(regular_terrace_number, m.getMemberid());
 		return result;
 	}
 	

@@ -29,5 +29,10 @@ public class MemberNotificationService {
 		list = memberNotificationRepository.getNotificationList(receiverID);
 		return list;
 	}
+	
+	@Transactional
+	public void updateConfirmed(Long terrace_number, String receiver){
+		memberNotificationRepository.updateNotificationConfirmed(terrace_number, receiver);
+	}
 
 }

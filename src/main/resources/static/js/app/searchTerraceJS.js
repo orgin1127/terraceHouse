@@ -30,7 +30,7 @@ function startSearchTerraceRoom() {
 					alert('찾으시는 방이 없습니다.');
 				}
 			}, error: function(e) {
-				alert(JSON.stringify(e));
+				
 			}	
 		});
 	}
@@ -38,12 +38,12 @@ function startSearchTerraceRoom() {
 
 function printSearchedTerraceResult(searchedTerraceRoomList) {
 	var content = '';
-	content += '<table id="searchedTerraceRoom"><tr><th id="trNumTH">번호</th><th id="trNameTH">방 제목</th><th id="trMoPTH">제한인원</th><th id="trCreatorTH">creator</th></tr>';
+	content += '<div style="margin-right:800px;"><div style="overflow-x: hidden; overflow-y: scroll; height:240px; width:710px;"><table id="searchedTerraceRoom" class="w3-table-all" style="text-align:center"><tr w3-light-grey w3-hover-blue><th id="trNumTH">번호</th><th id="trNameTH">방 제목</th><th id="trMoPTH">제한인원</th><th id="trCreatorTH">creator</th><th></th></tr>';
 	$.each(searchedTerraceRoomList, function(index, values){
 		content += '<tr><td>' + (index+1) + '</td><td>' + values.terrace_room_name + '</td><td>' + values.terrace_room_mop + '</td>'
-		content += '<td>' + values.member.member_name + '</td><td><button class="enterTRBtn" onclick="javascript:enterTheTR()" roomNum="'+ values.terrace_room_number+'">입장</button></td></tr>';
+		content += '<td>' + values.member.member_name + '</td><td><button class="enterTRBtn" onclick="javascript:enterTheTR()" roomNum="'+ values.terrace_room_number+'" style="background-color:black;">입장</button></td></tr>';
 	});
-	content += '</table>';
+	content += '</table></div></div>';
 	$('#searchedTerraceDiv').html(content);
 }
 
