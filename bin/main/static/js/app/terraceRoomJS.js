@@ -1275,7 +1275,7 @@ function reUserList(){
 function power(){
 	var selectedID;
 	if (control){
-		var selectedID = document.getElementById('ruler').value;
+		selectedID = document.getElementById('ruler').value;
 		
 		var succeed = {};
 		succeed.id = selectedID;
