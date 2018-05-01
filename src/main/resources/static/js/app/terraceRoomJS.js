@@ -76,7 +76,7 @@ connection.onstream = function(event) {
 	
     //document.body.appendChild( event.mediaElement );
 	var addDiv = document.getElementsByClassName('videoContainer');
-	console.log('실행');
+	
 	
 	
 	var temp = document.getElementById('currentJoinMember');
@@ -156,12 +156,12 @@ document.getElementById('btn-save-progress').onclick = function(){
 	var eop = endOfPage;
 	
 	for (var i = 0; i < eop ;i++){
-		console.log('i : '+i);
+		
 		var strr = 'hi'+i;
 		var tempCanvas = document.getElementById('imageOnly');
 		
 		var tempImage = document.getElementById(strr);
-		console.log(tempImage.src);
+		
 		var tempCtx = tempCanvas.getContext('2d');
 		
 		tempCanvas.setAttribute("width","595px");
@@ -178,7 +178,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 				continue;
 			}
 			if (j+1 != lines.length && lines[j][3] == i){
-			console.log('i :'+i);	
+				
 			tempCtx.strokeStyle = lines[j][5];
 			tempCtx.lineWidth = lines[j][8];
 			tempCtx.beginPath();
@@ -197,7 +197,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 			}
 		}
 		imageArray[i] =  tempCanvas.toDataURL('image/png');	
-		console.log('배열 크기:'+imageArray.length);
+		
 	}
 	
 	if (imageArray[endOfPage-1] != '' && imageArray[endOfPage-1] != null){
@@ -220,7 +220,7 @@ document.getElementById('btn-save-progress').onclick = function(){
 				var tempCanvas = document.getElementById('imageOnly');
 				var strr = 'hi'+cPage;
 				var tempImage = document.getElementById(strr);
-				console.log(tempImage.src);
+				
 				var tempCtx = tempCanvas.getContext('2d');
 				
 				tempCanvas.setAttribute("width","595px");
@@ -1068,7 +1068,7 @@ for(var i = 0;i < lines.length;i++){
 		tempCtx.lineWidth = lines[i][8];
 		tempCtx.beginPath();
 		if(lines[i][4] == 'circle'){			
-			console.log('원 그림');
+			
 			tempCtx.moveTo(lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
 			tempCtx.bezierCurveTo(lines[i][0], lines[i][1], lines[i][6], lines[i][1], lines[i][6], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
 			tempCtx.bezierCurveTo(lines[i][6], lines[i][7], lines[i][0], lines[i][7], lines[i][0], lines[i][1] + (lines[i][7] - lines[i][1]) / 2);
@@ -1276,7 +1276,7 @@ function power(){
 	var selectedID;
 	if (control){
 		var selectedID = document.getElementById('ruler').value;
-		console.log(selectedID);
+		
 		var succeed = {};
 		succeed.id = selectedID;
 		succeed.mode = 'succeed';
