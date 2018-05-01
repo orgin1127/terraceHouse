@@ -14,6 +14,8 @@ public class MemberNotificationMainResponseDto {
 	private String receiver;
 	private String notification_type;
 	private String notification_content;
+	private String terrace_name;
+	private Long terrace_number;
 	private String confirmed;
 	
 	public MemberNotificationMainResponseDto(MemberNotification mn){
@@ -22,6 +24,8 @@ public class MemberNotificationMainResponseDto {
 		this.receiver = mn.getReceiver();
 		this.notification_type = mn.getNotification_type();
 		this.notification_content = mn.getNotification_content();
+		this.terrace_name = mn.getTerrace_name();
+		this.terrace_number = mn.getTerrace_number();
 		this.confirmed = mn.getConfirmed();
 	}
 
@@ -29,7 +33,10 @@ public class MemberNotificationMainResponseDto {
 	public String toString() {
 		return "MemberNotificationMainResponseDto [notification_number=" + notification_number + ", sender=" + sender
 				+ ", receiver=" + receiver + ", notification_type=" + notification_type + ", notification_content="
-				+ notification_content + ", confirmed=" + confirmed + "]";
+				+ notification_content + ", terrace_name=" + terrace_name + ", terrace_number=" + terrace_number
+				+ ", confirmed=" + confirmed + "]";
 	}
+
+	
 	
 }

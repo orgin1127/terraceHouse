@@ -32,28 +32,36 @@ public class MemberNotification {
 	@Column(nullable = false)
 	private String notification_content;
 	
+	@Column(nullable = false)
+	private String terrace_name;
+	
+	@Column(nullable = false)
+	private Long terrace_number;
+	
 	@Column(columnDefinition = "varchar(10) default 'N'")
 	private String confirmed = "n";
+	
 	
 	public MemberNotification() {
 		
 	}
 	
 	@Builder
-	public MemberNotification(String sender, String receiver, String notification_type, String notification_content){
+	public MemberNotification(String sender, String receiver, String notification_type
+							, String notification_content, String terrace_name, Long terrace_number) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.notification_type = notification_type;
 		this.notification_content = notification_content;
+		this.terrace_name = terrace_name;
+		this.terrace_number = terrace_number;
 	}
 
 	@Override
 	public String toString() {
 		return "MemberNotification [notification_number=" + notification_number + ", sender=" + sender + ", receiver="
 				+ receiver + ", notification_type=" + notification_type + ", notification_content="
-				+ notification_content + ", confirmed=" + confirmed + "]";
+				+ notification_content + ", terrace_name=" + terrace_name + ", confirmed=" + confirmed + "]";
 	}
 
-	
-	
 }
