@@ -1129,7 +1129,7 @@ function backwardPage(inputId){
 		cPage--;
 	}
 
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -1177,7 +1177,7 @@ function forwardPage(inputId){
 		cPage++;
 	}
 	
-	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+loginId+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
+	var stringURL = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/tr-user-files/"+creator+"/"+todayString+"/"+terraceName+"image/myImage"+cPage+".png";
 	img = document.getElementById('image1');
 	img.src = stringURL;
 	img.onload = function(){
@@ -1283,8 +1283,6 @@ function power(){
 		connection.send(JSON.stringify(succeed));
 	}
 	control = false;
-	var creator = document.getElementById('creator');
-	creator.value = selectedId;
 }
 
 //채팅 관련
