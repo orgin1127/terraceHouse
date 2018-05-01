@@ -79,8 +79,19 @@ $(document).ready(function() {
 	});
 	
 	$('#myTerraceBtn').on('click', function() {
-		$('#myRegularTerraceModal').css('display', 'block');
-		$('#myRegularTerraceModalCloser').on('click', closeRegularTerraceModal);
+		$.ajax({
+			url:'getMyRegularTerrace',
+			data:{},
+			type:'get',
+			success:function(data){
+				console.log('data : '+data);
+				makeRegularContent(data);
+				$('#myRegularTerraceModalCloser').on('click', closeRegularTerraceModal);
+			},
+			error:function(e){
+				console.log('실패');
+			}
+		});
 	});
 	
 	$('#noticeBtn').on('click', function() {
@@ -108,6 +119,40 @@ function closeRegularTerraceModal() {
 function makeRegularTerrace() {
 	
 }
+
+function makeRegularContent(data){
+		
+	var content = '';
+		
+	$.each(data, function(index, values){
+			
+		content +='<h2 class =" w3-text-teal"><b>'+values.regularTerrace.terrace_name+'</b></h2>';
+		content +='<h6 class ="rightAr">날짜 : '+values.regularTerrace.create_date+'</h6>';
+		content +='<p> 인원 : '+values.regularTerrace.terrace_mop+'</p>';
+		switch (values.regularTerrace.terrace_freq){
+		case 1: content += '<p>빈도 : 주 1회 </p>';break;
+		case 2: content += '<p>빈도 : 격주 1회 </p>';break;
+		case 3: content += '<p>빈도 : 월 1회 </p>';break;
+		}
+		switch (values.regularTerrace.terrace_date){
+			
+		case 'mon':content += '<p>요일 : 월요일 </p>';break;
+		case 'tue':content += '<p>요일 : 화요일 </p>';break;
+		case 'wed':content += '<p>요일 : 수요일 </p>';break;
+		case 'thu':content += '<p>요일 : 목요일 </p>';break;
+		case 'fri':content += '<p>요일 : 금요일 </p>';break;
+		case 'sat':content += '<p>요일 : 토요일 </p>';break;
+		case 'sun':content += '<p>요일 : 일요일 </p>';break;
+		}
+			
+			
+	});
+	$('#myRegularTerraceModalBody').html(content);
+	$('#myRegularTerraceModal').css('display', 'block');
+		
+		
+	 }
+
 
 function toMyFiles(arr){
 	
