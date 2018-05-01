@@ -1,0 +1,42 @@
+@CHARSET "UTF-8";
+
+#searchDiv{
+	
+	margin: 0 auto;
+	margin-top:10px;
+	padding-top:4px;
+	padding-left:6px;
+	height:45px;
+	background-color: white;
+	border:groove 2px lightgray;
+	border-radius: 10px;
+}
+
+#searchResult{
+	margin: 0 auto;
+	margin-right: 20px;
+	border: groove 2px lightgray;
+	border-radius: 10px;
+	padding-left:3px;
+	width:99%;
+	height: 100%;
+	background-color: white;
+}
+
+body{
+	background-color: #90A4AE;
+}
+
+#resultTable{
+	width:100%;
+}
+
+#resultTable td{
+	
+	text-align: center;
+	width : 33%;
+}
+
+#resultTable td:first-child{
+	font-weight: bold;
+}

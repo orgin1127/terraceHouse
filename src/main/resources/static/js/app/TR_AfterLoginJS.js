@@ -175,7 +175,7 @@ function makeRegularContent(data){
 		}
 			
 		content += '<input type="button" value="유저 초대하기" onclick="javascript:inviteUser('+values.regularTerrace.regular_terrace_number+',\''+values.regularTerrace.terrace_name+'\')">';
-			
+		content += '<hr>';	
 	});
 	$('#myRegularTerraceModalBody').html(content);
 	$('#myRegularTerraceModal').css('display', 'block');
@@ -185,7 +185,7 @@ function makeRegularContent(data){
 
 function inviteUser(terrace_num,terrace_name){
 	
-	window.open('/inviteUser?terrace_num='+terrace_num+'&terrace_name='+terrace_name,'invite','height=300,width=300');
+	window.open('/inviteUser?terrace_num='+terrace_num+'&terrace_name='+terrace_name,'invite','height=200,width=340');
 	
 }
 

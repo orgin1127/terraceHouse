@@ -4,11 +4,22 @@
 <head>
 <title>Terrace House</title>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="css/app/inviteUser.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-{{terrace_name}}
-아이디 검색 <input type="text" id="searchId"><input type="button" id="searchBtn" value="검색">
+<div id="searchDiv">
+	<table>
+		<tr>
+			<td style="border-right:solid black 1px;">아이디 검색</td>
+			<td><input type="text" id="searchId"></td>
+			<td><input type="button" id="searchBtn" value="검색"></td>
+		</tr>
+	</table>
+</div>
+
+<br>
 <div id="searchResult">
 </div>
 <form action="inviting" method="get" id="inviteForm">
