@@ -13,6 +13,7 @@ import com.SpringBoot.Demo.dto.MemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @Service
