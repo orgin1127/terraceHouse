@@ -79,7 +79,6 @@ public class WebController {
 		model.addAttribute("terraceName", tr.getTerrace_room_name());
 		model.addAttribute("terraceInfo",tr);
 		
-		
 		//방 생성자를 즉시 해당 방의 참여자로 db에 등록
 		JoinRoomMemberSaveRequestDto dto = new JoinRoomMemberSaveRequestDto();
 		dto.setMember((Member)session.getAttribute("loginedMember"));
