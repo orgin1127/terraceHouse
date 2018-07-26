@@ -237,7 +237,6 @@ public class WebRestController {
 			is = new ByteArrayInputStream(data);
 			result = s3File.uploadImageToS3(is, s3.getBucket(), fileName);
 			is.close();
-			System.out.println("이미지 업로드 끝");
 			
 			if (!result.equals("")){
 				String url = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/" + result;
@@ -248,7 +247,6 @@ public class WebRestController {
 				Feature feat = Feature.newBuilder().setType(Type.TEXT_DETECTION).build();
 				AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
 				requests.add(request);
-				System.out.println("이미지 객체 생성 끝");
 				
 				try (ImageAnnotatorClient client = ImageAnnotatorClient.create()){
 					BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
