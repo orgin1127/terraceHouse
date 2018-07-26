@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.MemberNotification.MemberNotification;
@@ -54,6 +55,15 @@ import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Feature.Type;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.cloud.vision.v1.ImageSource;
 
 import lombok.AllArgsConstructor;
 
@@ -206,7 +216,66 @@ public class WebRestController {
 		
 		return m;
 	}
-
+	
+	@PostMapping("/imgForScan")
+	public String uploadImage(@RequestParam("file") MultipartFile file){
+		String result = "";
+		StringBuffer sb = new StringBuffer();
+		String testString = "";
+		try {
+			S3FileUploadAndDownload s3File = new S3FileUploadAndDownload(s3.getAccess_key(), s3.getSecret_key());
+			String fileName = "";
+			if(file.getOriginalFilename() != null){
+				int cut = file.getOriginalFilename().lastIndexOf('/');
+				fileName = file.getOriginalFilename().substring(cut+1);
+			}
+			System.out.println(""+file.getOriginalFilename());
+			System.out.println(fileName);
+			
+			byte[] data = file.getBytes();
+			InputStream is = null;
+			is = new ByteArrayInputStream(data);
+			result = s3File.uploadImageToS3(is, s3.getBucket(), fileName);
+			is.close();
+			System.out.println("이미지 업로드 끝");
+			
+			if (!result.equals("")){
+				String url = "https://s3.ap-northeast-2.amazonaws.com/terracehouse-user-bucket/" + result;
+				
+				List<AnnotateImageRequest> requests = new ArrayList<>();
+				ImageSource imgSource = ImageSource.newBuilder().setImageUri(url).build();
+				Image img = Image.newBuilder().setSource(imgSource).build();
+				Feature feat = Feature.newBuilder().setType(Type.TEXT_DETECTION).build();
+				AnnotateImageRequest request = AnnotateImageRequest.newBuilder().addFeatures(feat).setImage(img).build();
+				requests.add(request);
+				System.out.println("이미지 객체 생성 끝");
+				
+				try (ImageAnnotatorClient client = ImageAnnotatorClient.create()){
+					BatchAnnotateImagesResponse response = client.batchAnnotateImages(requests);
+				    List<AnnotateImageResponse> responses = response.getResponsesList();
+				    for (AnnotateImageResponse res : responses) {
+				    	if (res.hasError()) {
+				            System.out.printf("Error: %s\n", res.getError().getMessage());
+				        }
+				    	
+				    	List<EntityAnnotation> annotation = res.getTextAnnotationsList();
+				    	sb.append(annotation.get(0).getDescription());
+				    }
+				    
+				    System.out.println("추출된 문자열 : "+sb.toString());
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
+	}
+	
+	
 	@PostMapping("/uploadPDF")
 	public String uploadPDF(@RequestParam("file") MultipartFile file
 							, @RequestParam("loginId") String memberid

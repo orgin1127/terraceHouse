@@ -219,4 +219,9 @@ public class WebController {
 		model.addAttribute("terraceRoomList", terraceRoomService.findAllByTerraceActive());
 		return "TR_TerraceRooms";
 	}
+	
+	@GetMapping("/startBlackJack")
+	public String startBlackJack(){
+		return "blackJack";
+	}
 }

@@ -132,6 +132,10 @@ $(document).ready(function() {
 		showAllRoom();
 	});
 	
+	$('#startBJBtn').on('click',function(){
+		window.open("/startBlackJack",'B L A C K·J A C K','height=' + 600 + ',width=' + 900);
+	});
+	
 	$('#wholeTerraceModalCloser').on('click',function(){
 		closeWholeTerraceModal();
 	});
@@ -358,6 +362,7 @@ function regularTerraceRegi() {
 		alert('입력 항목을 정확하게 입력하여 주세요.');
 	}
 }
+
 
 function hideExclude(excludeId) {
 	$("#terraceInfoDiv").children().each(function() {

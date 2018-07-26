@@ -27,6 +27,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.PersonalFile.PersonalFile;
@@ -68,10 +69,24 @@ public class S3FileUploadAndDownload {
         S3.putObject(bucketName, folderName + "/", new ByteArrayInputStream(new byte[0]), new ObjectMetadata());
     }
 	
+	public String uploadImageToS3(InputStream is, String bucketName, String fileName) {
+		try {
+			String saved_file_path = bucketName+"/"+"imageupload";
+			ObjectMetadata meta = new ObjectMetadata();
+			S3.putObject(new PutObjectRequest(saved_file_path, fileName, is, meta)
+						.withCannedAcl(CannedAccessControlList.PublicRead));
+			is.close();
+			//PutObjectResult result = S3.putObject(new PutObjectRequest(saved_file_path, saved_file_name, f));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "imageupload"+"/"+fileName;
+	}
+	
 	//Upload File to AWS S3 and Convert to PNG Image
-	public HashMap<String, Object> fileUpload(MultipartFile file,String memberid
-						,String bucketName, String terraceName
-						,Long terrace_room_number) throws FileNotFoundException {
+	public HashMap<String, Object> fileUpload(MultipartFile file, String memberid, String bucketName
+											, String terraceName, Long terrace_room_number) throws FileNotFoundException {
 		HashMap<String, Object> map = new HashMap<>();
 		int putResult = 0;
 		

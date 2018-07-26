@@ -50,7 +50,8 @@ dependencies {
 	//provided group: 'org.apache.pdfbox', name: 'preflight', version: '2.0.0'
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools
 	compile group: 'org.apache.pdfbox', name: 'pdfbox-tools', version: '2.0.8'
-	
+	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-vision
+	compile group: 'com.google.cloud', name: 'google-cloud-vision', version: '1.37.1'
 	
 	compile("org.mariadb.jdbc:mariadb-java-client")
     compile("org.springframework.boot:spring-boot-starter-mail")
