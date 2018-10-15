@@ -224,4 +224,5 @@ public class WebController {
 	public String startBlackJack(){
 		return "blackJack";
 	}
+	
 }
