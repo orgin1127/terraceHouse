@@ -455,7 +455,6 @@ public class WebRestController {
 		List<PersonalFileMainResponseDto> pList = personalFileService.findAllByMemberNumber(m);
 		System.out.println(pList.toString());		
 		
-		
 		return pList;
 	}
 	
