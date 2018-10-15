@@ -30,26 +30,37 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20160810'
+	
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-context
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-context', version: '1.2.1.RELEASE'
+	
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-autoconfigure
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-aws-autoconfigure', version: '1.2.1.RELEASE'
+	
 	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
+	
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
 	compile group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.8'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/fontbox
 	compile group: 'org.apache.pdfbox', name: 'fontbox', version: '2.0.1'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/jempbox
 	compile group: 'org.apache.pdfbox', name: 'jempbox', version: '1.8.12'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/xmpbox
 	compile group: 'org.apache.pdfbox', name: 'xmpbox', version: '2.0.0'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/preflight
 	//provided group: 'org.apache.pdfbox', name: 'preflight', version: '2.0.0'
+	
 	// https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools
 	compile group: 'org.apache.pdfbox', name: 'pdfbox-tools', version: '2.0.8'
+	
 	// https://mvnrepository.com/artifact/com.google.cloud/google-cloud-vision
 	compile group: 'com.google.cloud', name: 'google-cloud-vision', version: '1.37.1'
 	

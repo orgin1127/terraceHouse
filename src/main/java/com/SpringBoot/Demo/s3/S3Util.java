@@ -12,9 +12,6 @@ public class S3Util {
 	@Value("${cloud.aws.credentials.accessKey}")
 	String access_key;
 	
-	@Value("${test.properties}")
-	String testValue;
-	
 	@Value("${cloud.aws.credentials.secretKey}")
 	String secret_key;
 	
