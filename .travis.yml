@@ -11,14 +11,8 @@ cache:
   directories: 
     - '$HOME/.m2/repository' 
     - '$HOME/.gradle'
-    
-script: "./gradlew clean build --stacktrace" 
 
-# CI 실행 완료시 메일로 알람 
-notifications: 
-  email: 
-    recipients: 
-      - kwanhun21@gmail.com 
+script: "./gradlew clean build --stacktrace" 
       
 before_deploy: 
   - zip -r terraceHouse * 
@@ -52,3 +46,9 @@ deploy:
     on: 
       repo: orgin1127/terraceHouse #Github 주소 
       branch: master
+      
+# CI 실행 완료시 메일로 알람 
+notifications: 
+  email: 
+    recipients: 
+      - kwanhun21@gmail.com 
