@@ -24,8 +24,8 @@ spring:
     data: classpath:data-h2.sql 
   jpa: 
     show-sql: true 
-    #hibernate: 
-      #ddl-auto: create-drop
+    hibernate: 
+      ddl-auto: create-drop
   h2: 
     console: 
       enabled: true
