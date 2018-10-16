@@ -17,7 +17,7 @@ spring:
           starttls: 
             enable: true
 # development environment 
---- 
+---
 spring: 
   profiles: local 
   datasource: 
