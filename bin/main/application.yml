@@ -16,7 +16,7 @@ spring:
           auth: true
           starttls: 
             enable: true
-# development environment 
+
 ---
 spring: 
   profiles: local 
