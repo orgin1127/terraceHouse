@@ -18,7 +18,6 @@ public class SpringBootDemoApplication {
 			+ "classpath:application.yml,"
 			+ "/app/config/terraceHouse/real-application.yml";
 	
-	
 	public static void main(String[] args) {
 		new SpringApplicationBuilder(SpringBootDemoApplication.class)
 		.properties(APPLICATION_LOCATIONS)
