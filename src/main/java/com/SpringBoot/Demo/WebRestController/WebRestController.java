@@ -467,8 +467,9 @@ public class WebRestController {
 	 * 이하 신입 개발 연수 사용 컨트롤러
 	 * **/
 	
+	//엑셀 업로드시 사용할 method
 	@PostMapping(path = "uploadExcel", produces = "application/json")
-	public HashMap<String, List<String>> uploadExcel(@RequestParam("ex_file") MultipartFile excel, Model model){
+	public HashMap<String, List<String>> uploadExcel(@RequestParam("ex_file") MultipartFile excel){
 		
 		System.out.println("upload method worked");
 		
@@ -569,6 +570,16 @@ public class WebRestController {
 		result.put("dataList", dataList);
 		
 		return result;
+	}
+	
+	//항목 체크 후 확인 버튼 누른 뒤 작동할 method
+	@PostMapping(path = "confirmCheck")
+	public int confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList) {
+		for (int i = 0; i < checkedItemList.length; i++) {
+			System.out.println(checkedItemList[i]);
+		}
+		
+		return 1;
 	}
 	
 }
