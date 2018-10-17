@@ -284,7 +284,7 @@
 	var token = "{{token}}";
 	
 	console.log("token's value is "+token);
-	
+	/*
 			$.ajax({
 				url : "./option/get",
 				type : "get",
@@ -312,6 +312,20 @@
 					alert(JSON.stringify(err));
 				}
 			});
+	*/		
+			$.ajax({
+				url : "./guide/test",
+				type : "get",
+				data : {token: token},
+				dataType : "json",
+				success : function(txt){
+					alert(txt);
+				},
+				error : function(e){
+					alert(e);
+				}
+			});
+			
 	}
 	
 	</script>	
