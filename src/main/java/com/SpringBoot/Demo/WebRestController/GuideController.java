@@ -74,10 +74,7 @@ public class GuideController {
 				 				
 				 				//선택지 내용 비교 해야합니다. 
 				 				
-				 				ArrayList<String> optionList_excel = new Utile_Excel().getDataforExcelField(a.getExelFieldName());
 				 				
-				 				ArrayList<String> optionList_hrbc = new Utile_HRBC().getOptionList(a.getExelFieldName());
-				 						
 				 				// 아에 포함이 되는지 체크 엑셀>Hrbc false && Hrbc>excel true 인 경우에는 임포트 설정; 항목 발견해서 추가 안내 메세지; 
 				 				
 				 				
@@ -107,25 +104,23 @@ public class GuideController {
 					
 				}
 				
-				// 신규작성의 경우-----------------------------------------------------------------------------------------------------------
-				a.setMatchingGuide("新規作成");
-				a.setMatchingGuide_simple(2);
-				// HRBC 항목 이름 같게 합니다.  
-				a.setFieldNameonHRBC(a.getExelFieldName());
-				
-				// 데이터 타입 추천 , 문자열을 보고 숫자만으로 숫자,통화 / 텍스트 복수형 추천
-				String dataType = new Utile_Excel().getDataType(a.getExelFieldName());
-				
-				a.setMatchingGuide_detail(dataType);
-				
-				// 선택지 타입인 경우, 추가해야할 선택지 내용을 안내.
-				if(a.getMatchingGuide_detail().equals("選択肢型")){
+					// 신규작성의 경우-----------------------------------------------------------------------------------------------------------
+					a.setMatchingGuide("新規作成");
+					a.setMatchingGuide_simple(2);
+					// HRBC 항목 이름 같게 합니다.  
+					a.setFieldNameonHRBC(a.getExelFieldName());
 					
+					// 데이터 타입 추천 , 문자열을 보고 숫자만으로 숫자,통화 / 텍스트 복수형 추천
+			
+		
+					
+					// 선택지 타입인 경우, 추가해야할 선택지 내용을 안내.
+					if(a.getMatchingGuide_detail().equals("選択肢型")){
+						
 					//OptionData recommendation
-					ArrayList<String> optionDataList = new Utile_Excel().getDataforExcelField(a.getFieldNameonHRBC());
-					
+				
 					a.setAdditionalGuide("‐　選択肢追加");
-					a.setAdditionalGuide_detail(optionDataList.toString());
+			
 	
 				}		
 			}
