@@ -4,17 +4,11 @@ package com.SpringBoot.Demo.WebRestController;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -34,7 +28,6 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.MemberNotification.MemberNotification;
@@ -59,7 +51,6 @@ import com.SpringBoot.Demo.Service.PersonalFileService;
 import com.SpringBoot.Demo.Service.RegularTerraceMemberService;
 import com.SpringBoot.Demo.Service.RegularTerraceRoomService;
 import com.SpringBoot.Demo.Service.TerraceRoomService;
-import com.SpringBoot.Demo.dto.JoinRoomMemberMainResponseDto;
 import com.SpringBoot.Demo.dto.MemberSaveRequestDto;
 import com.SpringBoot.Demo.dto.PersonalFileMainResponseDto;
 import com.SpringBoot.Demo.dto.RegularTerraceMemberSaveRequestDto;
@@ -68,7 +59,6 @@ import com.SpringBoot.Demo.dto.TerraceRoomMainResponseDto;
 import com.SpringBoot.Demo.dto.TerraceRoomSaveRequestDto;
 import com.SpringBoot.Demo.s3.S3FileUploadAndDownload;
 import com.SpringBoot.Demo.s3.S3Util;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.cloud.vision.v1.AnnotateImageRequest;
 import com.google.cloud.vision.v1.AnnotateImageResponse;
 import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
@@ -78,7 +68,6 @@ import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageSource;
-import com.opencsv.CSVReader;
 
 import lombok.AllArgsConstructor;
 
@@ -478,16 +467,18 @@ public class WebRestController {
 	 * 이하 신입 개발 연수 사용 컨트롤러
 	 * **/
 	
-	@PostMapping(path = "uploadExcel", produces = "application/text; charset=utf8")
-	public int uploadExcel(@RequestParam("ex_file") MultipartFile excel){
-		
-		int result = 0;
+	@PostMapping(path = "uploadExcel", produces = "application/json")
+	public HashMap<String, List<String>> uploadExcel(@RequestParam("ex_file") MultipartFile excel, Model model){
 		
 		System.out.println("upload method worked");
 		
+		//ArrayList for data save 1 is koumoku, 2 is data of first row
+		List<String> itemList = new ArrayList<>();
+		List<String> dataList = new ArrayList<>();
+		
 		if (!excel.isEmpty()) {
 			try {
-				result = 1;
+				
 				int pos = excel.getOriginalFilename().lastIndexOf(".");
 				String filename = excel.getOriginalFilename().substring(pos);
 				
@@ -495,14 +486,7 @@ public class WebRestController {
 				InputStream is = null;
 				is = excel.getInputStream();
 				
-				/*CSVReader reader = new CSVReader(new InputStreamReader(is));
 				
-				String[] s;
-				List<String[]> data = new ArrayList<String[]>();
-				
-				while((s = reader.readNext()) != null) {
-					System.out.println(s[0]);
-				}*/
 				
 				if (filename.equals(".xls")) {
 					
@@ -512,14 +496,27 @@ public class WebRestController {
 					HSSFCell cell;
 					
 					sheet = workBook.getSheetAt(0);
+					
+					//항목 추출
 					row = sheet.getRow(0);
 					int noc = row.getPhysicalNumberOfCells();
 					
 					for (int count = 0; count < noc; count++){
 						cell = row.getCell(count);
 						System.out.println(cell.toString());
+						itemList.add(cell.toString());
+					}
+					
+					//첫번째 데이터 추출
+					row = sheet.getRow(1);
+					noc = row.getPhysicalNumberOfCells();
+					
+					for (int count = 0; count < noc; count++) {
+						cell = row.getCell(count);
+						dataList.add(cell.toString());
 					}
 				}
+				
 				else if (filename.equals(".xlsx")) {
 					
 					XSSFWorkbook workBook = new XSSFWorkbook(is);
@@ -528,12 +525,30 @@ public class WebRestController {
 					XSSFCell cell;
 					
 					sheet = workBook.getSheetAt(0);
-					row = sheet.getRow(1);
+					
+					//항목 추출
+					row = sheet.getRow(0);
 					int noc = row.getPhysicalNumberOfCells();
 					
 					for (int count = 0; count < noc; count++){
 						cell = row.getCell(count);
 						System.out.println(cell.toString());
+						itemList.add(cell.toString());
+					}
+					
+					//첫번째 데이터 추출
+					row = sheet.getRow(1);
+					System.out.println("!!!"+noc+"!!!");
+					
+					for (int count = 0; count < noc; count++) {
+						cell = row.getCell(count);
+						if (cell == null) {
+							dataList.add("");
+						}
+						else {
+							dataList.add(cell.toString());
+							System.out.println(cell.toString());							
+						}
 					}
 				}
 				
@@ -548,6 +563,10 @@ public class WebRestController {
 			
 		}
 		
+		HashMap<String, List<String>> result = new HashMap<>();
+		
+		result.put("itemList", itemList);
+		result.put("dataList", dataList);
 		
 		return result;
 	}

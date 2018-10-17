@@ -25,6 +25,7 @@ repositories {
 }
 
 ext['hibernate.version'] = '5.2.11.Final' //추가 
+ext['jackson-databind'] = '2.9.5'
 
 dependencies {
 	
@@ -33,9 +34,6 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
 	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
-	
-	// https://mvnrepository.com/artifact/com.opencsv/opencsv
-	compile group: 'com.opencsv', name: 'opencsv', version: '4.1'
 	
 	// https://mvnrepository.com/artifact/org.json/json
 	compile group: 'org.json', name: 'json', version: '20160810'
