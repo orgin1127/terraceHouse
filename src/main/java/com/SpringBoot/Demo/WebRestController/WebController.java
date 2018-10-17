@@ -220,9 +220,15 @@ public class WebController {
 		return "TR_TerraceRooms";
 	}
 	
-	@GetMapping("/startBlackJack")
-	public String startBlackJack(){
-		return "blackJack";
+	/**
+	 * 이하 신입 개발 연수에서 사용한 컨트롤러
+	 **/
+	
+	@GetMapping("/customHelper")
+	public String customHelper(){
+		return "panels";
 	}
+	
+	
 	
 }

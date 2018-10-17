@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HRBC-カスタマイズNAVI</title>
+	<link href="css/lib/bootstrap.min.css" rel="stylesheet">
+	<link href="css/lib/font-awesome.min.css" rel="stylesheet">
+	<link href="css/lib/datepicker3.css" rel="stylesheet">
+	<link href="css/lib/styles.css" rel="stylesheet">
+	<link href="css/lib/panels.css" rel="stylesheet">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+<body>
+
+<!-- modification_color! style added ; the color on gray 
+       code : #eeeeee --> 
+       
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style = "background-color:#eeeeee" >
+		<div class="container-fluid">
+			<div class="navbar-header">
+				
+				<a class="navbar-brand" href="#" ><span style = "color: #000000 font-weight: bold" ><img src = "image/logo_porters.png">カスタマイズNAVI</a>
+				</span>
+			</div>
+		</div><!-- /.container-fluid -->
+	</nav>
+	
+	<!-- need : -->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style = "background-color:#eeeeee">
+			
+		<div class="divider"></div>
+	
+	<!-- for file choosing -->	
+		<div class="col-md-12 rounded">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<div class="filebox">
+							 <label for="ex_file">Upload</label> 
+							 <form id="excelUpload" name="excelUpload" enctype="multipart/form-data">
+								 <input type="file" id="ex_file" name="ex_file" onchange="javascript:uploadExcel()"> 
+							 </form>
+						</div>
+					</div>
+					<!--
+					<div class="panel-body">
+					  No Data 	
+					</div>
+					
+					-->
+				</div>
+		</div>
+	
+	<!-- for import setting  -->
+	
+		<div class="col-md-12 rounded">
+				<div class="panel panel-default">
+					<div class="panel-heading">List of CSV_Data</div>
+					<div class="panel-body">
+						
+						<table class = "type05">
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						<tr>
+							<th>
+								<label class="container">
+ 									<input type="checkbox">
+ 									<span class="checkmark"></span>
+								</label>
+							</th>
+							<td>
+								項目例
+							</td>
+						</tr>
+						
+						</table>
+						
+					</div>
+				</div>
+		</div>
+	
+	</div>
+	
+	<!--/.sidebar-->
+		
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		
+		<div class="row　">
+			
+			<div class="col-md-12 ">
+				<div class="panel panel-default ">
+		
+					<div class="panel-heading">			
+					<table class="col-md-12 type03">
+					<tr>	
+						<th class="col-md-2">CSV項目_名前</th>
+						<th class="col-md-2">SV項目_Data</th>
+						<th class="col-md-3">Matching_Data</th>
+						<th class="col-md-3">設定_Data</th>
+						<th class="col-md-3">OptionData_Data</th>
+					</tr>
+					</table>
+					</div>
+					
+					<div class="panel-body ">	
+					
+<!-- sample data --> 					
+					<table class="col-md-12 type04">
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1</td>
+						<td class="col-md-3">option data sample 1</td>
+					</tr>
+					<tr>	
+						<td class="col-md-2">entry sample 1</td>
+						<td class="col-md-2">data sample 1</td>
+						<td class="col-md-3">matchig data sample 1</td>
+						<td class="col-md-3">setting data sample 1 ${token}</td>
+						<td class="col-md-3"><a class = "dockerTest">option data sample 1</a></td> <!-- HRBC oauth connection -->
+					</tr>
+						
+					</table>
+					</div>
+				
+				</div>
+			<div class = "rightFloat">
+			<input type ="button" class = "underButton" value = "次へ">
+			</div>
+			
+			</div>
+			
+		</div><!-- /.row -->
+			
+	</div><!--/.main-->
+	
+	<script src="js/lib/jquery-1.11.1.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/chart.min.js"></script>
+	<script src="js/lib/chart-data.js"></script>
+	<script src="js/lib/easypiechart.js"></script>
+	<script src="js/lib/easypiechart-data.js"></script>
+	<script src="js/lib/bootstrap-datepicker.js"></script>
+	<script src="js/lib/custom.js"></script>
+	<script src="js/app/customHelper.js"></script>
+
+	<!-- ajax Test -->
+	<script type = "text/javascript">
+	
+	var PUBLIC_API_HOST = 'hrbc1-api.localvm';
+	var APPLICATION_ID = 'f1d7e6e19b75fde9d7b813a35baa0407';
+	var SECRET_KEY = 'ade2ffc5438e83a3d1e3285dc08e2db7852e0c90c742866b42d82f6f06fb7244';
+
+	//header : "Content-Type: application/xml, X-porters-hrbc-oauth-token: dfdfdfd",
+
+	$(function()
+		{	
+			$('.dockerTest').on('click',getOptionValue); //_attached is in html, Attached is in script ;
+		});
+	
+	function testDocker(){
+				
+			$.ajax({
+				url : "http://"+PUBLIC_API_HOST+"/v1/oauth?app_id="+APPLICATION_ID+"&response_type=code_direct",
+				type : "get",
+				dataType : "jsonp",
+				//jsonp : "success",
+				success : function(txt){
+						 console.log( txt );
+				},
+				error : function(e){
+					alert(e);
+				}
+			});	
+		}
+	
+	function getOptionValue(){
+	
+	var token = "{{token}}";
+	
+	console.log("token's value is "+token);
+	
+			$.ajax({
+				url : "./option/get",
+				type : "get",
+				data : {token: token},
+				dataType : "json",
+				success : function(txt){
+					alert(txt);
+				},
+				error : function(e){
+					alert(e);
+				}
+			});
+			
+			$.ajax({
+				url: './field/get'
+				, type: 'get'
+				, dataType: 'json'
+				, data: {
+					token:token
+				}
+				, success: function(txt){
+					console.log(txt);	
+				}
+				, error: function(err){
+					alert(JSON.stringify(err));
+				}
+			});
+	}
+	
+	</script>	
+</body>
+</html>

@@ -4,11 +4,17 @@ package com.SpringBoot.Demo.WebRestController;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -20,6 +26,14 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.image.JPEGFactory;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -64,6 +78,7 @@ import com.google.cloud.vision.v1.Feature.Type;
 import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageSource;
+import com.opencsv.CSVReader;
 
 import lombok.AllArgsConstructor;
 
@@ -457,6 +472,84 @@ public class WebRestController {
 		System.out.println(pList.toString());		
 		
 		return pList;
+	}
+	
+	/**
+	 * 이하 신입 개발 연수 사용 컨트롤러
+	 * **/
+	
+	@PostMapping(path = "uploadExcel", produces = "application/text; charset=utf8")
+	public int uploadExcel(@RequestParam("ex_file") MultipartFile excel){
+		
+		int result = 0;
+		
+		System.out.println("upload method worked");
+		
+		if (!excel.isEmpty()) {
+			try {
+				result = 1;
+				int pos = excel.getOriginalFilename().lastIndexOf(".");
+				String filename = excel.getOriginalFilename().substring(pos);
+				
+				//convert MultipartFile to File
+				InputStream is = null;
+				is = excel.getInputStream();
+				
+				/*CSVReader reader = new CSVReader(new InputStreamReader(is));
+				
+				String[] s;
+				List<String[]> data = new ArrayList<String[]>();
+				
+				while((s = reader.readNext()) != null) {
+					System.out.println(s[0]);
+				}*/
+				
+				if (filename.equals(".xls")) {
+					
+					HSSFWorkbook workBook = new HSSFWorkbook(is);
+					HSSFSheet sheet;
+					HSSFRow row;
+					HSSFCell cell;
+					
+					sheet = workBook.getSheetAt(0);
+					row = sheet.getRow(0);
+					int noc = row.getPhysicalNumberOfCells();
+					
+					for (int count = 0; count < noc; count++){
+						cell = row.getCell(count);
+						System.out.println(cell.toString());
+					}
+				}
+				else if (filename.equals(".xlsx")) {
+					
+					XSSFWorkbook workBook = new XSSFWorkbook(is);
+					XSSFSheet sheet;
+					XSSFRow row;
+					XSSFCell cell;
+					
+					sheet = workBook.getSheetAt(0);
+					row = sheet.getRow(1);
+					int noc = row.getPhysicalNumberOfCells();
+					
+					for (int count = 0; count < noc; count++){
+						cell = row.getCell(count);
+						System.out.println(cell.toString());
+					}
+				}
+				
+				is.close();
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			finally {
+				
+			}
+			
+		}
+		
+		
+		return result;
 	}
 	
 }
