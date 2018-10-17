@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.HRBCGuider.Utile_Excel;
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.MemberNotification.MemberNotification;
 import com.SpringBoot.Demo.Domain.RegularTerrace.RegularTerrace;
@@ -469,13 +470,15 @@ public class WebRestController {
 	
 	//엑셀 업로드시 사용할 method
 	@PostMapping(path = "uploadExcel", produces = "application/json")
-	public HashMap<String, List<String>> uploadExcel(@RequestParam("ex_file") MultipartFile excel){
+	public HashMap<String, List<String>> uploadExcel(@RequestParam("ex_file") MultipartFile excel, HttpSession session){
 		
 		System.out.println("upload method worked");
 		
 		//ArrayList for data save 1 is koumoku, 2 is data of first row
 		List<String> itemList = new ArrayList<>();
 		List<String> dataList = new ArrayList<>();
+		
+		ArrayList<List<String>> valueList = new ArrayList<>();
 		
 		if (!excel.isEmpty()) {
 			try {
@@ -510,11 +513,42 @@ public class WebRestController {
 					
 					//첫번째 데이터 추출
 					row = sheet.getRow(1);
-					noc = row.getPhysicalNumberOfCells();
+					System.out.println("!!!"+noc+"!!!");
 					
 					for (int count = 0; count < noc; count++) {
 						cell = row.getCell(count);
-						dataList.add(cell.toString());
+						if (cell == null) {
+							dataList.add("");
+						}
+						else {
+							dataList.add(cell.toString());
+							System.out.println(cell.toString());							
+						}
+					}
+					
+					//항목의 데이터를 배열로 저장 후 리스트에 저장
+					System.out.println("lor: "+sheet.getLastRowNum());
+					int lor = sheet.getLastRowNum();
+					
+					int cellChangeNum = 0;
+					for(int count = 0; count<noc; count++) {
+						
+						List<String> values = new ArrayList<>();
+						
+						for(int index=1; index<lor; index++){
+							row = sheet.getRow(index);
+							
+							cell = row.getCell(cellChangeNum);
+							
+							if (cell == null){
+								values.add("");
+							}
+							else {
+								values.add(cell.toString());
+							}
+						}
+						cellChangeNum++;
+						valueList.add(values);
 					}
 				}
 				
@@ -551,6 +585,32 @@ public class WebRestController {
 							System.out.println(cell.toString());							
 						}
 					}
+					
+					//항목의 데이터를 배열로 저장 후 리스트에 저장
+					System.out.println("lor: "+sheet.getLastRowNum());
+					int lor = sheet.getLastRowNum();
+					
+					int cellChangeNum = 0;
+					for(int count = 0; count<noc; count++) {
+						
+						List<String> values = new ArrayList<>();
+						
+						for(int index=1; index<lor; index++){
+							row = sheet.getRow(index);
+							
+							cell = row.getCell(cellChangeNum);
+							
+							if (cell == null){
+								values.add("");
+							}
+							else {
+								values.add(cell.toString());
+							}
+						}
+						cellChangeNum++;
+						valueList.add(values);
+					}
+					
 				}
 				
 				is.close();
@@ -563,6 +623,9 @@ public class WebRestController {
 			}
 			
 		}
+		
+		Utile_Excel ue = new Utile_Excel(valueList);
+		session.setAttribute("itemList", ue);
 		
 		HashMap<String, List<String>> result = new HashMap<>();
 		
