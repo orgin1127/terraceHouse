@@ -26,11 +26,24 @@ function uploadExcel() {
         	
         	//console.log(JSON.stringify(result.itemList));
         	
+        	var str ='<form action="itemChange" method="post">'; 
+        		str+= '<table class = "type05">';
 			$.each(itemList, function(index,values) {
-				//console.log("항목 : " + values);
+				console.log("항목 : " + values);
+				str+='<tr> <th>';
+				str+='<label class="container">';
+				str+='<input type="checkbox" checked="checked" id="item'+index+'" value="'+values+'">';	
+				str+='<span class="checkmark"></span></label></th><td>';
+				str+=values;
+				str+='</td></tr>';
 			});
+			str+='</table>';
+			str+='<input type="button" id="itemReset" value="確定"></form>';
+			
+			$('#itemListUpdate').html(str);
+						
 			$.each(dataList, function(index,values) {
-				//console.log("데이터 : " + values);
+				console.log("데이터 : " + values);
 			});
 		},
 		error: function (e) {
