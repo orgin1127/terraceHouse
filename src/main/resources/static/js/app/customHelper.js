@@ -71,7 +71,9 @@ function confirmCheck() {
 		dataType: 'json',
 		traditional: true,
 		success: function(result) {
-			console.log(result);
+			$.each(result, function(index, values) {
+				console.log(values);
+			});
 		},
 		error: function(e) {
 			console.log(e);

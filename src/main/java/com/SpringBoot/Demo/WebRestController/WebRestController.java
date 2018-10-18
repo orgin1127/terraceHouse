@@ -217,7 +217,7 @@ public class WebRestController {
 	@GetMapping("/profile")
 	public String getProfile() {
 		return Arrays.stream(environment.getActiveProfiles())
-				.skip(1)
+				/*.skip(1)*/
 				.findFirst()
 				.orElse("");
 	}
@@ -640,7 +640,7 @@ public class WebRestController {
 	
 	//항목 체크 후 확인 버튼 누른 뒤 작동할 method
 	@PostMapping(path = "confirmCheck")
-	public int confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList, HttpSession session) {
+	public ArrayList<HRBCCustom> confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList, HttpSession session) {
 		
 		Utile_HRBC hrbc = new Utile_HRBC();
 		String token = (String) session.getAttribute("token");
@@ -654,6 +654,9 @@ public class WebRestController {
 		session.setAttribute("fieldList", fieldList);
 		session.setAttribute("optionList", optionList);
 		
+		for (HRBCField hrbcField : fieldList) {
+			System.out.println("field : " + hrbcField.getFieldName());
+		}
 		
 		for(int i=0; i<checkedItemList.length; i++){
 			
@@ -661,34 +664,43 @@ public class WebRestController {
 			
 			for (int j = 0; j < fieldList.size(); j++) {
 				
-				if(fieldList.get(j).getFieldName().equals(checkedItemList[i])){
-					cu.setItemData(dataList.get(i));
-					cu.setItemName(checkedItemList[i]);
-					cu.setMatchingResult(fieldList.get(j).getFieldName());
-					continue;
-				}
-				else if(fieldList.get(j).getFieldName().contains(checkedItemList[i])){
-					cu.setItemData(dataList.get(i));
-					cu.setItemName(checkedItemList[i]);
-					cu.setMatchingResult(fieldList.get(j).getFieldName());
-					continue;
-				}
-				else {
-					cu.setItemData(dataList.get(i));
-					cu.setItemName(checkedItemList[i]);
-					cu.setMatchingResult("신규작성");
-				}
+				String a = checkedItemList[i];
+                String b = fieldList.get(j).getFieldName();
+                String rex = ".*"+a+".*";
+                
+                if(a.equals(b)){
+                    cu.setItemData(dataList.get(i));
+                    cu.setItemName(checkedItemList[i]);
+                    cu.setMatchingResult(fieldList.get(j).getFieldName());
+                    break;
+                }
+                
+                else if(a.contains(b)||b.contains(a)){
+                    cu.setItemData(dataList.get(i));
+                    cu.setItemName(checkedItemList[i]);
+                    cu.setMatchingResult(fieldList.get(j).getFieldName());
+                    break;
+                }
+                
+                /*else if(b.matches(rex)){
+                	cu.setItemData(dataList.get(i));
+                    cu.setItemName(checkedItemList[i]);
+                    cu.setMatchingResult(fieldList.get(j).getFieldName());
+                    break;
+                }*/
+                
+                else{
+                    cu.setItemData(dataList.get(i));
+                    cu.setItemName(checkedItemList[i]);
+                    cu.setMatchingResult("신규작성");
+                }   
 			}
 			
 			customList.add(cu);
 			
 		}
 		
-		for (HRBCCustom cu : customList) {
-			System.out.println(cu);
-		}
-		
-		return 1;
+		return customList;
 	}
 	
 }
