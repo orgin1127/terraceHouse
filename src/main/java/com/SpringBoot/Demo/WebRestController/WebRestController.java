@@ -10,9 +10,11 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.Utilities;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -39,7 +41,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.HRBCGuider.HRBCField;
+import com.SpringBoot.Demo.Domain.HRBCGuider.HRBCOption;
 import com.SpringBoot.Demo.Domain.HRBCGuider.Utile_Excel;
+import com.SpringBoot.Demo.Domain.HRBCGuider.Utile_HRBC;
 import com.SpringBoot.Demo.Domain.Member.Member;
 import com.SpringBoot.Demo.Domain.MemberNotification.MemberNotification;
 import com.SpringBoot.Demo.Domain.RegularTerrace.RegularTerrace;
@@ -522,12 +527,11 @@ public class WebRestController {
 						}
 						else {
 							dataList.add(cell.toString());
-							System.out.println(cell.toString());							
+													
 						}
 					}
 					
 					//항목의 데이터를 배열로 저장 후 리스트에 저장
-					System.out.println("lor: "+sheet.getLastRowNum());
 					int lor = sheet.getLastRowNum();
 					
 					int cellChangeNum = 0;
@@ -567,13 +571,11 @@ public class WebRestController {
 					
 					for (int count = 0; count < noc; count++){
 						cell = row.getCell(count);
-						System.out.println(cell.toString());
 						itemList.add(cell.toString());
 					}
 					
 					//첫번째 데이터 추출
 					row = sheet.getRow(1);
-					System.out.println("!!!"+noc+"!!!");
 					
 					for (int count = 0; count < noc; count++) {
 						cell = row.getCell(count);
@@ -581,8 +583,7 @@ public class WebRestController {
 							dataList.add("");
 						}
 						else {
-							dataList.add(cell.toString());
-							System.out.println(cell.toString());							
+							dataList.add(cell.toString());					
 						}
 					}
 					
@@ -637,9 +638,22 @@ public class WebRestController {
 	
 	//항목 체크 후 확인 버튼 누른 뒤 작동할 method
 	@PostMapping(path = "confirmCheck")
-	public int confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList) {
-		for (int i = 0; i < checkedItemList.length; i++) {
-			System.out.println(checkedItemList[i]);
+	public int confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList, HttpSession session) {
+		
+		Utile_HRBC hrbc = new Utile_HRBC();
+		String token = (String) session.getAttribute("token");
+		
+		ArrayList<HRBCField> fieldList = hrbc.getField("job", token);
+		ArrayList<HRBCOption> optionList = hrbc.getOption(token);
+		
+		
+		session.putValue("fieldList", fieldList);
+		session.putValue("optionList", optionList);
+		
+		for(int i=0; i<checkedItemList.length; i++){
+			if (Pattern.matches("", checkedItemList[i])) {
+				
+			}
 		}
 		
 		return 1;

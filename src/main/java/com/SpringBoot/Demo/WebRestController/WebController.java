@@ -17,6 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -225,7 +229,56 @@ public class WebController {
 	 **/
 	
 	@GetMapping("/customHelper")
-	public String customHelper(){
+	public String customHelper(HttpSession session){
+		
+		final String PUBLIC_API_HOST = "hrbc1-api.localvm";
+		final String APPLICATION_ID = "f1d7e6e19b75fde9d7b813a35baa0407";
+		final String  SECRET_KEY = "ade2ffc5438e83a3d1e3285dc08e2db7852e0c90c742866b42d82f6f06fb7244";
+		String url_oauth = "http://"+PUBLIC_API_HOST+"/v1/oauth?app_id="+APPLICATION_ID+"&response_type=code_direct";
+		String url_token = "http://"+PUBLIC_API_HOST+"/v1/token";
+		String token = "";
+		Connection.Response response;
+		String btnk= "not entered";
+		
+		try {
+			
+			//oauth
+			response = Jsoup.connect(url_oauth)
+			        .method(Connection.Method.GET)
+			        .execute();
+		
+			Document googleDocument = response.parse();
+			
+			Element codeElement = googleDocument.select("Code").first();
+			
+			btnk = codeElement.text();
+			
+			
+			//token
+			response = Jsoup.connect(url_token)
+			        .data("grant_type","oauth_code")
+			        .data("app_id",APPLICATION_ID)
+			        .data("secret",SECRET_KEY)
+			        .data("code",btnk)
+					.method(Connection.Method.POST)
+			        .execute();
+		
+			googleDocument = response.parse();
+		
+			System.out.println(googleDocument.html());
+			
+			codeElement = googleDocument.select("AccessToken").first();
+		
+			token = codeElement.text();
+		
+		} 
+		
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		session.putValue("token", token);
+		
 		return "panels";
 	}
 	

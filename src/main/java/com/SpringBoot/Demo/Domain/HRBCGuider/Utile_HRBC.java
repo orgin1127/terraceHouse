@@ -22,38 +22,34 @@ public class Utile_HRBC {
 		
 		String url = "http://hrbc1-api.localvm/v1/field?partition=1421&resource=3&count=200&active=-1&start=0";
 		
-		Connection.Response response;
-		
 		try {
-		
 			Document document =Jsoup.connect(url)
-					.header("Content-Type","application/xml; charset=UTF-8")
-			        .header("X-porters-hrbc-oauth-token", token)
-			        .parser(Parser.xmlParser()).timeout(3000).get();
+												.header("Content-Type","application/xml; charset=UTF-8")
+												.header("X-porters-hrbc-oauth-token", token)
+												.parser(Parser.xmlParser()).timeout(3000).get();
 					
-		Elements rawData = document.getElementsByTag("item");
+			Elements rawData = document.getElementsByTag("item");
 		
-		for(Element e:rawData){
-			
-			String name = e.getElementsByTag("field.p_name").text();
-			//int dataType = Integer.parseInt(e.getElementsByTag("field.p_type").text());
-			String dataType = e.getElementsByTag("field.p_type").text();
-			
-			HRBCField field = new HRBCField();
-			
-			field.setDataType(dataType);
-			field.setFieldName(name);
-			
-			fieldList.add(field);	
-		}
-		
-		for(HRBCField a: fieldList){
-		
-			System.out.println("fieldData: "+ a);
-		}
-		
+			for(Element e:rawData){
 				
-		} catch (IOException e) {
+				String name = e.getElementsByTag("field.p_name").text();
+				//int dataType = Integer.parseInt(e.getElementsByTag("field.p_type").text());
+				String dataType = e.getElementsByTag("field.p_type").text();
+				
+				HRBCField field = new HRBCField();
+				
+				field.setDataType(dataType);
+				field.setFieldName(name);
+				
+				fieldList.add(field);	
+			}
+		
+			for(HRBCField a: fieldList){
+				System.out.println("fieldData: "+ a);
+			}
+		
+		} 
+		catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -65,46 +61,38 @@ public class Utile_HRBC {
 	public ArrayList<HRBCOption> getOption(String token){
 		
 		ArrayList<HRBCOption> optionList = new ArrayList<HRBCOption>();
-		
 		String url = "http://hrbc1-api.localvm/v1/option?partition=1421&level=1&enabled=-1";
 	
 		try {
-		
 			Document document =Jsoup.connect(url)
-					.header("Content-Type","application/xml; charset=UTF-8")
-			        .header("X-porters-hrbc-oauth-token", token)
-			        .parser(Parser.xmlParser()).timeout(3000).get();
+												.header("Content-Type","application/xml; charset=UTF-8")
+												.header("X-porters-hrbc-oauth-token", token)
+												.parser(Parser.xmlParser()).timeout(3000).get();
 		
-		System.out.println(document.html());
+			System.out.println(document.html());
 					
-		Elements rawData = document.getElementsByTag("item");
+			Elements rawData = document.getElementsByTag("item");
+			Elements rawData1 = rawData.parents();
+			Elements rawData2 = document.children();// 바로 밑의 칠드런 
 		
-		Elements rawData1 = rawData.parents();
-		
-		Elements rawData2 = document.children();// 바로 밑의 칠드런 
-		
-		for(Element e:rawData){
+			for(Element e:rawData){
 			
-			String name = e.getElementsByTag("option.p_name").text();
-			
-			//Element e_under = e.getElementById("item");
-			
-			HRBCOption option = new HRBCOption();
-			
-			option.setOptionName(name);
-			
-			optionList.add(option);	
-		}
+				String name = e.getElementsByTag("option.p_name").text();
+				
+				//Element e_under = e.getElementById("item");
+				HRBCOption option = new HRBCOption();
+				
+				option.setOptionName(name);
+				
+				optionList.add(option);	
+			}
 		
+			for(HRBCOption a: optionList){
+				System.out.println("OptionData: "+ a.getOptionName());
+			}	
 		
-		for(HRBCOption a: optionList){
-		
-			System.out.println("OptionData: "+ a.getOptionName());
-		}	
-		
-		
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -114,7 +102,6 @@ public class Utile_HRBC {
 	
 	// Hrbc 엘리어스에 해당되는 옵션    을  사용하는 필드 값 찾기 
 	public String findField(String optionAias, String token){
-		
 		
 		return "";
 	}
