@@ -20,7 +20,7 @@ public class Utile_HRBC {
 		
 		ArrayList<HRBCField> fieldList = new ArrayList<HRBCField>();
 		
-		String url = "http://hrbc1-api.localvm/v1/field?partition=1421&resource=3&count=200&active=-1&start=0";
+		String url = "http://hrbc1-api.localvm/v1/field?partition=1421&resource=17&count=200&active=-1&start=0";
 		
 		try {
 			Document document =Jsoup.connect(url)
@@ -44,9 +44,6 @@ public class Utile_HRBC {
 				fieldList.add(field);	
 			}
 		
-			for(HRBCField a: fieldList){
-				System.out.println("fieldData: "+ a);
-			}
 		
 		} 
 		catch (IOException e) {
@@ -61,7 +58,7 @@ public class Utile_HRBC {
 	public ArrayList<HRBCOption> getOption(String token){
 		
 		ArrayList<HRBCOption> optionList = new ArrayList<HRBCOption>();
-		String url = "http://hrbc1-api.localvm/v1/option?partition=1421&level=1&enabled=-1";
+		String url = "http://hrbc1-api.localvm/v1/option?partition=1421&level=0&enabled=-1";
 	
 		try {
 			Document document =Jsoup.connect(url)
@@ -69,8 +66,7 @@ public class Utile_HRBC {
 												.header("X-porters-hrbc-oauth-token", token)
 												.parser(Parser.xmlParser()).timeout(3000).get();
 		
-			System.out.println(document.html());
-					
+			
 			Elements rawData = document.getElementsByTag("item");
 			Elements rawData1 = rawData.parents();
 			Elements rawData2 = document.children();// 바로 밑의 칠드런 
@@ -87,9 +83,6 @@ public class Utile_HRBC {
 				optionList.add(option);	
 			}
 		
-			for(HRBCOption a: optionList){
-				System.out.println("OptionData: "+ a.getOptionName());
-			}	
 		
 		} 
 		catch (IOException e) {

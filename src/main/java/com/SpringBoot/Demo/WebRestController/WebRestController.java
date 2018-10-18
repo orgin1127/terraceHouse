@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.SpringBoot.Demo.Domain.HRBCGuider.HRBCCustom;
 import com.SpringBoot.Demo.Domain.HRBCGuider.HRBCField;
 import com.SpringBoot.Demo.Domain.HRBCGuider.HRBCOption;
 import com.SpringBoot.Demo.Domain.HRBCGuider.Utile_Excel;
@@ -75,6 +76,7 @@ import com.google.cloud.vision.v1.Image;
 import com.google.cloud.vision.v1.ImageAnnotatorClient;
 import com.google.cloud.vision.v1.ImageSource;
 
+import io.grpc.ClientInterceptors.CheckedForwardingClientCall;
 import lombok.AllArgsConstructor;
 
 //생성되는 모든 컨트롤러를 ResponseBody 대상으로 자동 정의해주는 annotation
@@ -586,7 +588,7 @@ public class WebRestController {
 							dataList.add(cell.toString());					
 						}
 					}
-					
+					System.out.println("dataList : " + dataList.size());
 					//항목의 데이터를 배열로 저장 후 리스트에 저장
 					System.out.println("lor: "+sheet.getLastRowNum());
 					int lor = sheet.getLastRowNum();
@@ -626,13 +628,13 @@ public class WebRestController {
 		}
 		
 		Utile_Excel ue = new Utile_Excel(valueList);
-		session.setAttribute("itemList", ue);
 		
 		HashMap<String, List<String>> result = new HashMap<>();
 		
 		result.put("itemList", itemList);
 		result.put("dataList", dataList);
-		
+		session.setAttribute("excelData", result);
+		System.out.println("여긴 잘나오네");
 		return result;
 	}
 	
@@ -642,18 +644,49 @@ public class WebRestController {
 		
 		Utile_HRBC hrbc = new Utile_HRBC();
 		String token = (String) session.getAttribute("token");
-		
 		ArrayList<HRBCField> fieldList = hrbc.getField("job", token);
 		ArrayList<HRBCOption> optionList = hrbc.getOption(token);
+		ArrayList<HRBCCustom> customList = new ArrayList<>();
 		
+		HashMap<String, List<String>> dataMap = (HashMap<String, List<String>>) session.getAttribute("excelData");
+		ArrayList<String> dataList = (ArrayList<String>) dataMap.get("dataList");
 		
-		session.putValue("fieldList", fieldList);
-		session.putValue("optionList", optionList);
+		session.setAttribute("fieldList", fieldList);
+		session.setAttribute("optionList", optionList);
+		
+		for (HRBCField hrbcField : fieldList) {
+			System.out.println(hrbcField.getFieldName());
+		}
 		
 		for(int i=0; i<checkedItemList.length; i++){
-			if (Pattern.matches("", checkedItemList[i])) {
+			
+			HRBCCustom cu = new HRBCCustom();
+			
+			for (int j = 0; j < fieldList.size(); j++) {
 				
+				if(checkedItemList[i].equals(fieldList.get(j).getFieldName())){
+					cu.setItemData(dataList.get(i));
+					cu.setItemName(checkedItemList[i]);
+					cu.setMatchingResult(fieldList.get(j).getFieldName());
+				}
+				else if(checkedItemList[i].contains(fieldList.get(j).getFieldName())){
+					cu.setItemData(dataList.get(i));
+					cu.setItemName(checkedItemList[i]);
+					cu.setMatchingResult(fieldList.get(j).getFieldName());
+				}
+				else {
+					cu.setItemData(dataList.get(i));
+					cu.setItemName(checkedItemList[i]);
+					cu.setMatchingResult("신규작성");
+				}
 			}
+			
+			customList.add(cu);
+			
+		}
+		
+		for (HRBCCustom cu : customList) {
+			System.out.println(cu);
 		}
 		
 		return 1;

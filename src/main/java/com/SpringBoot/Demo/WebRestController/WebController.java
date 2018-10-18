@@ -245,6 +245,7 @@ public class WebController {
 			//oauth
 			response = Jsoup.connect(url_oauth)
 			        .method(Connection.Method.GET)
+			        .timeout(10000)
 			        .execute();
 		
 			Document googleDocument = response.parse();
@@ -277,6 +278,8 @@ public class WebController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		System.out.println("여긴 나오냐ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
 		session.putValue("token", token);
 		
 		return "panels";

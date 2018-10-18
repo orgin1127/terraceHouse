@@ -56,7 +56,6 @@ function uploadExcel() {
 
 function confirmCheck() {
 	var checkedItemList = [];
-	
 
 	$('input:checkbox[name="excelItems"]').each(function() {
 		if ($(this).is(":checked") == true) {

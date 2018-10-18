@@ -25,7 +25,6 @@ repositories {
 }
 
 ext['hibernate.version'] = '5.2.11.Final' //추가 
-ext['jackson-databind'] = '2.9.5'
 
 dependencies {
 	
