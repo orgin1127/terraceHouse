@@ -16,7 +16,7 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-
+	<script src="js/app/customHelper.js"></script>
 </head>
 <body>
 
@@ -27,26 +27,31 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				
-				<a class="navbar-brand" href="#" ><span style = "color: #000000 font-weight: bold" ><img src = "image/logo_porters.png">カスタマイズNAVI</a>
+				<a class="navbar-brand" href="#" >
+				<span style = "color: #555; font-weight: bold;" >
+				<img src = "image/logo_porters.png">カスタマイズNAVI</a>
 				</span>
+				
 			</div>
 		</div><!-- /.container-fluid -->
 	</nav>
 	
 	<!-- need : -->
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style = "background-color:#eeeeee">
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style="background-color:#eee">
 			
-		<div class="divider"></div>
+		<!-- <div class="divider"></div> -->
 	
 	<!-- for file choosing -->	
 		<div class="col-md-12 rounded">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<div class="filebox">
-							 <label for="ex_file">Upload</label> 
-							 <form id="excelUpload" name="excelUpload" enctype="multipart/form-data">
-								 <input type="file" id="ex_file" name="ex_file" onchange="javascript:uploadExcel()"> 
-							 </form>
+							<label for="ex_file">
+								<span class="uploadButton">Upload</span>
+							</label> 
+							<form id="excelUpload" name="excelUpload" enctype="multipart/form-data">
+								<input type="file" id="ex_file" name="ex_file" onchange="javascript:uploadExcel()"> 
+							</form>
 						</div>
 					</div>
 					<!--
@@ -62,124 +67,19 @@
 	
 		<div class="col-md-12 rounded">
 				<div class="panel panel-default">
-					<div class="panel-heading">List of CSV_Data</div>
-					<div class="panel-body">
-						
-						<table class = "type05">
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						<tr>
-							<th>
-								<label class="container">
- 									<input type="checkbox">
- 									<span class="checkmark"></span>
-								</label>
-							</th>
-							<td>
-								項目例
-							</td>
-						</tr>
-						
-						</table>
-						
+					<div class="panel-heading" style="height: 59px; border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;">List of CSV_Data</div>
+					<div class="panel-body" id="itemListUpdate">
+					
+						<!-- ↓파일 업로드 되면 리스트 테이블 생성되는 영역 -->
+						<div id="itemListCheckArea">							
+							<table class="type05">
+							
+							</table>
+						</div>
+
 					</div>
+					
 				</div>
 		</div>
 	
@@ -208,133 +108,39 @@
 					
 					<div class="panel-body ">	
 					
-<!-- sample data --> 					
-					<table class="col-md-12 type04">
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1 ${token}</td>
-						<td class="col-md-3"><a class = "dockerTest">option data sample 1</a></td> <!-- HRBC oauth connection -->
-					</tr>
-						
-					</table>
+	<!-- sample data --> 					
+						<table class="col-md-12 type04">
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>														
+							
+						</table>
+						<div class = "rightFloat">
+							<input type="button" class="buttonCss" value = "Next">
+						</div>
 					</div>
-				
+						
 				</div>
-			<div class = "rightFloat">
-			<input type ="button" class = "underButton" value = "次へ">
-			</div>
-			
-			</div>
-			
-		</div><!-- /.row -->
-			
+			</div>			
+		</div><!-- /.row -->			
 	</div><!--/.main-->
 	
 	<script src="js/lib/jquery-1.11.1.min.js"></script>
@@ -345,7 +151,7 @@
 	<script src="js/lib/easypiechart-data.js"></script>
 	<script src="js/lib/bootstrap-datepicker.js"></script>
 	<script src="js/lib/custom.js"></script>
-	<script src="js/app/customHelper.js"></script>
+	
 
 	<!-- ajax Test -->
 	<script type = "text/javascript">

@@ -1,9 +1,28 @@
 body {
-  background: #f1f4f7;
+  background: #eee;
   padding-top: 60px;
   font-size: 14px;
   color: #444444;
   font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  
+  
+/* for Customise Navi Written by Sojeong */
+
+.buttonCss{
+    background-color: #589B32;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+
+/* Sojeong out ;) */
 
 p {
   color: #777; }
@@ -329,7 +348,9 @@ a.label:hover, a.label:focus {
   background-color: #f9243f; }
 
 .panel {
-  border: 0; }
+  border: 0; 
+  border-radius: 12px;
+  }
 
 .panel-container {
   padding-top: 20px; }
@@ -404,7 +425,12 @@ a.label:hover, a.label:focus {
 .panel-default .panel-heading {
   background: #fff;
   border-bottom: 1px solid #e9ecf2;
-  color: #444444; }
+  color: #444444;
+  height: 71px;
+  text-align: center;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  }
 
 .panel-footer {
   background: #fff;
@@ -462,7 +488,7 @@ a.label:hover, a.label:focus {
   padding: 2px 0 0 0; }
 
 .panel-settings:hover, .panel-toggle:hover, .panel-settings .dropdown a.dropdown-toggle:hover, .panel-settings:active, .panel-toggle:active, .panel-settings .dropdown a.dropdown-toggle:active, .panel-settings:focus, .panel-toggle:focus, .panel-settings .dropdown a.dropdown-toggle:focus {
-  background: #f1f4f7;
+  background: #eee;
   color: #444444; }
 
 .panel-settings, .panel-toggle {
@@ -512,7 +538,7 @@ a.label:hover, a.label:focus {
 
 .panel-heading span {
   margin: 0px;
-  font-size: 14px; }
+  font-size: 25px; }
 
 .panel-button-tab-right {
   margin-left: 4px !important;
@@ -779,7 +805,8 @@ a.label:hover, a.label:focus {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    overflow-y: auto; }
+    overflow-y: auto;  
+}
 
   .navbar-header {
     width: 100%; } }
@@ -810,7 +837,7 @@ a.label:hover, a.label:focus {
 
 .sidebar ul.nav ul.children li a {
   height: 40px;
-  background: #f1f4f7;
+  background: #eee;
   color: #444444; }
 
 .sidebar ul.nav li.current a {
