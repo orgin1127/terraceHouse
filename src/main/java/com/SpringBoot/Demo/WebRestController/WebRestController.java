@@ -654,9 +654,6 @@ public class WebRestController {
 		session.setAttribute("fieldList", fieldList);
 		session.setAttribute("optionList", optionList);
 		
-		for (HRBCField hrbcField : fieldList) {
-			System.out.println(hrbcField.getFieldName());
-		}
 		
 		for(int i=0; i<checkedItemList.length; i++){
 			
@@ -664,15 +661,17 @@ public class WebRestController {
 			
 			for (int j = 0; j < fieldList.size(); j++) {
 				
-				if(checkedItemList[i].equals(fieldList.get(j).getFieldName())){
+				if(fieldList.get(j).getFieldName().equals(checkedItemList[i])){
 					cu.setItemData(dataList.get(i));
 					cu.setItemName(checkedItemList[i]);
 					cu.setMatchingResult(fieldList.get(j).getFieldName());
+					continue;
 				}
-				else if(checkedItemList[i].contains(fieldList.get(j).getFieldName())){
+				else if(fieldList.get(j).getFieldName().contains(checkedItemList[i])){
 					cu.setItemData(dataList.get(i));
 					cu.setItemName(checkedItemList[i]);
 					cu.setMatchingResult(fieldList.get(j).getFieldName());
+					continue;
 				}
 				else {
 					cu.setItemData(dataList.get(i));
