@@ -8,14 +8,17 @@
 /*-----------------------------------------------------file box style -----------------------------------------------------------------*/
 
 .filebox label { 
-float: center; 
-display: inline-block; 
-padding: .5em .75em; 
-color: white; /*#999*/
-font-size: inherit; 
-line-height: normal; vertical-align: middle; 
-background-color: #4CAF50; /*#fdfdfd; for white*/ 
-cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; } 
+	display: inline-block; 
+	padding: .5em .75em; 
+	color: #589B32;
+	font-size: inherit; 
+	line-height: normal; vertical-align: middle; 
+	/* background-color: #589B32; #fdfdfd; for white */ 
+	cursor: pointer; 
+/* 	border: 1px solid #ebebeb; 
+	border-bottom-color: #e2e2e2;  */
+	border-radius: .25em; 
+} 
 
 .filebox input[type="file"] { 
 /* 파일 필드 숨기기 */ 
@@ -38,7 +41,10 @@ table.type04 {
     text-align: left;
     line-height: 1.5;
     border-top: 1px solid #ccc;
-  margin : 20px 10px;
+    margin : 20px 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+  
 }
 table.type04 th {
     width: 150px;
@@ -48,7 +54,7 @@ table.type04 th {
     border-bottom: 1px solid #ccc;
 }
 table.type04 td {
-    width: 350px;
+    width: 20%;
     padding: 10px;
     vertical-align: top;
     border-bottom: 1px solid #ccc;
@@ -62,10 +68,10 @@ table.type03 {
    
 }
 table.type03 th {
-    width: 150px;
-    padding: 10px;
-    font-weight: bold;
-   
+   width: 20%;
+   padding: 10px;
+   font-weight: bold;
+   text-align:center;
 }
 
 table.type05 {
@@ -74,10 +80,9 @@ table.type05 {
     text-align: left;
     line-height: 1.5;
     border-top: 1px solid #ccc;
-    margin: 20px 10px;
+    margin: 0px 10px 20px;
 }
 table.type05 th {
-    width: 150px;
     padding: 10px;
     font-weight: bold;
     vertical-align: top;
@@ -85,7 +90,7 @@ table.type05 th {
     background: #efefef;
 }
 table.type05 td {
-    width: 350px;
+    /* width: 350px; */
     padding: 10px;
     vertical-align: top;
     border-bottom: 1px solid #ccc;
@@ -131,7 +136,7 @@ table.type05 td {
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: #589B32;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -161,12 +166,12 @@ table.type05 td {
 					
 /*----------------------------------------------------underButton--------------------------------------------------------*/
 .underButton {
-	background-color: #4CAF50;	
-	border-radius : 12px;
-	font-size : 30px;
-	font-weight : bold;
-	color: white; 
-	padding: .5em .75em; 
+    background-color: #ffffff;
+    border-radius: 12px;
+    font-size: 25px;
+    /* font-weight: bold; */
+    color: #589b32;
+    padding: .5em .75em; 
 }
 
 .rightFloat {

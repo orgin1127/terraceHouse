@@ -27,20 +27,22 @@ function uploadExcel() {
         	//console.log(JSON.stringify(result.itemList));
         	
         	var str ='<form action="itemChange" method="post">'; 
-        		str+= '<table class = "type05">';
+    		str+= '<table class = "type05">';
 			$.each(itemList, function(index,values) {
 				console.log("항목 : " + values);
-				str+='<tr> <th>';
+				str+='<tr> <td class="itemcheckboxes">';
 				str+='<label class="container">';
 				str+='<input type="checkbox" checked="checked" id="item'+index+'" value="'+values+'" name="excelItems">';	
-				str+='<span class="checkmark"></span></label></th><td>';
+				str+='<span class="checkmark"></span></label></td><td>';
 				str+=values;
 				str+='</td></tr>';
 			});
 			str+='</table>';
-			str+='<input type="button" id="itemSelectBtn" value="確定"></form>';
+			str+='<div class = "rightFloat">';
+			str+='<input type="button" class="buttonCss" id="itemSelectBtn" value="Submit"></form>';
+			str+='</div>';
 			
-			$('#itemListUpdate').html(str);
+			$('#itemListCheckArea').html(str);
 			
 			$('#itemSelectBtn').on('click', confirmCheck);
 			

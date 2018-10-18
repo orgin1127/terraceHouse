@@ -20,41 +20,41 @@
 </head>
 <body>
 
-<!-- modification_color! style added ; the color on gray 
-       code : #eeeeee --> 
+<!-- 상단 nav 이미지, 타이틀 --> 
        
 	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style = "background-color:#eeeeee" >
 		<div class="container-fluid">
 			<div class="navbar-header">
 				
-				<a class="navbar-brand" href="#" ><span style = "color: #000000 font-weight: bold" ><img src = "image/logo_porters.png">カスタマイズNAVI</a>
+				<a class="navbar-brand" href="#" >
+				<span style = "color: #444; font-weight: bold;" >
+				<img src = "image/logo_porters.png">&nbsp&nbsp&nbspカスタマイズNAVI</a>
 				</span>
+				
 			</div>
 		</div><!-- /.container-fluid -->
 	</nav>
 	
 	<!-- need : -->
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style = "background-color:#eeeeee">
-			
-		<div class="divider"></div>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar" style="background-color:#eee">
+
 	
-	<!-- for file choosing -->	
+<!-- for file choosing -->	
 		<div class="col-md-12 rounded">
 				<div class="panel panel-default">
-					<div class="panel-heading">
+					<div class="panel-heading bottomBorderRounded">
 						<div class="filebox">
-							 <label for="ex_file">Upload</label> 
-							 <form id="excelUpload" name="excelUpload" enctype="multipart/form-data">
-								 <input type="file" id="ex_file" name="ex_file" onchange="javascript:uploadExcel()"> 
-							 </form>
+							<label for="ex_file">
+								<span class="uploadButton">
+									Upload
+								</span>
+							</label> 
+							<form id="excelUpload" name="excelUpload" enctype="multipart/form-data">
+								<input type="file" id="ex_file" name="ex_file" onchange="javascript:uploadExcel()"> 
+							</form>
 						</div>
 					</div>
-					<!--
-					<div class="panel-body">
-					  No Data 	
-					</div>
-					
-					-->
+
 				</div>
 		</div>
 	
@@ -62,36 +62,29 @@
 	
 		<div class="col-md-12 rounded">
 				<div class="panel panel-default">
-					<div class="panel-heading">List of CSV_Data</div>
+					<div class="panel-heading" style="height: 59px;">
+						List of CSV_Data
+					</div>
 					<div class="panel-body" id="itemListUpdate">
 					
 						
-							<table class = "type05">
-								<!--<tr>
-	 								<th>
-										<label class="container">
-		 									<input type="checkbox">
-		 									<span class="checkmark"></span>
-										</label>
-									</th>
-									<td>
-										項目例
-									</td>
-								</tr> -->
+						<!-- ↓파일 업로드 되면 리스트 테이블 생성되는 영역 -->
+						<div id="itemListCheckArea">							
+							<table class="type05">
+							
 							</table>
+						</div>
 
 					</div>
 					
 				</div>
 		</div>
 	
-	</div>
-	
-	<!--/.sidebar-->
+	</div><!-- sidebar-collapse 왼쪽 공간 끝-->
 		
 	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
 		
-		<div class="row　">
+		<div class="row">
 			
 			<div class="col-md-12 ">
 				<div class="panel panel-default ">
@@ -108,133 +101,40 @@
 					</table>
 					</div>
 					
-					<div class="panel-body ">	
+					<div class="panel-body ">
 					
-<!-- sample data --> 					
-					<table class="col-md-12 type04">
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1</td>
-						<td class="col-md-3">option data sample 1</td>
-					</tr>
-					<tr>	
-						<td class="col-md-2">entry sample 1</td>
-						<td class="col-md-2">data sample 1</td>
-						<td class="col-md-3">matchig data sample 1</td>
-						<td class="col-md-3">setting data sample 1 ${token}</td>
-						<td class="col-md-3"><a class = "dockerTest">option data sample 1</a></td> <!-- HRBC oauth connection -->
-					</tr>
-						
-					</table>
+					<!-- filtered data --> 					
+						<table class="col-md-12 type04">
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>														
+							
+						</table>
+						<div class = "rightFloat">
+							<input type="button" class="buttonCss" value = "Next">
+						</div>
 					</div>
-				
+						
 				</div>
-			<div class = "rightFloat">
-			<input type ="button" class = "underButton" value = "次へ">
-			</div>
-			
-			</div>
-			
+			</div>	
 		</div><!-- /.row -->
 			
 	</div><!--/.main-->
@@ -257,76 +157,6 @@
 	var SECRET_KEY = 'ade2ffc5438e83a3d1e3285dc08e2db7852e0c90c742866b42d82f6f06fb7244';
 
 	//header : "Content-Type: application/xml, X-porters-hrbc-oauth-token: dfdfdfd",
-
-	$(function()
-		{	
-			$('.dockerTest').on('click',getOptionValue); //_attached is in html, Attached is in script ;
-		});
-	
-	function testDocker(){
-				
-			$.ajax({
-				url : "http://"+PUBLIC_API_HOST+"/v1/oauth?app_id="+APPLICATION_ID+"&response_type=code_direct",
-				type : "get",
-				dataType : "jsonp",
-				//jsonp : "success",
-				success : function(txt){
-						 console.log( txt );
-				},
-				error : function(e){
-					alert(e);
-				}
-			});	
-		}
-	
-	function getOptionValue(){
-	
-	var token = "{{token}}";
-	
-	console.log("token's value is "+token);
-	/*
-			$.ajax({
-				url : "./option/get",
-				type : "get",
-				data : {token: token},
-				dataType : "json",
-				success : function(txt){
-					alert(txt);
-				},
-				error : function(e){
-					alert(e);
-				}
-			});
-			
-			$.ajax({
-				url: './field/get'
-				, type: 'get'
-				, dataType: 'json'
-				, data: {
-					token:token
-				}
-				, success: function(txt){
-					console.log(txt);	
-				}
-				, error: function(err){
-					alert(JSON.stringify(err));
-				}
-			});
-	*/		
-			$.ajax({
-				url : "./guide/test",
-				type : "get",
-				data : {token: token},
-				dataType : "json",
-				success : function(txt){
-					alert(txt);
-				},
-				error : function(e){
-					alert(e);
-				}
-			});
-			
-	}
 	
 	</script>	
 </body>
