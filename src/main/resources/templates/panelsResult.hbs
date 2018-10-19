@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>HRBC-カスタマイズNAVI</title>
+	<link href="css/lib/bootstrap.min.css" rel="stylesheet">
+	<link href="css/lib/font-awesome.min.css" rel="stylesheet">
+	<link href="css/lib/datepicker3.css" rel="stylesheet">
+	<link href="css/lib/styles.css" rel="stylesheet">
+	<link href="css/lib/panels.css" rel="stylesheet">
+	
+	<!--Custom Font-->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+	<script src="js/app/customHelper.js"></script>
+</head>
+<body>
+  
+	<nav class="navbar navbar-custom navbar-fixed-top" role="navigation" style = "background-color:#eeeeee" >
+		<div class="container-fluid">
+			<div class="navbar-header">
+				
+				<a class="navbar-brand" href="#" >
+				<span style = "color: #444; font-weight: bold;" >
+				<img src = "image/logo_porters.png">&nbsp&nbsp&nbspカスタマイズNAVI</a>
+				</span>
+				
+			</div>
+		</div>
+	</nav>
+	
+		
+	<div class="col-sm-9 col-sm-offset-1 col-lg-10 main" >
+		
+		<div class="row" >
+			
+			<div class="col-md-12 ">
+				<div class="panel panel-default ">
+						
+					<div class="panel-heading">			
+						
+					<table class="col-md-12 type03">
+					<tr>	
+						<th class="col-md-2">CSV項目_名前</th>
+						<th class="col-md-2">SV項目_Data</th>
+						<th class="col-md-3">Matching_Data</th>
+						<th class="col-md-3">設定_Data</th>
+						<th class="col-md-3">OptionData_Data</th>
+					</tr>
+					</table>
+					</div>
+					
+						
+					<div class="panel-body ">
+						
+						<div class = "rightFloat" style = "text-align: center; margin-right: 10px; margin-top: 10px">
+							<input type="button" class="buttonCss" value = "Download">
+						</div>
+					<!-- filtered data --> 					
+						<table class="col-md-12 type04">
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>
+							<tr>	
+								<td class="col-md-2">entry sample 1</td>
+								<td class="col-md-2">data sample 1</td>
+								<td class="col-md-3">matchig data sample 1</td>
+								<td class="col-md-3">setting data sample 1</td>
+								<td class="col-md-3">option data sample 1</td>
+							</tr>														
+							
+						</table>
+						
+						<div class="panel-heading filebox col-md-12">
+							<label for="ex_file">
+								<span class="uploadButton">
+									OK
+								</span>
+							</label> 
+								<input type="file" id="ex_file" name="ex_file" > 
+						</div>
+					</div>		
+				</div>
+			</div>	
+		</div><!-- /.row -->
+			
+	</div><!--/.main-->
+	
+	<script src="js/lib/jquery-1.11.1.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/chart.min.js"></script>
+	<script src="js/lib/chart-data.js"></script>
+	<script src="js/lib/easypiechart.js"></script>
+	<script src="js/lib/easypiechart-data.js"></script>
+	<script src="js/lib/bootstrap-datepicker.js"></script>
+	<script src="js/lib/custom.js"></script>
+	
+
+	<!-- ajax Test -->
+	<script type = "text/javascript">
+	
+	var PUBLIC_API_HOST = 'hrbc1-api.localvm';
+	var APPLICATION_ID = 'f1d7e6e19b75fde9d7b813a35baa0407';
+	var SECRET_KEY = 'ade2ffc5438e83a3d1e3285dc08e2db7852e0c90c742866b42d82f6f06fb7244';
+
+	//header : "Content-Type: application/xml, X-porters-hrbc-oauth-token: dfdfdfd",
+	
+	</script>	
+</body>
+</html>
