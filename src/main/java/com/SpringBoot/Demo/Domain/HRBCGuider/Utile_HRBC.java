@@ -82,7 +82,7 @@ public class Utile_HRBC {
 				
 				optionList.add(option);	
 			}
-		
+			
 		
 		} 
 		catch (IOException e) {

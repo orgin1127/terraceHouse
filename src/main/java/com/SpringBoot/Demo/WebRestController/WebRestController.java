@@ -30,6 +30,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.hibernate.engine.jdbc.dialect.spi.DatabaseMetaDataDialectResolutionInfoAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -633,14 +634,14 @@ public class WebRestController {
 		
 		result.put("itemList", itemList);
 		result.put("dataList", dataList);
-		session.setAttribute("excelData", result);
-		System.out.println("여긴 잘나오네");
+		session.setAttribute("totalData", result);
+		
 		return result;
 	}
 	
 	//항목 체크 후 확인 버튼 누른 뒤 작동할 method
 	@PostMapping(path = "confirmCheck")
-	public ArrayList<HRBCCustom> confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList, HttpSession session) {
+	public HashMap<String, Object> confirmCheck(@RequestParam("checkedItemList") String[] checkedItemList, HttpSession session) {
 		
 		Utile_HRBC hrbc = new Utile_HRBC();
 		String token = (String) session.getAttribute("token");
@@ -648,15 +649,11 @@ public class WebRestController {
 		ArrayList<HRBCOption> optionList = hrbc.getOption(token);
 		ArrayList<HRBCCustom> customList = new ArrayList<>();
 		
-		HashMap<String, List<String>> dataMap = (HashMap<String, List<String>>) session.getAttribute("excelData");
+		HashMap<String, Object> dataMap = (HashMap<String, Object>) session.getAttribute("totalData");
 		ArrayList<String> dataList = (ArrayList<String>) dataMap.get("dataList");
 		
-		session.setAttribute("fieldList", fieldList);
-		session.setAttribute("optionList", optionList);
-		
-		for (HRBCField hrbcField : fieldList) {
-			System.out.println("field : " + hrbcField.getFieldName());
-		}
+		dataMap.put("fieldList", fieldList);
+		dataMap.put("optionList", optionList);
 		
 		for(int i=0; i<checkedItemList.length; i++){
 			
@@ -699,8 +696,10 @@ public class WebRestController {
 			customList.add(cu);
 			
 		}
-		
-		return customList;
+		dataMap.put("customList", customList);
+		session.setAttribute("totalData", dataMap);
+		return dataMap;
 	}
 	
+
 }

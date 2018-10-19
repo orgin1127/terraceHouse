@@ -285,6 +285,13 @@ public class WebController {
 		return "panels";
 	}
 	
+	@GetMapping("/customHelperResult")
+    public String getResultPage(HttpSession session){
+       
+        return "panelsResult";
+	}
+	
+	
 	
 	
 }

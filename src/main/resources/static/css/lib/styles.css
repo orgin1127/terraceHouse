@@ -35,6 +35,35 @@ body {
     background-color: #f1f4f7;
 }
 
+.tableTd1 {
+    width: 15%;
+	font-weight: bold;
+	text-align: center;
+	background-color: #f1f4f7;
+}
+
+.tableTd2 {
+	width: 20%;	
+	text-align: center;
+}
+
+.tableTd3 {
+	width: 25%;
+	text-align: center;
+}
+
+.tableTd4 {
+	width: 20%;	
+}
+
+.tableTd5 {
+	width: 20%;	
+}
+
+.allItems {
+	text-align: center;	
+}
+
 /* Sojeong out ;) */
 
 p {
@@ -804,7 +833,7 @@ a.label:hover, a.label:focus {
 
 .sidebar form {
   padding: 10px 0 0 0;
-  margin: 10px 10px 20px 10px; }
+  }
 
 @media (min-width: 768px) {
   .sidebar {
