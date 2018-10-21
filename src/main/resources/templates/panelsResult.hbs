@@ -16,7 +16,15 @@
 	<script src="js/html5shiv.js"></script>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
-	<script src="js/app/customHelper.js"></script>
+		<script src="js/lib/jquery-1.11.1.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/lib/chart.min.js"></script>
+	<script src="js/lib/chart-data.js"></script>
+	<script src="js/lib/easypiechart.js"></script>
+	<script src="js/lib/easypiechart-data.js"></script>
+	<script src="js/lib/bootstrap-datepicker.js"></script>
+	<script src="js/lib/custom.js"></script>
+	<script src="js/app/panelsResult.js"></script>
 </head>
 <body>
   
@@ -58,7 +66,7 @@
 					<div class="panel-body ">
 						
 						<div class = "rightFloat" style = "text-align: center; margin-right: 10px; margin-top: 10px">
-							<input type="button" class="buttonCss" value = "Download">
+							<a href="getExcelFile" id="downloadExcel" class="buttonCss">Download</a>
 						</div>
 					<!-- filtered data --> 					
 						<table class="col-md-12 type04">
@@ -101,14 +109,7 @@
 			
 	</div><!--/.main-->
 	
-	<script src="js/lib/jquery-1.11.1.min.js"></script>
-	<script src="js/lib/bootstrap.min.js"></script>
-	<script src="js/lib/chart.min.js"></script>
-	<script src="js/lib/chart-data.js"></script>
-	<script src="js/lib/easypiechart.js"></script>
-	<script src="js/lib/easypiechart-data.js"></script>
-	<script src="js/lib/bootstrap-datepicker.js"></script>
-	<script src="js/lib/custom.js"></script>
+
 	
 
 	<!-- ajax Test -->

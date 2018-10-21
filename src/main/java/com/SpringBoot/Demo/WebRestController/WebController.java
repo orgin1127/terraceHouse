@@ -3,10 +3,12 @@ package com.SpringBoot.Demo.WebRestController;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Connection;
@@ -27,6 +34,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.SpringBoot.Demo.Domain.JoinRoomMember.JoinRoomMember;
@@ -279,19 +288,68 @@ public class WebController {
 			e.printStackTrace();
 		}
 		
-		System.out.println("여긴 나오냐ㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑㅑ");
 		session.putValue("token", token);
 		
 		return "panels";
 	}
 	
-	@GetMapping("/customHelperResult")
-    public String getResultPage(HttpSession session){
-       
-        return "panelsResult";
+	@GetMapping("panelsResult")
+	public String resultPage(){
+		return "panelsResult";
 	}
 	
-	
-	
+	@GetMapping("/getExcelFile")
+	public void getExcelFile(HttpSession session, HttpServletResponse response){
+    	ArrayList<String[]> list = (ArrayList<String[]>) session.getAttribute("customResultList");
+    	
+    	XSSFWorkbook workbook = new XSSFWorkbook();
+    	XSSFSheet sheet = workbook.createSheet("カスタマイズ設計図");
+    	XSSFRow row = null;
+    	XSSFCell cell = null;
+    	
+    	//
+    	row = sheet.createRow(0);
+    	String[] str = {"項目名", "サンプルデータ", "HRBC項目名", "カスタム項目", "カスタムoption"};
+    	for(int i = 0; i<5; i++){
+    		cell = row.createCell(i);
+    		cell.setCellValue(str[i]);
+    	}
+    	
+    	int rownum = 1;
+    	for (String[] arrays : list) {
+    		
+    		int indexLimit = arrays.length;
+    		row = sheet.createRow(rownum);
+    		
+    		for(int i=0; i<indexLimit; i++){
+    			cell = row.createCell(i);
+    			cell.setCellValue(arrays[i]);
+    		}
+    		rownum++;
+		}
+    	try{
+    		String home = System.getProperty("user.home");
+    		File file = new File(home+"/Downloads/カスタマイズ設計図.xlsx");
+    		FileOutputStream fos = new FileOutputStream(file);
+    		workbook.write(fos);
+    		fos.close();
+    		response.setHeader("Content-Disposition", " attachment;filename="+URLEncoder.encode(home+"/Downloads/カスタマイズ設計図.xlsx", "UTF-8"));
+    		FileInputStream fis = null;
+    		ServletOutputStream sos = null;
+    		
+    		fis = new FileInputStream(file);
+    		sos = response.getOutputStream();
+    		
+    		FileCopyUtils.copy(fis, sos);
+    		fis.close();
+    		sos.close();
+    	}
+    	catch (Exception e) {
+			e.printStackTrace();
+		}
+    	finally {
+		}
+    	
+    }
 	
 }

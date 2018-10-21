@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
+import javax.mail.Session;
 import javax.servlet.http.HttpSession;
 import javax.swing.text.Utilities;
 
@@ -701,5 +702,26 @@ public class WebRestController {
 		return dataMap;
 	}
 	
-
+	@PostMapping("/customHelperResult")
+    public ArrayList<String[]> getResultPage(@RequestParam("customResultList") ArrayList<String[]> customResultList,HttpSession session){
+		System.out.println(customResultList.size());
+		
+		for (String[] arrays : customResultList) {
+			for (String string : arrays) {
+				
+			}
+			
+		}
+		
+		session.setAttribute("customResultList", customResultList);
+        return customResultList;
+	}
+    
+    @PostMapping("getList")
+    public ArrayList<String[]> getList(HttpSession session){
+    	ArrayList<String[]> customResultList = (ArrayList<String[]>) session.getAttribute("customResultList");
+    	return customResultList;
+    }
+    
+    
 }
