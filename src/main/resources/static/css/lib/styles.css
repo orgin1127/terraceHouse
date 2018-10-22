@@ -62,6 +62,28 @@ body {
 
 .allItems {
 	text-align: center;	
+    font-size: 15px;
+}
+
+.helpdesk {
+	text-align: center;	
+	font-size: 20px;
+    margin: 10px;
+    padding: 10px;	
+}
+
+.createNewField {
+	padding: 5px 10px;
+    width: 64%;	
+}
+
+.hrbcMatchedField {
+	padding: 5px 2px;
+}
+
+select {
+    padding: 5px 10px;
+    width: 64%;
 }
 
 /* Sojeong out ;) */
@@ -70,7 +92,9 @@ p {
   color: #777; }
 
 a, a:hover, a:focus {
-  color: #30a5ff; }
+  color: #30a5ff;
+  text-decoration: none; 
+  }
 
 h1, h2, h3, h4, h5, h6 {
   color: #444444; }

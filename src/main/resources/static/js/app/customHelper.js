@@ -180,8 +180,9 @@ function fourthColOpt(value, number){
 }//fourthColOpt 끝
 
 function fifthColOptList(value, number){
+	var str="";
 	if(value=="選択肢型"){
-		var str='<select id="td5Select_'+number+'" matchingResult="0">';			
+		str+='<select id="td5Select_'+number+'" matchingResult="0">';			
 		str+='<option>選択肢マスタ▼</option>';
 		$.each(resultContainsAll, function(index, values) {
 			str+='<option>'+values.optionName+'</option>';	
@@ -237,15 +238,17 @@ function fifthColOptCreate(value, number){
 		str+='<option value="サーチボックス形式">サーチボックス形式</option>';				
 		str+='</select>';
 		str+='<br>';
-		str+='<select id="td5SelectOptSch_'+number+'" matchingResult="1">';			
-		str+='<option>選択肢マスタ▼</option>';
-		$.each(resultContainsAll, function(index, values) {
-			str+='<option>'+values.optionName+'</option>';	
-		});	
-		str+='<option>選択肢マスタ新規作成</option>';
-		str+='</select>';
-	} 
-	else {
+		if(value=="選択肢型"){
+			str+='<select id="td5SelectOptSch_'+number+'">';			
+			str+='<option>選択肢マスタ▼</option>';
+			$.each(resultContainsAll, function(index, values) {
+				str+='<option>'+values.optionName+'</option>';
+				console.log("Option check :"+values.optionName);		
+			});	
+			str+='<option>選択肢マスタ新規作成</option>';
+			str+='</select>';
+		}
+	} else {
 		
 	}
 	
